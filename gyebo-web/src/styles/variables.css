@@ -1,0 +1,35 @@
+/* ─────────────────────────────────────────
+   막걸리 계보 소개 웹 디자인 토큰
+   브랜드 그린 확정 시 --brand-green 하나만 교체하면 전체 반영
+   ───────────────────────────────────────── */
+:root {
+  /* 브랜드 그린 (딥 포레스트 — 임시값, 확정 후 교체) */
+  --brand-green:    #1B4D35;
+  --brand-green-lt: #2E6B4A;
+
+  /* 배경 */
+  --bg-dark:    #0E2B1E;
+  --surface-dark: #152E20;
+  --surface-card: #1D3D2A;
+  --cream:      #F8F4ED;
+
+  /* 텍스트 */
+  --ink:        #1A1A1A;
+  --ink-light:  #E8E0D4;
+  --muted-light: #A8C4B4;
+
+  /* 골드 포인트 */
+  --gold:       #C9A84C;
+  --gold-lt:    #F0DDA0;
+
+  /* 구분 */
+  --line-dark:  rgba(255, 255, 255, 0.1);
+  --line-light: #DDD0B8;
+
+  /* 레이아웃 */
+  --max-w:      480px;
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-pill: 999px;
+}
