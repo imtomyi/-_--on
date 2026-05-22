@@ -16,8 +16,6 @@ body {
   background: var(--paper);
   color: var(--ink);
   min-height: 100dvh;
-  max-width: var(--max-w);
-  margin: 0 auto;
   line-height: 1.6;
 }
 
@@ -26,6 +24,52 @@ button {
   cursor: pointer;
   border: none;
   background: none;
+}
+
+/* 화면 전환 애니메이션 */
+@keyframes slideInFromRight {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideOutToLeft {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes slideInFromLeft {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideOutToRight {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.screenWrapper {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.screenWrapper.enter {
+  animation: slideInFromRight 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.screenWrapper.exit {
+  animation: slideOutToLeft 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  pointer-events: none;
+}
+
+.screenWrapper.enterBack {
+  animation: slideInFromLeft 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.screenWrapper.exitBack {
+  animation: slideOutToRight 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

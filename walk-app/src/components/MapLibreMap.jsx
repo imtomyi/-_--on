@@ -91,6 +91,23 @@ export default function MapLibreMap({ course, activeIdx, onMarkerClick, mapStyle
 
     map.on('load', () => {
       addRoute(map, course)
+
+      // ── 지도 색상 커스텀 ──────────────────
+      map.setPaintProperty('Background',           'background-color', '#F8F5EE') // 배경
+      map.setPaintProperty('Land',                 'fill-color',       '#F8F5EE') // 땅
+      map.setPaintProperty('Residential pattern',  'fill-color',       '#EEE8D8') // 주거지
+      map.setPaintProperty('Building',             'fill-color',       '#E0D8C4') // 건물
+      map.setPaintProperty('Road network',         'line-color',       '#FFFFFF') // 도로
+      map.setPaintProperty('Path',                 'line-color',       '#F5F0E8') // 골목
+      map.setPaintProperty('Path minor',           'line-color',       '#F5F0E8') // 좁은 골목
+      map.setPaintProperty('Forest',               'fill-color',       '#6B9E80') // 숲
+      map.setPaintProperty('Grass',                'fill-color',       '#8BB89A') // 잔디
+      map.setPaintProperty('Wood',                 'fill-color',       '#6B9E80') // 나무
+      map.setPaintProperty('Water pattern',        'fill-color',       '#A8C8D8') // 물
+      map.setPaintProperty('River',                'line-color',       '#90B8CC') // 강
+      // ──────────────────────────────────────
+
+
       const bounds = new maplibregl.LngLatBounds()
       course.places.forEach(p => bounds.extend([p.lng, p.lat]))
       map.fitBounds(bounds, { padding: 60, duration: 0, maxZoom: 16 })
@@ -102,8 +119,8 @@ export default function MapLibreMap({ course, activeIdx, onMarkerClick, mapStyle
       const el = document.createElement('div')
       Object.assign(el.style, {
         width: '34px', height: '34px',
-        background: isGyebo ? '#C4932A' : '#FFFCF5',
-        border: `2.5px solid ${isGyebo ? '#A07010' : '#DDD0B8'}`,
+        background: isGyebo ? '#C4932A' : '#FFFFFF',
+        border: `2.5px solid ${isGyebo ? '#A07010' : '#D8CEB8'}`,
         borderRadius: '50%',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: isGyebo ? '16px' : '13px',

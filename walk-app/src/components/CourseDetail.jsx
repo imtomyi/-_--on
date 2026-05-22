@@ -12,14 +12,6 @@ const placeTypeLabel = {
   food:     '맛집',
 }
 
-const placeTypeIcon = {
-  start:    '🍶',
-  end:      '🍶',
-  craft:    '🎨',
-  landmark: '🏯',
-  food:     '🍜',
-}
-
 export default function CourseDetail({ course, onBack }) {
   const [activeIdx, setActiveIdx] = useState(0)
   const [mapMode, setMapMode] = useState('aquarelle')
@@ -29,13 +21,12 @@ export default function CourseDetail({ course, onBack }) {
 
       {/* ── 상단: 장소 리스트 ── */}
       <div className={styles.cardArea}>
-        {/* 1행+2행: 뒤로 + 코스명 + 스타일 토글 (sticky) */}
+        {/* 뒤로 + 코스명 + 스타일 토글 (sticky) */}
         <div className={styles.stickyHeader}>
           <div className={styles.topBar}>
             <button className={styles.back} onClick={onBack}>←</button>
             <div className={styles.headerCenter}>
-              <span className={styles.courseTitle}>{course.title}</span>
-              <span className={styles.courseMeta}>{course.distance} · {course.duration}</span>
+              <span className={styles.courseTitle}>{course.ko.title}</span>
             </div>
           </div>
           <div className={styles.styleBar}>
@@ -53,39 +44,42 @@ export default function CourseDetail({ course, onBack }) {
           </div>
         </div>
 
-        {/* 3행: 타임라인 장소 리스트 */}
+        {/* 타임라인 장소 리스트 */}
         <ul className={styles.placeList}>
-          {course.places.map((place, idx) => (
-            <li key={place.id} className={styles.placeItem}>
-              <button
-                className={`${styles.placeCard} ${idx === activeIdx ? styles.active : ''}`}
-                onClick={() => setActiveIdx(idx)}
-              >
-                <div className={`${styles.placeIcon} ${(place.type === 'start' || place.type === 'end') ? styles.iconGold : ''}`}>
-                  {placeTypeIcon[place.type]}
-                </div>
-                <div className={styles.placeInfo}>
-                  <div className={styles.placeName}>{place.name}</div>
-                  <div className={styles.placeDesc}>{place.desc}</div>
-                </div>
-                <span className={`${styles.typeBadge} ${styles['badge_' + place.type]}`}>
-                  {placeTypeLabel[place.type]}
-                </span>
-              </button>
-              {idx < course.places.length - 1 && (
-                <div className={styles.connector}>
-                  <div className={styles.connectorLine} />
-                  <span className={styles.connectorTime}>
-                    +{course.places[idx + 1].walkMin - place.walkMin}분 도보
+          {course.places.map((place, idx) => {
+            const isGyebo = place.type === 'start' || place.type === 'end'
+            return (
+              <li key={place.id} className={styles.placeItem}>
+                <button
+                  className={`${styles.placeCard} ${idx === activeIdx ? styles.active : ''}`}
+                  onClick={() => setActiveIdx(idx)}
+                >
+                  <div className={`${styles.placeNum} ${isGyebo ? styles.placeNumGold : ''}`}>
+                    {String(idx + 1).padStart(2, '0')}
+                  </div>
+                  <div className={styles.placeInfo}>
+                    <div className={styles.placeName}>{place.ko.name}</div>
+                    <div className={styles.placeDesc}>{place.ko.desc}</div>
+                  </div>
+                  <span className={`${styles.typeBadge} ${styles['badge_' + place.type]}`}>
+                    {placeTypeLabel[place.type]}
                   </span>
-                </div>
-              )}
-            </li>
-          ))}
+                </button>
+                {idx < course.places.length - 1 && (
+                  <div className={styles.connector}>
+                    <div className={styles.connectorLine} />
+                    <span className={styles.connectorTime}>
+                      +{course.places[idx + 1].walkMin - place.walkMin}분 도보
+                    </span>
+                  </div>
+                )}
+              </li>
+            )
+          })}
         </ul>
       </div>
 
-      {/* ── 지도 (오버레이 없음) ── */}
+      {/* ── 지도 ── */}
       <div className={styles.mapArea}>
         {mapMode === 'kakao'
           ? <KakaoMap    course={course} activeIdx={activeIdx} onMarkerClick={setActiveIdx} />

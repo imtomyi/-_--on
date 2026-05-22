@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>행궁동 막걸리 산책 — 화면 미리보기</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #F5F2EC;
+      color: #1A0C08;
+      min-height: 100vh;
+      padding: 48px 24px 80px;
+    }
+
+    .header {
+      max-width: 1200px;
+      margin: 0 auto 48px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #6B5E52;
+      line-height: 1.6;
+    }
+
+    .header .date {
+      font-size: 12px;
+      color: #BA2028;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+    }
+
+    .screen-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(30, 20, 10, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen-label {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #EDE5C8;
+    }
+
+    .screen-label h2 {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .screen-label .tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #6B5E52;
+      background: #F5F2EC;
+      padding: 4px 10px;
+      border-radius: 99px;
+    }
+
+    .screen-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 375 / 812;
+      background: #FFFCF0;
+    }
+
+    .screen-frame iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 375px;
+      height: 812px;
+      border: none;
+      transform-origin: top left;
+    }
+
+    .screen-desc {
+      padding: 14px 20px;
+      font-size: 13px;
+      color: #6B5E52;
+      line-height: 1.6;
+      border-top: 1px solid #EDE5C8;
+    }
+
+    .flow-arrow {
+      display: none;
+    }
+
+    @media (min-width: 1080px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <p class="date">Rockathon 2026</p>
+    <h1>행궁동 막걸리 산책</h1>
+    <p>공방거리 산책 코스 가이드 웹 — 개발 완료 화면 미리보기</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1. 온보딩 -->
+    <div class="screen-card">
+      <div class="screen-label">
+        <h2>01 — 온보딩</h2>
+        <span class="tag">시작 화면</span>
+      </div>
+      <div class="screen-frame" id="frame1"></div>
+      <div class="screen-desc">
+        막걸리 한 잔 들고, 공방거리를 걷다.<br />
+        CTA 버튼으로 홈 화면 진입.
+      </div>
+    </div>
+
+    <!-- 2. 홈 (코스 선택) -->
+    <div class="screen-card">
+      <div class="screen-label">
+        <h2>02 — 홈</h2>
+        <span class="tag">코스 목록</span>
+      </div>
+      <div class="screen-frame" id="frame2"></div>
+      <div class="screen-desc">
+        3개 코스 카드 — 세리프 숫자 인덱스, 컬러 소제목, 메타 정보.
+      </div>
+    </div>
+
+    <!-- 3. 코스 상세 -->
+    <div class="screen-card">
+      <div class="screen-label">
+        <h2>03 — 코스 상세</h2>
+        <span class="tag">지도 + 리스트</span>
+      </div>
+      <div class="screen-frame" id="frame3"></div>
+      <div class="screen-desc">
+        상단 타임라인 장소 리스트 + 하단 지도.<br />
+        세리프 번호, hairline 타입 라벨, 누룩 게이지.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const BASE = 'http://localhost:5173'
+    const screens = [
+      { id: 'frame1', url: `${BASE}?screen=onboarding` },
+      { id: 'frame2', url: `${BASE}?screen=home` },
+      { id: 'frame3', url: `${BASE}?screen=detail&course=loop1` },
+    ]
+
+    screens.forEach(({ id, url }) => {
+      const container = document.getElementById(id)
+      const w = container.clientWidth
+      const scale = w / 375
+
+      const iframe = document.createElement('iframe')
+      iframe.src = url
+      iframe.style.transform = `scale(${scale})`
+      iframe.style.width = '375px'
+      iframe.style.height = '812px'
+
+      container.appendChild(iframe)
+    })
+
+    // 리사이즈 대응
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.screen-frame').forEach(container => {
+        const iframe = container.querySelector('iframe')
+        if (!iframe) return
+        const scale = container.clientWidth / 375
+        iframe.style.transform = `scale(${scale})`
+      })
+    })
+  </script>
+
+</body>
+</html>

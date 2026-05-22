@@ -3,61 +3,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 40px 28px 52px;
+  justify-content: flex-start;
   position: relative;
   overflow: hidden;
-  gap: 0;
-  /* 따뜻한 한지 그라데이션 배경 */
-  background: radial-gradient(ellipse 120% 80% at 50% 0%, #F8EED8 0%, var(--paper) 55%);
+  background: linear-gradient(160deg, #87CFBD 0%, #B8E4DA 28%, #FFFCF0 58%);
 }
 
-/* 팔달문 SVG — 상단 배경 */
-.gate {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 300px;
-  opacity: 0.5;
-  pointer-events: none;
-  filter: sepia(0.1);
-}
-
-/* 배경 장식 원 */
-.wrap::before {
-  content: '';
-  position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(232, 154, 165, 0.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-/* 누룩 캐릭터 */
-.character {
-  width: 150px;
-  height: 150px;
-  margin-top: 80px;
-  margin-bottom: 4px;
-  filter: drop-shadow(0 12px 28px rgba(232, 154, 165, 0.3));
+/* 콘텐츠 너비 제한 — 배경은 풀뷰포트, 내용만 480px */
+.inner {
+  width: 100%;
+  max-width: var(--max-w);
+  min-height: 100dvh;
+  padding: 72px 32px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   position: relative;
-  z-index: 1;
 }
 
 /* 카피 영역 */
 .copy {
-  text-align: center;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   position: relative;
   z-index: 1;
-  margin-top: 8px;
+  width: 100%;
 }
 
 .eyebrow {
@@ -68,12 +40,63 @@
   text-transform: uppercase;
 }
 
-.title {
-  font-size: 30px;
+.line1 {
+  font-size: 34px;
   font-weight: 900;
   letter-spacing: -0.02em;
-  line-height: 1.25;
+  line-height: 1.2;
   color: var(--ink);
+  text-align: left;
+}
+
+.bottomGroup {
+  width: 100%;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.line2 {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--ink);
+  text-align: right;
+  width: 100%;
+}
+
+.accent {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #6B3A2A;
+}
+
+/* 제목용 강조 — 명조체 + 사이즈 포함 */
+.accentGreen {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1A4A30;
+}
+
+/* 소제목용 강조 — 색상만 */
+.subGreen {
+  color: #1A4A30;
+  font-weight: 700;
+}
+
+.subBrown {
+  color: #6B3A2A;
+  font-weight: 700;
+}
+
+.accentBrown {
+  color: #6B3A2A;
+  font-weight: 700;
 }
 
 .sub {
@@ -82,9 +105,9 @@
   line-height: 1.75;
 }
 
-/* 장식 구분선 */
+/* 구분선 */
 .divider {
-  width: 40px;
+  width: 36px;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--azalea), transparent);
   border-radius: 1px;
@@ -92,12 +115,41 @@
 }
 
 /* CTA 버튼 */
+.btnGroup {
+  position: absolute;
+  top: 50%;
+  left: 32px;
+  right: 32px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.subLineLeft {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.4;
+  text-align: left;
+  letter-spacing: -0.01em;
+}
+
+.subLineRight {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.4;
+  text-align: right;
+  letter-spacing: -0.01em;
+}
+
 .cta {
-  margin-top: 28px;
+  margin-top: 0;
   width: 100%;
   min-height: 56px;
-  background: linear-gradient(135deg, #2A1A08 0%, #1E140A 100%);
-  color: var(--paper);
+  background: linear-gradient(135deg, #A82820 0%, #6E1418 100%);
+  color: #FFFFF5;
   font-size: 16px;
   font-weight: 700;
   border-radius: var(--radius-md);
@@ -108,12 +160,12 @@
   transition: opacity 0.15s, transform 0.1s;
   position: relative;
   z-index: 1;
-  box-shadow: 0 4px 20px rgba(30, 20, 10, 0.3);
+  box-shadow: 0 2px 10px rgba(100, 20, 20, 0.2);
   letter-spacing: 0.01em;
 }
 
 .cta:active {
-  opacity: 0.8;
+  opacity: 0.85;
   transform: translateY(1px);
 }
 

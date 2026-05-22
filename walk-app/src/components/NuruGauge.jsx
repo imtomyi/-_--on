@@ -46,7 +46,7 @@ export default function NuruGauge({ totalDistance }) {
     <div className={styles.gauge}>
       <span className={styles.emoji}>{stage.emoji}</span>
       <div className={styles.info}>
-        <span className={styles.label}>{stage.label}</span>
+        <span className={styles.label}>{stage.ko.label}</span>
         <div className={styles.bar}>
           <div className={styles.fill} style={{ width: `${pct}%` }} />
         </div>
