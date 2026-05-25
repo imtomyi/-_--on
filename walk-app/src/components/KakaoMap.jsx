@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './KakaoMap.module.css'
 
 export default function KakaoMap({ course, activeIdx, onMarkerClick }) {
   const containerRef = useRef(null)
   const mapRef = useRef(null)
   const markersRef = useRef([])
+  const [mapReady, setMapReady] = useState(false)
 
   // 지도 초기화
   useEffect(() => {
@@ -69,6 +70,9 @@ export default function KakaoMap({ course, activeIdx, onMarkerClick }) {
     course.places.forEach((p) => bounds.extend(new kakao.maps.LatLng(p.lat, p.lng)))
     map.setBounds(bounds)
 
+    // 타일 로드 완료 시 veil 제거
+    kakao.maps.event.addListener(map, 'tilesloaded', () => setMapReady(true))
+
     return () => {
       markers.forEach((m) => m.setMap(null))
     }
@@ -81,5 +85,10 @@ export default function KakaoMap({ course, activeIdx, onMarkerClick }) {
     mapRef.current.panTo(new kakao.maps.LatLng(lat, lng))
   }, [activeIdx, course])
 
-  return <div ref={containerRef} className={styles.map} />
+  return (
+    <div className={styles.wrap}>
+      <div ref={containerRef} className={styles.map} />
+      <div className={`${styles.veil} ${mapReady ? styles.veilHidden : ''}`} />
+    </div>
+  )
 }

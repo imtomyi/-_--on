@@ -25,86 +25,49 @@
   z-index: 0;
 }
 
-/* ─── 상단 헤더 ─────────────────────── */
-.topBlock {
+/* ─── 상단 바 (컴팩트) ────────────────── */
+.topBar {
   position: relative;
   z-index: 1;
-  padding: 72px 28px 36px;
+  padding: 56px 28px 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.topBarLeft {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 6px;
 }
 
-.eyebrowRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.eyebrowLine {
-  width: 22px;
-  height: 1px;
-  background: var(--azalea);
-}
-
-.eyebrow {
+.topBarLabel {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
   color: var(--azalea);
-  text-transform: uppercase;
 }
 
-.eyebrowHangul {
+.topBarTitle {
   font-family: 'Noto Serif KR', serif;
-  font-size: 11px;
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
   color: var(--ink);
 }
 
-.title {
+.topBarCount {
   font-family: 'Noto Serif KR', serif;
-  font-size: 42px;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.08;
-  color: var(--ink);
-}
-
-.sub {
-  font-family: 'Noto Serif KR', serif;
-  font-size: 14px;
-  font-style: italic;
+  font-size: 48px;
   font-weight: 400;
-  color: var(--muted);
-  line-height: 1.65;
-  max-width: 30ch;
-}
-
-/* ─── 섹션 인덱스 헤더 ────────────────── */
-.indexHead {
-  position: relative;
-  z-index: 1;
-  padding: 8px 28px 14px;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-.indexLbl {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.indexCount {
-  font-family: 'Noto Serif KR', serif;
-  font-size: 12px;
-  font-style: italic;
-  color: var(--muted);
+  color: var(--jade);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  opacity: 0.5;
+  flex-shrink: 0;
 }
 
 /* 얇은 금색 가로 라인 */

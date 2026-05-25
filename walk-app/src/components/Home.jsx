@@ -11,23 +11,14 @@ export default function Home({ onSelect }) {
   return (
     <div className={styles.wrap}>
       <div className={styles.inner}>
-      {/* 상단 */}
-      <header className={styles.topBlock}>
-        <div className={styles.eyebrowRow}>
-          <span className={styles.eyebrowLine} />
-          <span className={styles.eyebrow}>Haenggung-dong</span>
-          <span className={styles.eyebrowHangul}>· 행궁동</span>
-        </div>
-        <h1 className={styles.title}>어떤 코스로<br />걸을까요?</h1>
-        <p className={styles.sub}>소제목 위치</p>
-      </header>
 
-      <div className={styles.indexHead}>
-        <span className={styles.indexLbl}>Courses</span>
-        <span className={styles.indexCount}>
-          {courses.length} routes — Spring &rsquo;26
-        </span>
-      </div>
+      <header className={styles.topBar}>
+        <div className={styles.topBarLeft}>
+          <span className={styles.topBarLabel}>코스 선택</span>
+          <h1 className={styles.topBarTitle}>어떤 코스로 걸을까요?</h1>
+        </div>
+        <span className={styles.topBarCount}>{courses.length}</span>
+      </header>
 
       <div className={styles.hairlineGold} />
 

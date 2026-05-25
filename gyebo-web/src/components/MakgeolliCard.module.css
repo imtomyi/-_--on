@@ -1,94 +1,164 @@
-.card {
-  background: var(--surface-card);
-  border: 1px solid var(--line-dark);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  transition: border-color 0.15s;
-}
+/* ─────────────────────────────────────────
+   계보 카드 — 족보 항목 한 줄
+   박스·둥근 테두리·그라디언트 없음
+   선·비율·여백으로만 위계를 만든다
+   ───────────────────────────────────────── */
 
+/* ── 항목 컨테이너 ────────────────────────── */
+.item {
+  border-bottom: 1px solid var(--rule-soft);
+  transition: background 0.18s var(--ease-ink);
+}
+.item:first-child {
+  border-top: 1px solid var(--rule-soft);
+}
 .highlighted {
-  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+.highlighted .num {
+  color: var(--gold);
+  opacity: 0.3;
 }
 
-.summary {
+/* ── 헤더 행 ──────────────────────────────── */
+.header {
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: 52px 1fr 32px;
   align-items: center;
-  gap: 14px;
-  padding: 18px 18px 18px 0;
+  gap: 4px;
+  padding: 20px var(--px) 20px 20px;
   text-align: left;
+  transition: background 0.15s var(--ease-ink);
+  min-height: 72px;
+}
+.header:active {
+  background: var(--surface-3);
+}
+.open .header {
+  background: var(--surface-2);
 }
 
-.colorBar {
-  flex: 0 0 5px;
-  align-self: stretch;
-  border-radius: 0;
+/* 순번 — 족보의 항렬 번호 */
+/* Noto Serif, 크게, 반투명 — 배경에 녹아드는 숫자 */
+.num {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  opacity: 0.14;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  transition: opacity 0.18s var(--ease-ink), color 0.18s;
+  user-select: none;
+}
+.open .num {
+  opacity: 0.35;
+  color: var(--gold);
 }
 
+/* 이름·메타 영역 */
 .main {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
+  min-width: 0;
 }
 
-.top {
+.nameRow {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 8px;
 }
 
 .name {
+  font-family: var(--serif);
   font-size: 17px;
-  font-weight: 800;
-  color: var(--ink-light);
-  letter-spacing: -0.01em;
-}
-
-.level {
-  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.region {
-  font-size: 12px;
-  color: var(--muted-light);
-}
-
-.chevron {
-  flex: 0 0 auto;
-  font-size: 22px;
-  color: var(--brand-green-lt);
-  padding-right: 16px;
-  transition: transform 0.2s ease;
-  display: inline-block;
-}
-
-.chevronOpen {
-  transform: rotate(90deg);
-}
-
-.detail {
-  padding: 0 18px 18px 19px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  border-top: 1px solid var(--line-dark);
-  padding-top: 14px;
-}
-
-.story {
-  font-size: 13px;
-  color: var(--ink-light);
-  line-height: 1.75;
+/* 레벨 배지 — 항목 고유색으로, 태그 없이 텍스트만 */
+.badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  flex-shrink: 0;
   opacity: 0.85;
 }
 
+.meta {
+  font-size: 12px;
+  color: var(--text-sub);
+  letter-spacing: 0.02em;
+}
+
+/* 전개 화살표 — 미닫이문 회전 */
+.chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-sub);
+  transition: transform 0.25s var(--ease-ink), color 0.18s;
+  padding-right: 4px;
+}
+.chevronOpen {
+  transform: rotate(90deg);
+  color: var(--gold);
+}
+
+/* ── 상세 영역 애니메이션 ─────────────────── */
+/* CSS grid trick: 높이 측정 없이 부드러운 expand */
+.detailWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s var(--ease-ink);
+}
+.detailOpen {
+  grid-template-rows: 1fr;
+}
+.detailInner {
+  overflow: hidden;
+  display: flex;
+}
+
+/* 항목 고유색 리본 — 자개 상감처럼 좌측 세로 선 */
+.colorRibbon {
+  flex: 0 0 3px;
+  opacity: 0.70;
+  align-self: stretch;
+  margin-left: 20px;
+}
+
+.detail {
+  flex: 1;
+  padding: 16px 24px 24px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* 이야기 텍스트 — 먹이 번지듯 */
+.story {
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--text-sub);
+  font-weight: 400;
+}
+.open .story {
+  color: var(--text);
+}
+
+/* ── 맛 프로필 ────────────────────────────── */
 .profile {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 9px;
 }
 
 .flavorRow {
@@ -99,42 +169,73 @@
 
 .flavorLabel {
   font-size: 11px;
-  color: var(--muted-light);
-  width: 36px;
-  flex: 0 0 auto;
+  color: var(--text-sub);
+  letter-spacing: 0.04em;
+  width: 38px;
+  flex-shrink: 0;
 }
 
-.flavorBar {
+/* 맛 바 — 전통 눈금자처럼 */
+.flavorTrack {
   flex: 1;
-  height: 3px;
-  background: rgba(255,255,255,0.1);
+  height: 2px;
+  background: var(--rule-soft);
   border-radius: 99px;
   overflow: hidden;
 }
-
 .flavorFill {
   height: 100%;
-  background: var(--gold);
   border-radius: inherit;
+  opacity: 0.75;
+  transition: width 0.4s var(--ease-ink);
 }
 
-.abv {
+.flavorNum {
   font-size: 11px;
-  color: var(--gold);
-  font-weight: 600;
+  color: var(--text-sub);
+  width: 14px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
+/* 도수 행 */
+.abvRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+.abvLabel {
+  font-size: 11px;
+  color: var(--text-sub);
+  letter-spacing: 0.04em;
+  width: 38px;
+}
+.abvValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+/* ── 태그 ─────────────────────────────────── */
+/* 계보 문서의 주석(註釋)처럼 — 작고 절제되게 */
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
-
 .tag {
-  padding: 3px 10px;
-  border: 1px solid var(--line-dark);
-  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
   font-size: 11px;
-  color: var(--muted-light);
-  font-weight: 600;
+  font-weight: 500;
+  color: var(--text-sub);
+  letter-spacing: 0.06em;
+  transition: border-color 0.15s, color 0.15s;
+}
+.tag:hover {
+  border-color: var(--gold);
+  color: var(--gold);
 }

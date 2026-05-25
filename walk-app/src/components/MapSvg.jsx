@@ -33,26 +33,27 @@ function walkPath(path, t) {
 }
 
 // ── PALETTE ────────────────────────────────────────────────────────────────
+// 메인 컬러: #fff0aa (노랑) / #87cfbd (청록) / #ba2028 (단청 빨강)
 const C = {
-  paper:       '#F5EDE0',
-  park:        '#B8CC98',
-  parkDeep:    '#94AF74',
-  stream:      '#B0CCDE',
-  carRoad:     '#D8CEBC',
-  carRoadEdge: '#C8BC9A',
-  alleyBase:   '#CEBA88',
-  alleyHi:     '#E4D4A4',
-  alleyJoint:  '#A89060',
-  wall:        '#B89050',
-  wallGold:    '#C4922A',
-  route:       '#C4692A',
-  routeGlow:   '#E09070',
-  palace:      '#C9A84C',
-  ink:         '#1E140A',
-  muted:       '#7A6E62',
-  pin:         '#C4692A',
-  pinGyebo:    '#C4932A',
-  surface:     '#FFFCF5',
+  paper:       '#FAF5D5',  // fff0aa 연하게 — 지도 배경
+  park:        '#9ACFC5',  // 87cfbd 계열 — 공원
+  parkDeep:    '#6BBDB0',  // 87cfbd 진하게 — 나무 그늘
+  stream:      '#C0EAE4',  // 87cfbd 아주 연하게 — 수면
+  carRoad:     '#EDE4B0',  // fff0aa 계열 — 차도
+  carRoadEdge: '#C8B870',  // 황토 골드 — 도로 엣지
+  alleyBase:   '#E8E0B0',  // fff0aa 계열 — 골목
+  alleyHi:     '#F0EBD0',  // fff0aa 밝게 — 골목 하이라이트
+  alleyJoint:  '#B8A868',  // 황토 — 골목 이음새
+  wall:        '#C0A840',  // 황토 금빛 — 성벽
+  wallGold:    '#C8A818',  // --gold — 성벽 금장
+  route:       '#BA2028',  // 단청 빨강 — 산책 루트
+  routeGlow:   '#D84050',  // 빨강 글로우
+  palace:      '#C8A818',  // --gold — 궁궐
+  ink:         '#1A0C08',
+  muted:       '#6B5E52',
+  pin:         '#BA2028',  // 단청 빨강 — 일반 핀
+  pinGyebo:    '#C8A818',  // --gold — 막걸리 계보 핀
+  surface:     '#FFFCF0',  // fff0aa 기반 흰면
 }
 
 // ── ROAD DATA (editorial-simplified) ──────────────────────────────────────

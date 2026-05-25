@@ -1,76 +1,79 @@
 /* ─────────────────────────────────────────
-   CourseDetail — 코스 상세 + 지도
-   editorial / 고급 catalog 톤
-   - 지도가 리스트보다 큼
-   - 장소: 세리프 숫자 인덱스 + 가는 hairline + 작은 uppercase 라벨
+   CourseDetail — 지도 풀스크린 + 플로팅 UI
    ───────────────────────────────────────── */
 
 .wrap {
-  display: flex;
-  flex-direction: column;
+  position: relative;
   height: 100dvh;
   overflow: hidden;
   max-width: var(--max-w);
   margin: 0 auto;
-  background: var(--surface);
 }
 
-/* ─── 상단 카드 영역 (리스트) ────────────
-   max-height 를 줄여서 지도에 더 많은 공간 확보
-   ───────────────────────────────────────── */
-.cardArea {
-  flex: 0 0 auto;
-  max-height: 34%;
-  overflow-y: auto;
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
+/* ─── 지도: 전체 화면 ────────────────────── */
+.mapArea {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
-/* sticky 헤더 (뒤로 + 코스명 + 지도 스타일 토글) */
-.stickyHeader {
-  position: sticky;
+/* ─── 상단 플로팅 헤더 ─────────────────── */
+.floatingHeader {
+  position: absolute;
   top: 0;
-  z-index: 1;
-  background: var(--paper);
-  border-bottom: 1px solid var(--line);
-  flex-shrink: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: linear-gradient(
+    to bottom,
+    rgba(220,242,238,0.92) 0%,
+    rgba(235,248,245,0.20) 55%,
+    rgba(255,255,255,0) 78%
+  );
 }
 
-/* 1행 */
 .topBar {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 20px 10px;
+  padding: 16px 20px 10px;
 }
 
 .back {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 16px;
   color: var(--ink);
   border-radius: 50%;
-  background: transparent;
-  border: 1px solid var(--line);
+  background: rgba(255,252,240,0.85);
+  border: 1px solid rgba(200,168,24,0.40);
   flex-shrink: 0;
   transition: background 0.12s, border-color 0.12s;
+  box-shadow: 0 1px 6px rgba(30,20,10,0.10);
 }
 .back:active {
-  background: var(--surface);
-  border-color: var(--ink);
+  background: rgba(255,252,240,0.98);
+  border-color: var(--gold);
 }
 
 .headerCenter {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   min-width: 0;
+}
+
+.courseEyebrow {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: var(--azalea);
+  line-height: 1;
 }
 
 .courseTitle {
@@ -85,43 +88,108 @@
   white-space: nowrap;
 }
 
-/* 2행 — 지도 스타일 토글 */
-.styleBar {
-  display: flex;
-  gap: 6px;
-  padding: 6px 16px 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.styleBar::-webkit-scrollbar { display: none; }
-
-.toggleBtn {
+.courseSub {
   font-size: 10px;
-  font-weight: 700;
   color: var(--muted);
-  padding: 5px 12px;
-  border-radius: 99px;
-  border: 1px solid var(--line);
-  background: transparent;
+  letter-spacing: 0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  flex-shrink: 0;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+}
+
+/* ─── 루트 스타일 비교 토글 ────────────────── */
+.routeToggle {
+  position: absolute;
+  top: 140px;
+  right: 16px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.routeBtn {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  color: var(--muted);
+  padding: 5px 10px;
+  border-radius: 99px;
+  border: 1px solid rgba(200,168,24,0.32);
+  background: rgba(255,252,240,0.82);
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 1px 5px rgba(30,20,10,0.10);
   transition: background 0.12s, color 0.12s, border-color 0.12s;
 }
 
-.toggleActive {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
+.routeBtnActive {
+  background: var(--azalea);
+  color: #FFFFF5;
+  border-color: var(--azalea);
+  box-shadow: 0 1px 6px rgba(186,32,40,0.28);
+}
+
+/* ─── 바텀 시트 ────────────────────────── */
+.bottomSheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 52%;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(135,207,189,0.45);
+  border-radius: 18px 18px 0 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -6px 28px rgba(30,20,10,0.10);
+  overflow: hidden;
+}
+
+/* 드래그 끝난 후 스냅 애니메이션 */
+.bottomSheetSnap {
+  transition: height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 드래그 핸들 힌트 */
+.sheetHandle {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 6px;
+  cursor: grab;
+  touch-action: none;
+}
+.sheetHandle:active {
+  cursor: grabbing;
+}
+.sheetHandle::before {
+  content: '';
+  width: 36px;
+  height: 4px;
+  background: rgba(135,207,189,0.55);
+  border-radius: 99px;
 }
 
 /* ─── 타임라인 장소 리스트 ────────────── */
 .placeList {
+  flex: 1 1 auto;
+  overflow-y: auto;
   list-style: none;
-  padding: 6px 20px 16px;
+  padding: 0 20px 8px;
   display: flex;
   flex-direction: column;
+  scrollbar-width: none;
+}
+.placeList::-webkit-scrollbar { display: none; }
+
+/* 85% 전체 펼침 — 스크롤 완전 잠금 */
+.placeListFull {
+  overflow-y: hidden;
 }
 
 .placeItem {
@@ -134,7 +202,7 @@
   grid-template-columns: 36px 1fr auto;
   gap: 14px;
   align-items: center;
-  padding: 12px 12px 12px 8px;
+  padding: 10px 10px 10px 6px;
   background: transparent;
   border-radius: 10px;
   text-align: left;
@@ -144,28 +212,26 @@
 }
 
 .placeCard.active {
-  background: var(--surface);
+  background: rgba(255,252,240,0.90);
   border-color: var(--azalea);
-  box-shadow: 0 2px 10px rgba(186, 32, 40, 0.08);
+  box-shadow: 0 2px 10px rgba(186,32,40,0.08);
 }
 
-/* 세리프 숫자 인덱스 */
 .placeNum {
   font-family: 'Noto Serif KR', serif;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--azalea);
   text-align: center;
-  opacity: 0.6;
+  opacity: 0.55;
   transition: opacity 0.15s;
 }
 .placeCard.active .placeNum {
   opacity: 1;
 }
 
-/* 출발 / 도착은 금색 */
 .placeNumGold {
   color: var(--gold);
 }
@@ -179,7 +245,7 @@
 
 .placeName {
   font-family: 'Noto Serif KR', serif;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.005em;
@@ -195,7 +261,6 @@
   margin-top: 1px;
 }
 
-/* type label — 작은 uppercase 텍스트 (pill 아님) */
 .typeBadge {
   font-size: 9px;
   font-weight: 700;
@@ -211,32 +276,26 @@
 .badge_end {
   color: var(--gold);
 }
-
 .badge_craft {
   color: var(--plum);
 }
-
-.badge_landmark {
-  color: #2E7060;
-}
-
+.badge_landmark,
 .badge_food {
   color: #2E7060;
 }
 
-/* connector — 세로 가는 점선 + 시간 */
 .connector {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 0 0 0 21px;
-  margin: 2px 0;
-  min-height: 16px;
+  padding: 0 0 0 19px;
+  margin: 1px 0;
+  min-height: 14px;
 }
 
 .connectorLine {
   width: 1px;
-  height: 14px;
+  height: 12px;
   background: var(--line);
   flex-shrink: 0;
 }
@@ -250,20 +309,12 @@
   letter-spacing: 0.02em;
 }
 
-/* ─── 지도 영역 ────────────────────────── */
-.mapArea {
-  flex: 1 1 auto;
-  position: relative;
-  min-height: 0;
-}
-
 /* ─── 하단: 누룩 게이지 + CTA ─────────── */
 .bottom {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: var(--surface);
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(200,168,24,0.20);
   padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -271,9 +322,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 54px;
-  background: var(--ink);
-  color: var(--paper);
+  min-height: 52px;
+  background: linear-gradient(135deg, #A82820 0%, #6E1418 100%);
+  color: #FFFFF5;
   padding: 0 24px;
   text-decoration: none;
   transition: opacity 0.15s;
@@ -287,8 +338,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--azalea);
-  opacity: 0.9;
+  background: linear-gradient(90deg, transparent, rgba(255,252,240,0.4), transparent);
 }
 
 .ctaBtn:active { opacity: 0.85; }

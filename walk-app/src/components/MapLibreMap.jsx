@@ -1,23 +1,50 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import styles from './MapLibreMap.module.css'
 
 const MAPTILER_KEY = 'QQNAxXPBkSHpRaeYE6gU'
+const STYLE_URL = `https://api.maptiler.com/maps/aquarelle/style.json?key=${MAPTILER_KEY}`
 
-export const MAP_STYLES = {
-  aquarelle:       { label: '수채화',     url: `https://api.maptiler.com/maps/aquarelle/style.json?key=${MAPTILER_KEY}` },
-  'aquarelle-vivid': { label: '수채화 비비드', url: `https://api.maptiler.com/maps/aquarelle-vivid/style.json?key=${MAPTILER_KEY}` },
-  outdoor:         { label: '아웃도어',   url: `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${MAPTILER_KEY}` },
-  pastel:          { label: '파스텔',     url: `https://api.maptiler.com/maps/pastel/style.json?key=${MAPTILER_KEY}` },
+const ROUTE_COLOR = '#BA2028'  // --azalea
+
+// 두 좌표 사이 거리 (m)
+function haversine(a, b) {
+  const R = 6371000
+  const φ1 = a.lat * Math.PI / 180, φ2 = b.lat * Math.PI / 180
+  const dφ = (b.lat - a.lat) * Math.PI / 180
+  const dλ = (b.lng - a.lng) * Math.PI / 180
+  const s = Math.sin(dφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(dλ/2)**2
+  return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1-s))
 }
 
-// 쪽빛(藍色) — 전통 한국 쪽물 인디고
-const ROUTE_COLOR = '#1B3F7A'
+// 경로의 누적 거리 배열 생성
+function buildPathDists(path) {
+  const d = [0]
+  for (let i = 1; i < path.length; i++) d.push(d[i-1] + haversine(path[i-1], path[i]))
+  return d
+}
 
-function addRoute(map, course) {
+function applyBrandColors(map) {
+  const safe = (fn) => { try { fn() } catch (_) {} }
+  safe(() => map.setPaintProperty('Background',          'background-color', '#EEE9E0'))
+  safe(() => map.setPaintProperty('Land',                'fill-color',       '#EEE9E0'))
+  safe(() => map.setPaintProperty('Residential pattern', 'fill-color',       '#E0D8CC'))
+  safe(() => map.setPaintProperty('Building',            'fill-color',       '#D4C0A8'))
+  safe(() => map.setPaintProperty('Road network',        'line-color',       '#FAF8F4'))
+  safe(() => map.setPaintProperty('Path',                'line-color',       '#EDE8E0'))
+  safe(() => map.setPaintProperty('Path minor',          'line-color',       '#E8E2D8'))
+  safe(() => map.setPaintProperty('Forest',              'fill-color',       '#78A87A'))
+  safe(() => map.setPaintProperty('Grass',               'fill-color',       '#90BC8E'))
+  safe(() => map.setPaintProperty('Wood',                'fill-color',       '#78A87A'))
+  safe(() => map.setPaintProperty('Water pattern',       'fill-color',       '#88B8D0'))
+  safe(() => map.setPaintProperty('River',               'line-color',       '#78AAC4'))
+}
+
+function addRouteLayers(map, course) {
   if (!course.heatmapPath || course.heatmapPath.length < 2) return
   if (map.getSource('route')) return
+
   map.addSource('route', {
     type: 'geojson',
     data: {
@@ -28,61 +55,96 @@ function addRoute(map, course) {
       },
     },
   })
-  // 가는 연결선 — 줌에 따라 두께 보간
+
   map.addLayer({
     id: 'route-line',
     type: 'line',
     source: 'route',
     paint: {
       'line-color': ROUTE_COLOR,
-      'line-width': ['interpolate', ['linear'], ['zoom'],
-        12, 0.6,   // 축소: 거의 안 보일 정도로 얇게
-        15, 1.5,   // 기본 줌
-        18, 3.0,   // 확대: 조금 두껍게
-      ],
-      'line-opacity': 0.28,
+      'line-width': ['interpolate', ['linear'], ['zoom'], 12, 1.5, 15, 2.5, 18, 4],
+      'line-opacity': 0.70,
     },
     layout: { 'line-join': 'round', 'line-cap': 'round' },
   })
-  // 디딤돌 점패턴 — 줌에 따라 점 크기 보간
-  map.addLayer({
-    id: 'route-dots',
-    type: 'line',
-    source: 'route',
-    paint: {
-      'line-color': ROUTE_COLOR,
-      'line-width': ['interpolate', ['linear'], ['zoom'],
-        12, 2.0,   // 축소: 작은 점
-        15, 5.0,   // 기본 줌
-        18, 9.0,   // 확대: 큰 점
-      ],
-      'line-opacity': ['interpolate', ['linear'], ['zoom'],
-        12, 0.45,  // 축소: 약간 흐리게
-        15, 0.65,  // 기본
-        18, 0.75,  // 확대: 선명하게
-      ],
-      'line-dasharray': [0.001, 2.2],
-    },
-    layout: { 'line-cap': 'round' },
-  })
 }
 
-export default function MapLibreMap({ course, activeIdx, onMarkerClick, mapStyle = 'outdoor' }) {
-  const containerRef = useRef(null)
-  const mapRef       = useRef(null)
-  const markersRef   = useRef([])
+export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHeight = 52 }) {
+  const containerRef   = useRef(null)
+  const mapRef         = useRef(null)
+  const markersRef     = useRef([])
+  const userMarkerRef  = useRef(null)
+  const sheetHeightRef = useRef(sheetHeight)
+  const [mapReady, setMapReady]   = useState(false)
+  const [userPos, setUserPos]     = useState(null)
+  const [locating, setLocating]   = useState(false)
+
+  // sheetHeight 최신값을 ref에 동기화 (easeTo 클로저에서 stale 방지)
+  useEffect(() => { sheetHeightRef.current = sheetHeight }, [sheetHeight])
+
+  // ── 경로 따라 일정 속도 이동 데모 (TODO: 실 GPS로 교체) ───────
+  useEffect(() => {
+    const path = course.heatmapPath
+    if (!path || path.length < 2) return
+
+    const dists    = buildPathDists(path)
+    const totalDist = dists[dists.length - 1]   // 총 거리(m)
+    const LOOP_MS  = 40000                        // 40초에 전체 순회
+
+    let startTime = null
+    let rafId
+
+    const tick = (ts) => {
+      if (!startTime) startTime = ts
+
+      const elapsed    = (ts - startTime) % LOOP_MS
+      const targetDist = (elapsed / LOOP_MS) * totalDist
+
+      // 이분탐색: targetDist가 속하는 세그먼트 찾기
+      let lo = 0, hi = path.length - 2
+      while (lo < hi) {
+        const mid = (lo + hi + 1) >> 1
+        if (dists[mid] <= targetDist) lo = mid; else hi = mid - 1
+      }
+
+      const segLen = dists[lo + 1] - dists[lo]
+      const frac   = segLen > 0 ? (targetDist - dists[lo]) / segLen : 0
+      const a = path[lo], b = path[lo + 1]
+
+      setUserPos({
+        lat: a.lat + (b.lat - a.lat) * frac,
+        lng: a.lng + (b.lng - a.lng) * frac,
+      })
+
+      rafId = requestAnimationFrame(tick)
+    }
+
+    rafId = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafId)
+  }, [course])
+
+  // ── 현재 위치 마커 생성 / 갱신 ────────────────────────────────
+  useEffect(() => {
+    if (!mapReady || !mapRef.current || !userPos) return
+    if (userMarkerRef.current) {
+      userMarkerRef.current.setLngLat([userPos.lng, userPos.lat])
+    } else {
+      const el = document.createElement('div')
+      el.className = styles.userDot
+      userMarkerRef.current = new maplibregl.Marker({ element: el, anchor: 'center' })
+        .setLngLat([userPos.lng, userPos.lat])
+        .addTo(mapRef.current)
+    }
+  }, [mapReady, userPos])
 
   // ── 지도 초기화 ────────────────────────────────────────────────
   useEffect(() => {
     if (!containerRef.current) return
 
-    const styleUrl = MAP_STYLES[mapStyle]?.url ?? MAP_STYLES.outdoor.url
-    const center   = [course.places[0].lng, course.places[0].lat]
-
     const map = new maplibregl.Map({
       container: containerRef.current,
-      style: styleUrl,
-      center,
+      style: STYLE_URL,
+      center: [course.places[0].lng, course.places[0].lat],
       zoom: 15,
       attributionControl: false,
     })
@@ -90,30 +152,21 @@ export default function MapLibreMap({ course, activeIdx, onMarkerClick, mapStyle
     mapRef.current = map
 
     map.on('load', () => {
-      addRoute(map, course)
-
-      // ── 지도 색상 커스텀 ──────────────────
-      map.setPaintProperty('Background',           'background-color', '#F8F5EE') // 배경
-      map.setPaintProperty('Land',                 'fill-color',       '#F8F5EE') // 땅
-      map.setPaintProperty('Residential pattern',  'fill-color',       '#EEE8D8') // 주거지
-      map.setPaintProperty('Building',             'fill-color',       '#E0D8C4') // 건물
-      map.setPaintProperty('Road network',         'line-color',       '#FFFFFF') // 도로
-      map.setPaintProperty('Path',                 'line-color',       '#F5F0E8') // 골목
-      map.setPaintProperty('Path minor',           'line-color',       '#F5F0E8') // 좁은 골목
-      map.setPaintProperty('Forest',               'fill-color',       '#6B9E80') // 숲
-      map.setPaintProperty('Grass',                'fill-color',       '#8BB89A') // 잔디
-      map.setPaintProperty('Wood',                 'fill-color',       '#6B9E80') // 나무
-      map.setPaintProperty('Water pattern',        'fill-color',       '#A8C8D8') // 물
-      map.setPaintProperty('River',                'line-color',       '#90B8CC') // 강
-      // ──────────────────────────────────────
-
+      addRouteLayers(map, course)
+      applyBrandColors(map)
 
       const bounds = new maplibregl.LngLatBounds()
       course.places.forEach(p => bounds.extend([p.lng, p.lat]))
-      map.fitBounds(bounds, { padding: 60, duration: 0, maxZoom: 16 })
+      map.fitBounds(bounds, {
+        padding: { top: 130, bottom: window.innerHeight * 0.52 + 20, left: 60, right: 60 },
+        duration: 0,
+        maxZoom: 16,
+      })
+
+      setMapReady(true)
     })
 
-    // ── 마커 ─────────────────────────────────────────────────────
+    // ── 코스 마커 ─────────────────────────────────────────────────
     markersRef.current = course.places.map((place, idx) => {
       const isGyebo = place.type === 'start' || place.type === 'end'
       const el = document.createElement('div')
@@ -141,25 +194,58 @@ export default function MapLibreMap({ course, activeIdx, onMarkerClick, mapStyle
 
     return () => {
       markersRef.current.forEach(m => m.remove())
+      userMarkerRef.current = null
       map.remove()
     }
   }, [course])
 
-  // ── 스타일 전환 ───────────────────────────────────────────────
-  useEffect(() => {
-    const map = mapRef.current
-    if (!map || !map.isStyleLoaded()) return
-    const styleUrl = MAP_STYLES[mapStyle]?.url ?? MAP_STYLES.outdoor.url
-    map.setStyle(styleUrl)
-    map.once('style.load', () => addRoute(map, course))
-  }, [mapStyle])
-
-  // ── 활성 장소 이동 ────────────────────────────────────────────
+  // ── 활성 장소로 지도 이동 (시트 높이 보정) ────────────────────
   useEffect(() => {
     const p = course.places[activeIdx]
     if (!mapRef.current || !p) return
-    mapRef.current.easeTo({ center: [p.lng, p.lat], duration: 400 })
+    const offsetY = Math.round(window.innerHeight * sheetHeightRef.current / 200)
+    mapRef.current.easeTo({
+      center: [p.lng, p.lat],
+      duration: 400,
+      offset: [0, -offsetY],
+    })
   }, [activeIdx, course])
 
-  return <div ref={containerRef} className={styles.map} />
+  // ── 현재 위치로 이동 ──────────────────────────────────────────
+  const panToUser = () => {
+    if (!mapRef.current || !userPos) return
+    setLocating(true)
+    setTimeout(() => setLocating(false), 800)
+    const offsetY = Math.round(window.innerHeight * sheetHeightRef.current / 200)
+    mapRef.current.easeTo({
+      center: [userPos.lng, userPos.lat],
+      zoom: Math.max(mapRef.current.getZoom(), 16),
+      duration: 600,
+      offset: [0, -offsetY],
+    })
+  }
+
+  return (
+    <div className={styles.wrap}>
+      <div ref={containerRef} className={styles.map} />
+      <div className={`${styles.veil} ${mapReady ? styles.veilHidden : ''}`} />
+
+      {/* 현재 위치 버튼 */}
+      <button
+        className={`${styles.locateBtn} ${!userPos ? styles.locateBtnNoGps : ''} ${locating ? styles.locateBtnActive : ''}`}
+        style={{ bottom: `calc(${sheetHeight}% + 16px)` }}
+        onClick={panToUser}
+        aria-label="현재 위치로"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeLinecap="round">
+          <circle cx="12" cy="12" r="3.5" fill="currentColor" />
+          <circle cx="12" cy="12" r="7.5" stroke="currentColor" strokeWidth="1.8" />
+          <line x1="12" y1="1.5" x2="12" y2="5"   stroke="currentColor" strokeWidth="1.8" />
+          <line x1="12" y1="19" x2="12" y2="22.5" stroke="currentColor" strokeWidth="1.8" />
+          <line x1="1.5" y1="12" x2="5"   y2="12" stroke="currentColor" strokeWidth="1.8" />
+          <line x1="19"  y1="12" x2="22.5" y2="12" stroke="currentColor" strokeWidth="1.8" />
+        </svg>
+      </button>
+    </div>
+  )
 }

@@ -1,126 +1,230 @@
+/* ─────────────────────────────────────────
+   계보지(系譜紙) — 막걸리 계보 홈
+   ───────────────────────────────────────── */
+
 .page {
   min-height: 100dvh;
-  padding-bottom: 40px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
 }
 
-.header {
-  padding: 40px 24px 20px;
-  border-bottom: 1px solid var(--line-dark);
+/* ── 히어로 ─────────────────────────────── */
+/* 기둥(柱) + 내용으로 분리 — 한옥 기둥-공간 구조 */
+.hero {
+  display: flex;
+  gap: 20px;
+  padding: 60px var(--px) 48px;
+  background: var(--bg);
+  position: relative;
 }
 
-.brand {
-  font-size: 22px;
+/* 기둥(柱) — 한옥 목기둥의 수직 선. 순수 구조 요소. */
+.pillar {
+  flex: 0 0 var(--pillar-w);
+  align-self: stretch;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--gold) 15%,
+    var(--gold) 85%,
+    transparent 100%
+  );
+  opacity: 0.45;
+  border-radius: 99px;
+}
+
+.heroContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* 상단 레이블 — 처마 아래 현판처럼 */
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.65;
+  margin-bottom: 18px;
+  display: block;
+}
+
+/* 타이틀 — 계보 문서의 표제 */
+.title {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  line-height: 0.95;
+}
+
+.titleMain {
+  font-family: var(--serif);
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.025em;
+  display: block;
+}
+
+.titleAccent {
+  font-family: var(--serif);
+  font-size: 56px;
   font-weight: 900;
-  letter-spacing: -0.02em;
-  color: var(--ink-light);
-  margin-bottom: 6px;
+  color: var(--gold);
+  letter-spacing: -0.025em;
+  display: block;
+  /* 처마 수평선 — 계보 문서의 금선 */
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 18px;
+  margin-bottom: 0;
 }
 
 .tagline {
-  font-size: 13px;
-  color: var(--muted-light);
-}
-
-.testBanner {
-  margin: 16px 20px;
-  width: calc(100% - 40px);
-  background: var(--surface-card);
-  border: 1px solid var(--brand-green-lt);
-  border-radius: var(--radius-md);
-  padding: 16px 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-align: left;
-  transition: border-color 0.15s;
-}
-
-.testBanner:active {
-  border-color: var(--gold);
-}
-
-.testIcon {
-  font-size: 28px;
-  flex: 0 0 auto;
-}
-
-.testTitle {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--ink-light);
-}
-
-.testSub {
-  font-size: 12px;
-  color: var(--muted-light);
-  margin-top: 2px;
-}
-
-.testArrow {
-  margin-left: auto;
-  font-size: 22px;
-  color: var(--brand-green-lt);
-}
-
-.resultBanner {
-  margin: 0 20px 8px;
-  padding: 10px 14px;
-  background: var(--brand-green);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  color: var(--ink-light);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.clearResult {
-  margin-left: auto;
-  color: var(--muted-light);
   font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.85;
+  margin-bottom: 28px;
+  font-weight: 400;
 }
 
-.filters {
-  display: flex;
-  gap: 8px;
-  padding: 8px 20px 16px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.filters::-webkit-scrollbar { display: none; }
-
-.chip {
-  flex: 0 0 auto;
-  padding: 6px 16px;
-  border: 1px solid var(--line-dark);
-  border-radius: var(--radius-pill);
+/* CTA — 문서의 인장(印章)처럼 단호하게 */
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px;
+  background: var(--gold);
+  color: var(--bg);
   font-size: 13px;
-  font-weight: 600;
-  color: var(--muted-light);
-  background: var(--surface-dark);
-  transition: all 0.15s;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: var(--r);
+  align-self: flex-start;
+  transition: opacity 0.15s var(--ease-ink);
+  min-height: 44px; /* 접근성: 터치 영역 */
+}
+.ctaBtn:hover  { opacity: 0.88; }
+.ctaBtn:active { opacity: 0.72; }
+
+.ctaArrow {
+  font-size: 15px;
+  transition: transform 0.2s var(--ease-ink);
+}
+.ctaBtn:hover .ctaArrow {
+  transform: translateX(3px);
 }
 
-.chipActive {
-  border-color: var(--gold);
-  background: var(--brand-green);
+/* ── 필터 탭 — 창호(窓戶) ───────────────── */
+/* 창호지 격자처럼 등분된 수평 탭 */
+.filterSection {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule-soft);
+  background: var(--surface);
+}
+
+.filterRow {
+  display: flex;
+}
+
+.filterTab {
+  flex: 1;
+  padding: 15px 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-sub);
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid transparent;
+  transition: color 0.18s var(--ease-ink), border-color 0.18s var(--ease-ink);
+  min-height: 44px; /* 접근성 */
+  position: relative;
+}
+/* 탭 사이 수직선 — 창호 기둥 */
+.filterTab + .filterTab::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: var(--rule-soft);
+}
+
+.filterTabActive {
+  color: var(--gold);
+  font-weight: 700;
+  border-bottom-color: var(--gold);
+}
+
+/* ── 추천 결과 배너 ─────────────────────── */
+.resultBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px var(--px) 0;
+  padding: 12px 16px;
+  background: var(--gold-dim);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+}
+
+.resultLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: var(--gold);
 }
 
-.list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 0 20px;
+.resultName {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  flex: 1;
 }
 
+.resultClose {
+  font-size: 13px;
+  color: var(--text-sub);
+  padding: 4px;
+  min-width: 28px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+.resultClose:hover { color: var(--text); }
+
+/* ── 카탈로그 목록 ──────────────────────── */
+/* 계보 문서의 항목 목록 — 박스 없이 선으로만 */
+.catalog {
+  list-style: none;
+  margin-top: 8px;
+  flex: 1;
+}
+
+/* ── 푸터 ───────────────────────────────── */
 .footer {
-  margin-top: 40px;
-  padding: 20px;
-  text-align: center;
-  font-size: 12px;
-  color: var(--muted-light);
-  border-top: 1px solid var(--line-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 28px var(--px) 32px;
+  margin-top: auto;
+  border-top: 1px solid var(--rule-soft);
+  font-size: 11px;
+  color: var(--text-sub);
+  letter-spacing: 0.08em;
+}
+
+.footerDot {
+  color: var(--gold);
+  opacity: 0.4;
 }

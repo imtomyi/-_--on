@@ -1,59 +1,163 @@
-.wrap {
-  margin: 0 20px 16px;
-  background: var(--surface-card);
-  border: 1px solid var(--brand-green-lt);
-  border-radius: var(--radius-md);
-  padding: 18px;
+/* ─────────────────────────────────────────
+   취향 테스트 — 미닫이문처럼 열리는 전면 오버레이
+   ───────────────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  background: var(--bg);
+  z-index: 100;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  animation: slideIn 0.26s var(--ease-ink) both;
 }
 
+.leaving {
+  animation: slideOut 0.22s var(--ease-ink) both;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ── 상단 바 ──────────────────────────────── */
 .topBar {
+  flex-shrink: 0;
+  padding: 0 var(--px);
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.progressTrack {
+  height: 1px;
+  background: var(--rule-soft);
+  position: relative;
+}
+.progressFill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.35s var(--ease-ink);
+}
+
+.topMeta {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 14px 0;
 }
 
-.progress {
+.stepLabel {
   font-size: 11px;
-  font-weight: 700;
-  color: var(--gold);
-  letter-spacing: 0.1em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--text-sub);
 }
 
-.close {
+.closeBtn {
   font-size: 14px;
-  color: var(--muted-light);
+  color: var(--text-sub);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  transition: color 0.15s;
+}
+.closeBtn:hover { color: var(--text); }
+
+/* ── 질문 영역 ────────────────────────────── */
+.body {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  padding: 52px var(--px) 40px;
+  align-items: flex-start;
+}
+
+.pillar {
+  flex: 0 0 var(--pillar-w);
+  align-self: stretch;
+  background: linear-gradient(to bottom, var(--gold) 0%, var(--gold) 60%, transparent 100%);
+  opacity: 0.30;
+  border-radius: 99px;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.qNum {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  opacity: 0.6;
+  margin-bottom: 14px;
+  display: block;
 }
 
 .question {
-  font-size: 16px;
+  font-family: var(--serif);
+  font-size: 26px;
   font-weight: 700;
-  color: var(--ink-light);
+  color: var(--text);
   line-height: 1.4;
+  letter-spacing: -0.015em;
+  margin-bottom: 44px;
 }
 
+/* ── 선택지 ────────────────────────────────── */
 .options {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 2px;
 }
 
 .option {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid var(--line-dark);
-  border-radius: var(--radius-sm);
-  background: var(--bg-dark);
-  color: var(--ink-light);
-  font-size: 14px;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule-soft);
   text-align: left;
-  transition: border-color 0.15s, background 0.15s;
+  animation: fadeUp 0.28s var(--ease-ink) both;
 }
 
-.option:active {
-  border-color: var(--gold);
-  background: var(--brand-green);
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.option:hover .optionMark  { color: var(--gold); }
+.option:hover .optionLabel { color: var(--text); }
+.option:active { opacity: 0.65; }
+
+.optionMark {
+  font-size: 14px;
+  color: var(--text-sub);
+  opacity: 0.40;
+  flex-shrink: 0;
+  width: 20px;
+  transition: color 0.15s;
+}
+
+.optionLabel {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text-sub);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  transition: color 0.15s var(--ease-ink);
 }
