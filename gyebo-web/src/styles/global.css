@@ -15,7 +15,7 @@ html {
 body {
   font-family: var(--sans);
   background: var(--bg);
-  color: var(--text);
+  color: var(--ink);
   min-height: 100dvh;
   max-width: var(--max-w);
   margin: 0 auto;
@@ -31,9 +31,8 @@ button {
   color: inherit;
 }
 
-/* 포커스 접근성 — 키보드 탐색 */
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--jade-dk);
   outline-offset: 2px;
   border-radius: var(--r);
 }

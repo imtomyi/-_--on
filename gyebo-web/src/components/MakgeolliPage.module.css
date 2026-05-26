@@ -1,5 +1,6 @@
 /* ─────────────────────────────────────────
-   계보지(系譜紙) — 막걸리 계보 홈
+   한지첩 — 존(zone) 배분 레이아웃
+   히어로=노랑 / 리스트=크림 / 강조=옥색·빨강
    ───────────────────────────────────────── */
 
 .page {
@@ -9,28 +10,58 @@
   flex-direction: column;
 }
 
-/* ── 히어로 ─────────────────────────────── */
-/* 기둥(柱) + 내용으로 분리 — 한옥 기둥-공간 구조 */
+/* ── 히어로 — 옥색 존 ───────────────────── */
 .hero {
   display: flex;
   gap: 20px;
-  padding: 60px var(--px) 48px;
-  background: var(--bg);
+  padding: 56px var(--px) 44px;
+  background:
+    /* 노랑 서브컬러 — 우상단에서 비치는 빛 (한지 빛번짐) */
+    radial-gradient(
+      ellipse 90% 55% at 80% 10%,
+      rgba(255,240,170,0.22) 0%,
+      transparent 65%
+    ),
+    /* 메인 옥색 — 좌하단이 짙고 우상단이 밝은 대각 조도 */
+    linear-gradient(
+      148deg,
+      #A8DDD1 0%,
+      var(--jade) 38%,
+      #68B9A8 72%,
+      #4FA090 100%
+    );
+  border-bottom: 2px solid var(--jade-dk);
   position: relative;
+  overflow: hidden;
 }
 
-/* 기둥(柱) — 한옥 목기둥의 수직 선. 순수 구조 요소. */
+/* 한지 결 — 아주 미묘한 수직 줄무늬 질감 */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(255,255,255,0.025) 3px,
+    rgba(255,255,255,0.025) 4px
+  );
+  pointer-events: none;
+}
+
+/* 기둥(柱) — 노랑. 옥색 위의 노랑 = 서브 컬러 포인트 */
 .pillar {
   flex: 0 0 var(--pillar-w);
   align-self: stretch;
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    var(--gold) 15%,
-    var(--gold) 85%,
+    var(--yellow-dk) 10%,
+    var(--yellow-dk) 90%,
     transparent 100%
   );
-  opacity: 0.45;
+  opacity: 0.70;
   border-radius: 99px;
 }
 
@@ -39,126 +70,119 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
-/* 상단 레이블 — 처마 아래 현판처럼 */
 .eyebrow {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0.65;
-  margin-bottom: 18px;
+  color: rgba(26,16,5,0.55);
+  margin-bottom: 20px;
   display: block;
 }
 
-/* 타이틀 — 계보 문서의 표제 */
 .title {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-  line-height: 0.95;
+  line-height: 0.90;
 }
 
+/* "막걸리" — 먹색, 무게감 */
 .titleMain {
   font-family: var(--serif);
-  font-size: 56px;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: -0.025em;
+  font-size: 64px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.03em;
   display: block;
 }
 
+/* "계보" — 노랑. 옥색 위 노랑 = 서브 컬러가 빛나는 순간 */
 .titleAccent {
   font-family: var(--serif);
-  font-size: 56px;
+  font-size: 64px;
   font-weight: 900;
-  color: var(--gold);
-  letter-spacing: -0.025em;
+  color: var(--yellow);
+  letter-spacing: -0.03em;
   display: block;
-  /* 처마 수평선 — 계보 문서의 금선 */
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 18px;
-  margin-bottom: 0;
+  border-bottom: 1.5px solid rgba(255,240,170,0.35);
+  padding-bottom: 20px;
 }
 
 .tagline {
-  font-size: 14px;
-  color: var(--text-sub);
-  line-height: 1.85;
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.9;
   margin-bottom: 28px;
   font-weight: 400;
 }
 
-/* CTA — 문서의 인장(印章)처럼 단호하게 */
+/* CTA — 빨강 버튼. 노랑 배경 위에서 강렬하게 대비 */
 .ctaBtn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 11px 18px;
-  background: var(--gold);
-  color: var(--bg);
+  padding: 13px 20px;
+  background: var(--red);
+  color: #FFF8E8;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   border-radius: var(--r);
   align-self: flex-start;
-  transition: opacity 0.15s var(--ease-ink);
-  min-height: 44px; /* 접근성: 터치 영역 */
+  transition: background 0.18s ease-out;
+  min-height: 44px;
+  cursor: pointer;
 }
-.ctaBtn:hover  { opacity: 0.88; }
-.ctaBtn:active { opacity: 0.72; }
+.ctaBtn:hover  { background: var(--red-dk); }
+.ctaBtn:active { opacity: 0.85; }
 
 .ctaArrow {
   font-size: 15px;
-  transition: transform 0.2s var(--ease-ink);
+  transition: transform 0.2s ease-out;
 }
-.ctaBtn:hover .ctaArrow {
-  transform: translateX(3px);
-}
+.ctaBtn:hover .ctaArrow { transform: translateX(3px); }
 
-/* ── 필터 탭 — 창호(窓戶) ───────────────── */
-/* 창호지 격자처럼 등분된 수평 탭 */
+/* ── 필터 탭 — 크림 배경, 옥색 활성 ──────── */
 .filterSection {
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule-soft);
-  background: var(--surface);
+  border-bottom: 1px solid var(--line-dk);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.filterRow {
-  display: flex;
-}
+.filterRow { display: flex; }
 
 .filterTab {
   flex: 1;
   padding: 15px 0;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
-  color: var(--text-sub);
+  color: var(--ink-3);
   letter-spacing: 0.06em;
   border-bottom: 2px solid transparent;
-  transition: color 0.18s var(--ease-ink), border-color 0.18s var(--ease-ink);
-  min-height: 44px; /* 접근성 */
+  transition: color 0.18s ease-out, border-color 0.18s ease-out;
+  min-height: 44px;
   position: relative;
+  cursor: pointer;
 }
-/* 탭 사이 수직선 — 창호 기둥 */
+
 .filterTab + .filterTab::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 20%;
-  height: 60%;
-  width: 1px;
-  background: var(--rule-soft);
+  left: 0; top: 20%; height: 60%; width: 1px;
+  background: var(--line);
 }
 
+/* 활성 탭 — 옥색으로. 빨강 CTA와 구분 */
 .filterTabActive {
-  color: var(--gold);
+  color: var(--jade-dk);
   font-weight: 700;
-  border-bottom-color: var(--gold);
+  border-bottom-color: var(--jade);
 }
 
 /* ── 추천 결과 배너 ─────────────────────── */
@@ -168,30 +192,29 @@
   gap: 10px;
   margin: 16px var(--px) 0;
   padding: 12px 16px;
-  background: var(--gold-dim);
-  border: 1px solid var(--rule);
-  border-radius: var(--r-md);
+  background: var(--yellow-lt);
+  border-left: 2px solid var(--yellow-dk);
 }
 
 .resultLabel {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--jade-dk);
 }
 
 .resultName {
   font-family: var(--serif);
   font-size: 15px;
   font-weight: 700;
-  color: var(--text);
+  color: var(--ink);
   flex: 1;
 }
 
 .resultClose {
   font-size: 13px;
-  color: var(--text-sub);
+  color: var(--ink-3);
   padding: 4px;
   min-width: 28px;
   min-height: 28px;
@@ -199,11 +222,11 @@
   align-items: center;
   justify-content: center;
   transition: color 0.15s;
+  cursor: pointer;
 }
-.resultClose:hover { color: var(--text); }
+.resultClose:hover { color: var(--ink); }
 
-/* ── 카탈로그 목록 ──────────────────────── */
-/* 계보 문서의 항목 목록 — 박스 없이 선으로만 */
+/* ── 카탈로그 ───────────────────────────── */
 .catalog {
   list-style: none;
   margin-top: 8px;
@@ -216,15 +239,15 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 28px var(--px) 32px;
+  padding: 28px var(--px) 36px;
   margin-top: auto;
-  border-top: 1px solid var(--rule-soft);
+  border-top: 1px solid var(--line);
   font-size: 11px;
-  color: var(--text-sub);
-  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  letter-spacing: 0.10em;
 }
 
 .footerDot {
-  color: var(--gold);
-  opacity: 0.4;
+  color: var(--jade);
+  opacity: 0.6;
 }
