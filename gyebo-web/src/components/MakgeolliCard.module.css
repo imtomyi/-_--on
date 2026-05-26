@@ -6,8 +6,28 @@
   border-bottom: 1px solid var(--line);
   background: var(--bg);
   transition: background 0.2s ease-out;
+  position: relative;  /* ::before 컬러 리본 기준 */
 }
-.item:first-child { border-top: 1px solid var(--line); }
+.item:first-child { border-top: none; }
+.item:last-child  { border-bottom: none; }
+
+/* 항목 고유색 좌측 선 — 항상 표시. 스크롤 시 카드마다 개성 부여 */
+.item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--item-color, var(--jade));
+  opacity: 0.22;
+  transition: opacity 0.22s ease-out;
+}
+.item:hover::before  { opacity: 0.40; }
+.open::before        { opacity: 0.65; }
+
+/* 레벨별 미묘한 배경 존 — 크림 안에서 미세한 온도 차이 */
+.level_intro { background: rgba(255,240,170,0.06); }
+.level_mid   { background: var(--bg); }
+.level_deep  { background: rgba(135,207,189,0.05); }
 
 /* 하이라이트(추천) — 노랑 워시로 */
 .highlighted { background: var(--yellow-lt); }
@@ -17,7 +37,7 @@
 .header {
   width: 100%;
   display: grid;
-  grid-template-columns: 52px 1fr 32px;
+  grid-template-columns: 60px 1fr 32px;
   align-items: center;
   gap: 4px;
   padding: 20px var(--px) 20px 20px;
@@ -26,24 +46,26 @@
   min-height: 72px;
   cursor: pointer;
 }
-.header:active { background: rgba(135,207,189,0.08); }
+.header:hover  { background: rgba(26,16,5,0.03); }
+.header:active { background: rgba(135,207,189,0.10); }
 
 /* 열린 상태 — 옥색 워시로 콘텐츠 존 표시 */
 .open .header { background: var(--jade-lt); }
 
-/* 순번 — 반투명 먹색 */
+/* 순번 — 반투명 먹색. 64px로 족보 열람 느낌 */
 .num {
   font-family: var(--serif);
-  font-size: 32px;
+  font-size: 46px;
   font-weight: 700;
   color: var(--ink);
-  opacity: 0.09;
+  opacity: 0.08;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
   transition: opacity 0.2s ease-out, color 0.2s;
   user-select: none;
+  overflow: hidden;   /* 60px 열에서 넘치는 부분 클리핑 — 에디토리얼 효과 */
 }
-.open .num { opacity: 0.22; color: var(--jade-dk); }
+.open .num { opacity: 0.28; color: var(--jade-dk); }
 
 .main { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 
@@ -105,11 +127,15 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  /* 상세 콘텐츠 영역만 살짝 라운드 — 내용물 담는 그릇 */
+  background: rgba(255,255,255,0.45);
+  margin: 8px 12px 12px 0;
+  border-radius: var(--r-md);
 }
 
 .story {
-  font-size: 13px;
-  line-height: 1.9;
+  font-size: 14px;
+  line-height: 1.85;
   color: var(--ink-2);
   font-weight: 400;
 }

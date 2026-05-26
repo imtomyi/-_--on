@@ -10,7 +10,8 @@ export default function MakgeolliCard({ item, ordinal, highlighted }) {
 
   return (
     <article
-      className={`${styles.item} ${highlighted ? styles.highlighted : ''} ${open ? styles.open : ''}`}
+      className={`${styles.item} ${styles[`level_${item.level}`] ?? ''} ${highlighted ? styles.highlighted : ''} ${open ? styles.open : ''}`}
+      style={{ '--item-color': item.color }}
     >
       {/* ── 헤더 행 (항상 표시) ────────────── */}
       <button

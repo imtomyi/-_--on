@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────
-   한지첩 — 존(zone) 배분 레이아웃
-   히어로=노랑 / 리스트=크림 / 강조=옥색·빨강
+   막걸리 계보 — 한지첩(韓紙帖) 포맷
+   단청(丹靑) · 족보(族譜) · 한지(韓紙) 모티프
    ───────────────────────────────────────── */
 
 .page {
@@ -10,59 +10,34 @@
   flex-direction: column;
 }
 
-/* ── 히어로 — 옥색 존 ───────────────────── */
+/* ══════════════════════════════════════════
+   히어로 — 옥색 존, 문루(門樓) 구조
+══════════════════════════════════════════ */
 .hero {
   display: flex;
   gap: 20px;
-  padding: 56px var(--px) 44px;
-  background:
-    /* 노랑 서브컬러 — 우상단에서 비치는 빛 (한지 빛번짐) */
-    radial-gradient(
-      ellipse 90% 55% at 80% 10%,
-      rgba(255,240,170,0.22) 0%,
-      transparent 65%
-    ),
-    /* 메인 옥색 — 좌하단이 짙고 우상단이 밝은 대각 조도 */
-    linear-gradient(
-      148deg,
-      #A8DDD1 0%,
-      var(--jade) 38%,
-      #68B9A8 72%,
-      #4FA090 100%
-    );
-  border-bottom: 2px solid var(--jade-dk);
+  padding: 52px var(--px) 52px;
+  background: #EBEBEA;
+  border-bottom: 1px solid var(--line-dk);
   position: relative;
   overflow: hidden;
 }
 
-/* 한지 결 — 아주 미묘한 수직 줄무늬 질감 */
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0px,
-    transparent 3px,
-    rgba(255,255,255,0.025) 3px,
-    rgba(255,255,255,0.025) 4px
-  );
-  pointer-events: none;
-}
 
-/* 기둥(柱) — 노랑. 옥색 위의 노랑 = 서브 컬러 포인트 */
+
+/* 기둥(柱) — 노랑 수직선 */
 .pillar {
   flex: 0 0 var(--pillar-w);
   align-self: stretch;
   background: linear-gradient(
     to bottom,
-    transparent 0%,
-    var(--yellow-dk) 10%,
-    var(--yellow-dk) 90%,
-    transparent 100%
+    transparent 0%, var(--yellow-dk) 8%,
+    var(--yellow-dk) 92%, transparent 100%
   );
-  opacity: 0.70;
+  opacity: 0.80;
   border-radius: 99px;
+  position: relative;
+  z-index: 1;
 }
 
 .heroContent {
@@ -70,119 +45,185 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .eyebrow {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(26,16,5,0.55);
-  margin-bottom: 20px;
+  color: rgba(26,16,5,0.72);   /* jade 위 4.5:1 이상 */
+  margin-bottom: 18px;
   display: block;
 }
 
 .title {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
-  line-height: 0.90;
+  margin-bottom: 22px;
+  line-height: 0.88;
 }
 
-/* "막걸리" — 먹색, 무게감 */
 .titleMain {
   font-family: var(--serif);
-  font-size: 64px;
+  font-size: clamp(58px, 15vw, 74px);
   font-weight: 900;
   color: var(--ink);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   display: block;
 }
 
-/* "계보" — 노랑. 옥색 위 노랑 = 서브 컬러가 빛나는 순간 */
 .titleAccent {
   font-family: var(--serif);
-  font-size: 64px;
+  font-size: clamp(58px, 15vw, 74px);
   font-weight: 900;
   color: var(--yellow);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   display: block;
-  border-bottom: 1.5px solid rgba(255,240,170,0.35);
-  padding-bottom: 20px;
+  padding-bottom: 22px;
+  border-bottom: 1.5px solid rgba(255,240,170,0.32);
 }
 
 .tagline {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--ink-2);
-  line-height: 1.9;
+  line-height: 1.75;
   margin-bottom: 28px;
   font-weight: 400;
 }
 
-/* CTA — 빨강 버튼. 노랑 배경 위에서 강렬하게 대비 */
+/* CTA — 빨강 필 버튼 */
 .ctaBtn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 13px 20px;
+  padding: 13px 22px;
   background: var(--red);
   color: #FFF8E8;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  border-radius: var(--r);
+  letter-spacing: 0.05em;
+  border-radius: 99px;
   align-self: flex-start;
-  transition: background 0.18s ease-out;
+  transition: background 0.18s ease-out, box-shadow 0.18s ease-out;
   min-height: 44px;
   cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+  touch-action: manipulation;
 }
-.ctaBtn:hover  { background: var(--red-dk); }
-.ctaBtn:active { opacity: 0.85; }
+.ctaBtn:hover  { background: var(--red-dk); box-shadow: 0 4px 14px rgba(0,0,0,0.24); }
+.ctaBtn:active { opacity: 0.82; transform: scale(0.98); }
 
 .ctaArrow {
   font-size: 15px;
   transition: transform 0.2s ease-out;
 }
-.ctaBtn:hover .ctaArrow { transform: translateX(3px); }
+.ctaBtn:hover .ctaArrow { transform: translateX(4px); }
 
-/* ── 필터 탭 — 크림 배경, 옥색 활성 ──────── */
-.filterSection {
-  border-bottom: 1px solid var(--line-dk);
-  background: var(--bg);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+/* ══════════════════════════════════════════
+   섹션 브레이크 — 와당(瓦當) 구분선
+══════════════════════════════════════════ */
+.sectionBreak {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 36px var(--px) 4px;
+}
+.sectionLine {
+  flex: 1;
+  height: 1px;
+  background: var(--line-dk);
+}
+.sectionMark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.30em;
+  color: var(--ink-3);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+/* 와당 원형 장식 */
+.sectionDot {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--jade-dk);
+  border-radius: 50%;
+  opacity: 0.45;
+  flex-shrink: 0;
 }
 
-.filterRow { display: flex; }
+/* ══════════════════════════════════════════
+   카탈로그 헤더 — 족보(族譜) 장(章) 표제
+══════════════════════════════════════════ */
+.catalogIntro {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px var(--px) 20px;
+}
+.catalogNum {
+  font-family: var(--serif);
+  font-size: clamp(72px, 18vw, 96px);
+  font-weight: 900;
+  color: var(--jade-dk);
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  opacity: 0.18;
+  margin-top: -4px;
+  flex-shrink: 0;
+}
+.catalogMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 10px;
+}
+.catalogLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: var(--jade-dk);
+  opacity: 0.75;
+}
+.catalogSub {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-2);
+  letter-spacing: -0.01em;
+}
 
-.filterTab {
-  flex: 1;
-  padding: 15px 0;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 500;
+/* ── 뷰 전환 토글 ───────────────────────── */
+.viewToggle {
+  display: flex;
+  gap: 2px;
+  background: var(--line-dk);
+  border-radius: 99px;
+  padding: 3px;
+  margin: 0 var(--px) 4px;
+  align-self: flex-start;
+  width: fit-content;
+}
+.viewBtn {
+  padding: 5px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 99px;
+  letter-spacing: 0.10em;
   color: var(--ink-3);
-  letter-spacing: 0.06em;
-  border-bottom: 2px solid transparent;
-  transition: color 0.18s ease-out, border-color 0.18s ease-out;
-  min-height: 44px;
-  position: relative;
+  min-height: 32px;
+  transition: background 0.18s ease-out, color 0.18s ease-out;
+  touch-action: manipulation;
   cursor: pointer;
 }
-
-.filterTab + .filterTab::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 20%; height: 60%; width: 1px;
-  background: var(--line);
-}
-
-/* 활성 탭 — 옥색으로. 빨강 CTA와 구분 */
-.filterTabActive {
-  color: var(--jade-dk);
-  font-weight: 700;
-  border-bottom-color: var(--jade);
+.viewBtnActive {
+  background: var(--jade);
+  color: var(--ink);
 }
 
 /* ── 추천 결과 배너 ─────────────────────── */
@@ -190,12 +231,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 16px var(--px) 0;
+  margin: 0 var(--px) 8px;
   padding: 12px 16px;
   background: var(--yellow-lt);
-  border-left: 2px solid var(--yellow-dk);
+  border-left: 3px solid var(--yellow-dk);
+  border-radius: var(--r);
 }
-
 .resultLabel {
   font-size: 9px;
   font-weight: 700;
@@ -203,7 +244,6 @@
   text-transform: uppercase;
   color: var(--jade-dk);
 }
-
 .resultName {
   font-family: var(--serif);
   font-size: 15px;
@@ -211,43 +251,71 @@
   color: var(--ink);
   flex: 1;
 }
-
 .resultClose {
   font-size: 13px;
   color: var(--ink-3);
   padding: 4px;
-  min-width: 28px;
-  min-height: 28px;
+  min-width: 44px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: color 0.15s;
   cursor: pointer;
+  touch-action: manipulation;
 }
 .resultClose:hover { color: var(--ink); }
 
-/* ── 카탈로그 ───────────────────────────── */
-.catalog {
-  list-style: none;
-  margin-top: 8px;
-  flex: 1;
+/* ── 카탈로그 패널 ──────────────────────── */
+.catalogPanel {
+  margin: 0 var(--px) 16px;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--line-dk);
+  box-shadow: 0 2px 14px rgba(26,16,5,0.06);
 }
+.catalog { list-style: none; }
 
-/* ── 푸터 ───────────────────────────────── */
+/* ══════════════════════════════════════════
+   푸터 — 간기(刊記) 스타일
+══════════════════════════════════════════ */
 .footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 32px var(--px) 44px;
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+}
+/* 와당 인장 원형 */
+.footerSealRing {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid var(--jade-dk);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 28px var(--px) 36px;
-  margin-top: auto;
-  border-top: 1px solid var(--line);
-  font-size: 11px;
-  color: var(--ink-3);
-  letter-spacing: 0.10em;
+  opacity: 0.35;
+  flex-shrink: 0;
 }
-
-.footerDot {
-  color: var(--jade);
-  opacity: 0.6;
+.footerSealChar {
+  font-family: var(--serif);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--jade-dk);
+  letter-spacing: 0;
+}
+.footerName {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ink-2);
+}
+.footerSub {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--ink-3);
 }

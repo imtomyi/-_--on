@@ -2,30 +2,21 @@ import { useState } from 'react'
 import { makgeolliList, tasteQuestions } from '../data/makgeolli'
 import MakgeolliCard from './MakgeolliCard'
 import TasteTest from './TasteTest'
+import FlavorMap from './FlavorMap'
 import styles from './MakgeolliPage.module.css'
 
-const FILTERS = [
-  { value: 'all',   label: '전체' },
-  { value: 'intro', label: '입문' },
-  { value: 'mid',   label: '중급' },
-  { value: 'deep',  label: '심화' },
-]
-
 export default function MakgeolliPage() {
-  const [filter, setFilter]       = useState('all')
-  const [showTest, setShowTest]   = useState(false)
+  const [showTest, setShowTest]       = useState(false)
   const [recommended, setRecommended] = useState(null)
+  const [view, setView]               = useState('list')   // 'list' | 'map'
 
-  const filtered = filter === 'all'
-    ? makgeolliList
-    : makgeolliList.filter(m => m.level === filter)
+  if (view === 'map') return <FlavorMap onBack={() => setView('list')} />
 
   return (
     <div className={styles.page}>
 
       {/* ── 히어로 ────────────────────────────── */}
       <header className={styles.hero}>
-        {/* 기둥(柱) 모티프 — 한옥 기둥의 수직 리듬 */}
         <div className={styles.pillar} aria-hidden="true" />
 
         <div className={styles.heroContent}>
@@ -51,25 +42,37 @@ export default function MakgeolliPage() {
         </div>
       </header>
 
-      {/* ── 필터 탭 — 창호(窓戶) 분할 ────────── */}
-      <nav className={styles.filterSection} aria-label="레벨 필터">
-        <div className={styles.filterRow} role="tablist">
-          {FILTERS.map(f => (
-            <button
-              key={f.value}
-              role="tab"
-              aria-selected={filter === f.value}
-              className={`${styles.filterTab} ${filter === f.value ? styles.filterTabActive : ''}`}
-              onClick={() => setFilter(f.value)}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
-      </nav>
-
       {/* ── 목록 ───────────────────────────────── */}
       <main>
+        {/* 섹션 브레이크 — 와당 구분선 + 뷰 토글 */}
+        <div className={styles.sectionBreak} aria-hidden="true">
+          <span className={styles.sectionLine} />
+          <span className={styles.sectionMark}>
+            <span className={styles.sectionDot} />
+            막걸리 계보
+            <span className={styles.sectionDot} />
+          </span>
+          <span className={styles.sectionLine} />
+        </div>
+
+        {/* 뷰 전환 토글 */}
+        <div className={styles.viewToggle} role="group" aria-label="보기 전환">
+          <button
+            className={`${styles.viewBtn} ${view === 'list' ? styles.viewBtnActive : ''}`}
+            onClick={() => setView('list')}
+            aria-pressed={view === 'list'}
+          >
+            목록
+          </button>
+          <button
+            className={`${styles.viewBtn} ${view === 'map' ? styles.viewBtnActive : ''}`}
+            onClick={() => setView('map')}
+            aria-pressed={view === 'map'}
+          >
+            계보도
+          </button>
+        </div>
+
         {recommended && (
           <div className={styles.resultBanner} role="status">
             <span className={styles.resultLabel}>추천</span>
@@ -82,26 +85,30 @@ export default function MakgeolliPage() {
           </div>
         )}
 
-        <ul className={styles.catalog} role="list">
-          {filtered.map((item, idx) => (
-            <li key={item.id} role="listitem">
-              <MakgeolliCard
-                item={item}
-                ordinal={makgeolliList.indexOf(item) + 1}
-                highlighted={recommended?.id === item.id}
-              />
-            </li>
-          ))}
-        </ul>
+        <div className={styles.catalogPanel}>
+          <ul className={styles.catalog} role="list">
+            {makgeolliList.map((item, idx) => (
+              <li key={item.id} role="listitem">
+                <MakgeolliCard
+                  item={item}
+                  ordinal={idx + 1}
+                  highlighted={recommended?.id === item.id}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       </main>
 
+      {/* ── 푸터 — 간기(刊記) ───────────────────── */}
       <footer className={styles.footer}>
-        <span>막걸리 계보</span>
-        <span className={styles.footerDot} aria-hidden="true">·</span>
-        <span>수원 행궁동</span>
+        <div className={styles.footerSealRing} aria-hidden="true">
+          <span className={styles.footerSealChar}>계</span>
+        </div>
+        <span className={styles.footerName}>막걸리 계보</span>
+        <span className={styles.footerSub}>수원 행궁동 · HAENGGUNG-DONG</span>
       </footer>
 
-      {/* ── 취향 테스트 오버레이 ────────────── */}
       {showTest && (
         <TasteTest
           questions={tasteQuestions}
@@ -109,7 +116,6 @@ export default function MakgeolliPage() {
           onResult={result => {
             setRecommended(result)
             setShowTest(false)
-            setFilter('all')
           }}
           onClose={() => setShowTest(false)}
         />
