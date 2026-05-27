@@ -1,0 +1,166 @@
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-dark); /* 초기 배경은 검정 */
+  position: relative;
+}
+
+.scrollContainer {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--bg-light);
+  transform: translateY(100%); /* 처음엔 아래에 숨김 */
+  transition: transform 1.2s cubic-bezier(0.1, 0.9, 0.2, 1); /* 빠르게 -> 느리게 (ease-out-expo) */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.container.ready .scrollContainer {
+  transform: translateY(0);
+}
+
+.paddingTop, .paddingBottom {
+  height: 30px;
+}
+
+.itemWrapper {
+  transition: opacity 0.4s ease, filter 0.4s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.itemWrapper.dimmed {
+  opacity: 0.3;
+  filter: blur(1px); /* 살짝 그림자/흐리게 처리 */
+}
+
+/* 메뉴 바 스타일 */
+.menuBar {
+  display: flex;
+  align-items: center;
+  padding: 24px 30px;
+  cursor: pointer;
+  background-color: var(--bg-light);
+}
+
+.menuNum {
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: #e5e3db;
+  width: 80px;
+  line-height: 1;
+  font-family: serif;
+  margin-right: 10px;
+}
+
+.menuInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.menuName {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333;
+  margin-right: 8px;
+}
+
+.menuDifficulty {
+  font-size: 0.65rem;
+  color: #b59b6d;
+  font-weight: 500;
+}
+
+.menuSub {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.arrowIcon {
+  font-size: 1.2rem;
+  color: #bbb;
+  font-weight: 300;
+}
+
+/* 세부 내용 카드 (두루마리 아코디언) */
+.detailCard {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  background-color: #ffffff; /* 하얀색 배경으로 두루마리 구분 */
+}
+
+.detailCard.open {
+  grid-template-rows: 1fr;
+  box-shadow: inset 0 10px 15px -10px rgba(0,0,0,0.05);
+}
+
+.detailContent {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 0 30px; /* 카드가 닫혀있을 땐 padding-top/bottom이 없어야 하므로 주의. 안의 컨텐츠 높이로 조절 */
+}
+
+/* 닫혀있을 때 padding이 보이지 않게 하기 위해 내부 div에 margin 적용 */
+.detailContent > div {
+  margin: 40px 0;
+}
+
+.detailLeft {
+  margin-right: 30px;
+}
+
+.detailText {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* 파동 버튼 (CoverPage와 유사) */
+.rippleButton {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #999;
+  background: transparent;
+}
+
+.btnText {
+  font-size: 0.85rem;
+  color: var(--text-dark);
+  z-index: 2;
+  font-weight: 500;
+}
+
+.pulseLayer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0% { width: 0%; height: 0%; opacity: 1; }
+  100% { width: 150%; height: 150%; opacity: 0; }
+}

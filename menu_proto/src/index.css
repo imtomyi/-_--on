@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+:root {
+  --bg-dark: #000000;
+  --bg-light: #f7f6f1; /* 옅은 아이보리/베이지 계열 */
+  --text-dark: #111111;
+  --text-light: #ffffff;
+  --text-muted: #888888;
+  --primary-color: #333333;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #222; /* 데스크탑에서 모바일 뷰어용 배경 */
+  color: var(--text-dark);
+  overflow: hidden; /* 페이지 스크롤 방지, 내부에서 처리 */
+  touch-action: none; /* 모바일 브라우저 기본 제스처 방지 */
+}
+
+/* 모바일 앱처럼 보이게 하는 컨테이너 */
+#root {
+  width: 100vw;
+  height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: var(--bg-dark);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
