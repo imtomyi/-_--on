@@ -1,0 +1,653 @@
+/* ─────────────────────────────────────────
+   K-Heritage Modernism Landing
+   5-Section Scroll · Parallax Reveal
+   ───────────────────────────────────────── */
+
+.page {
+  background: #F5F2EC;
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  overscroll-behavior: none;
+}
+
+/* ══════════════════════════════════════════
+   Navigation
+══════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  z-index: 200;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.35s ease, backdrop-filter 0.35s ease, border-color 0.35s ease;
+  border-bottom: 1px solid transparent;
+}
+.nav[data-scrolled="true"] {
+  background: rgba(245,242,236,0.90);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: rgba(0,0,0,0.09);
+}
+
+.navLogo {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.01em;
+}
+
+.navCta {
+  font-size: 11px;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: 0.08em;
+  padding: 7px 16px;
+  border: 1.5px solid #111111;
+  border-radius: 99px;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.15s, color 0.15s;
+  min-height: 34px;
+  touch-action: manipulation;
+}
+.navCta:hover { background: #111111; color: #F5F2EC; }
+
+/* ══════════════════════════════════════════
+   Section 공통 — 등장 애니메이션
+══════════════════════════════════════════ */
+.section {
+  min-height: 100dvh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.90s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.90s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.section[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════
+   Section 1 — 히어로
+══════════════════════════════════════════ */
+.s1 {
+  background-color: #F0EBE0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  display: flex;
+  flex-direction: column;
+  padding-top: 64px;
+}
+
+.s1Inner {
+  flex: 1;
+  position: relative;
+  padding: 20px 24px 0;
+  display: flex;
+}
+
+.s1Bottle {
+  position: absolute;
+  right: 12px;
+  top: 0;
+  width: 115px;
+  opacity: 0.68;
+}
+.ceramicSvg {
+  width: 100%;
+  height: auto;
+  color: #2C1F10;
+}
+
+.s1Copy {
+  max-width: 230px;
+  padding-top: 24px;
+}
+
+.s1Tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #888888;
+  display: block;
+  margin-bottom: 24px;
+  animation: fadeUpIn 0.9s cubic-bezier(0.25,1,0.5,1) 0.15s backwards;
+}
+
+.heroTitle {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 22px;
+}
+
+.krLine {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #222222;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  display: block;
+  margin-bottom: 4px;
+  animation: fadeUpIn 1.0s cubic-bezier(0.25,1,0.5,1) 0.30s backwards;
+}
+
+.enLine {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 54px;
+  font-weight: 900;
+  color: #111111;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
+  display: block;
+  animation: fadeUpIn 1.1s cubic-bezier(0.25,1,0.5,1) 0.45s backwards;
+}
+
+.enLine2 {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 54px;
+  font-weight: 900;
+  color: #111111;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
+  display: block;
+  margin-left: 44px;
+  animation: fadeUpIn 1.1s cubic-bezier(0.25,1,0.5,1) 0.60s backwards;
+}
+
+.heroSub {
+  font-size: 13px;
+  color: #666666;
+  line-height: 1.8;
+  font-weight: 400;
+  animation: fadeUpIn 1.0s cubic-bezier(0.25,1,0.5,1) 0.76s backwards;
+}
+
+/* 프리뷰 스트립 */
+.previewStrip {
+  display: flex;
+  gap: 10px;
+  padding: 28px 24px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex-shrink: 0;
+  cursor: grab;
+  animation: fadeUpIn 1.0s cubic-bezier(0.25,1,0.5,1) 0.90s backwards;
+}
+.previewStrip::-webkit-scrollbar { display: none; }
+.previewStrip:active { cursor: grabbing; }
+
+.previewCard {
+  flex: 0 0 78px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  touch-action: manipulation;
+}
+
+.previewThumb {
+  width: 78px;
+  height: 96px;
+  border: 1px dashed rgba(0,0,0,0.22);
+  border-radius: 6px;
+  background: rgba(0,0,0,0.025);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.18s, border-color 0.18s;
+}
+.previewCard:hover .previewThumb {
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.42);
+}
+
+.previewPlaceholderLine {
+  display: block;
+  width: 18px; height: 18px;
+  position: relative;
+  opacity: 0.28;
+}
+.previewPlaceholderLine::before,
+.previewPlaceholderLine::after {
+  content: '';
+  position: absolute;
+  background: #111111;
+  border-radius: 1px;
+}
+.previewPlaceholderLine::before { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
+.previewPlaceholderLine::after  { width: 100%; height: 1px; top: 50%; transform: translateY(-50%); }
+
+.previewIngrLabel {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: 0.12em;
+  color: rgba(0,0,0,0.36); text-align: center;
+}
+
+.previewName {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 9.5px; font-weight: 700;
+  color: #2A2A2A; letter-spacing: -0.01em;
+  line-height: 1.35; text-align: center;
+  word-break: keep-all; max-width: 78px;
+}
+
+.previewLevel {
+  font-size: 8px; letter-spacing: 0.10em;
+  color: rgba(0,0,0,0.32); text-align: center;
+}
+
+.scrollHint {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+  padding: 28px 0 36px;
+}
+.scrollArrow {
+  width: 22px; height: 33px; color: #888888;
+  animation: bounce 2.2s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(5px); }
+}
+.scrollLabel {
+  font-size: 9px; letter-spacing: 0.24em;
+  text-transform: uppercase; color: #888888;
+}
+
+/* ══════════════════════════════════════════
+   Section 2 — 선택받은 막걸리 (다크)
+══════════════════════════════════════════ */
+.s3 {
+  background: #0E0C09;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+.s3::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(44deg, transparent, transparent 3px, rgba(255,255,255,0.013) 3px, rgba(255,255,255,0.013) 4px),
+    repeating-linear-gradient(-44deg, transparent, transparent 3px, rgba(255,255,255,0.010) 3px, rgba(255,255,255,0.010) 4px);
+  pointer-events: none;
+}
+
+.s3Center {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.s3Center > .s3Title,
+.s3Center > .processLink {
+  align-self: center;
+}
+
+.s3Title {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #E8E0D0;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.s3Cards {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 0 24px;
+}
+
+.s3Card {
+  width: calc(100% - 18px);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 14px;
+  cursor: pointer;
+}
+.s3Card[data-align="left"]  { margin-left: 18px; flex-direction: row; }
+.s3Card[data-align="right"] { margin-right: 18px; flex-direction: row-reverse; }
+.s3Card[data-align="right"] .s3CardInfo { align-items: flex-end; text-align: right; }
+
+.s3Thumb {
+  width: 38%;
+  flex-shrink: 0;
+  aspect-ratio: 4 / 5;
+  border: 1px dashed rgba(255,255,255,0.20);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.s3Card:hover .s3Thumb {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.36);
+}
+
+.s3ThumbCross {
+  display: block; width: 16px; height: 16px;
+  position: relative; opacity: 0.30;
+}
+.s3ThumbCross::before,
+.s3ThumbCross::after {
+  content: ''; position: absolute;
+  background: #E8E0D0; border-radius: 1px;
+}
+.s3ThumbCross::before { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
+.s3ThumbCross::after  { width: 100%; height: 1px; top: 50%; transform: translateY(-50%); }
+
+.s3ThumbIngr {
+  font-size: 9px; letter-spacing: 0.14em;
+  color: rgba(232,224,208,0.45); text-align: center;
+}
+
+.s3CardInfo {
+  flex: 1; display: flex; flex-direction: column;
+  gap: 4px; padding-top: 10px;
+}
+
+.s3CardName {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 12px; font-weight: 700;
+  color: #E0D8C8; letter-spacing: -0.01em; line-height: 1.3;
+}
+
+.s3CardMeta {
+  font-size: 9px; letter-spacing: 0.08em;
+  color: rgba(224,216,200,0.42); margin-bottom: 8px;
+}
+
+.s3CardStory {
+  font-size: 11px; color: rgba(224,216,200,0.55);
+  line-height: 1.70; font-weight: 400; word-break: keep-all;
+}
+
+.processLink {
+  font-size: 13px; font-weight: 600;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: #E0D8C8;
+  border-bottom: 1px solid rgba(224,216,200,0.32);
+  padding-bottom: 5px; cursor: pointer;
+  background: transparent;
+  display: inline-flex; align-items: center;
+  gap: 12px; margin-top: 12px;
+  transition: border-color 0.2s, gap 0.2s;
+}
+.processLink:hover { border-color: rgba(224,216,200,0.75); gap: 18px; }
+
+.linkArrow { display: inline-block; transition: transform 0.2s; }
+.processLink:hover .linkArrow { transform: translateX(4px); }
+
+/* 등장 애니메이션 */
+.s3[data-visible="true"] .s3Title { animation: fadeUpIn 1.0s cubic-bezier(0.25,1,0.5,1) 0.10s backwards; }
+.s3[data-visible="true"] .s3Card  { animation: fadeUpIn 1.05s cubic-bezier(0.25,1,0.5,1) 0.18s backwards; }
+.s3[data-visible="true"] .s3Card:nth-child(2) { animation-delay: 0.30s; }
+.s3[data-visible="true"] .s3Card:nth-child(3) { animation-delay: 0.42s; }
+
+/* ══════════════════════════════════════════
+   Section 3 — 계보가 고르는 방식 (창호지 그리드)
+══════════════════════════════════════════ */
+.sCur {
+  background-color: #EDEBE3;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.038) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.038) 1px, transparent 1px);
+  background-size: 44px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.curInner {
+  padding: 72px 24px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.curHead { display: flex; align-items: flex-end; gap: 14px; }
+
+.curTitle {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 28px; font-weight: 700;
+  color: #111111; letter-spacing: -0.02em; line-height: 1.2;
+}
+
+.curSub {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: #888888; margin-top: 6px;
+}
+
+.curList { display: flex; flex-direction: column; gap: 0; }
+
+.curItem {
+  display: flex; align-items: flex-start;
+  gap: 20px; padding: 22px 0;
+}
+
+.curRoman {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 24px; font-weight: 700;
+  color: #111111; opacity: 0.12;
+  flex-shrink: 0; width: 28px; line-height: 1.2;
+}
+
+.curItemBody { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+
+.curItemKo {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 18px; font-weight: 700;
+  color: #111111; letter-spacing: -0.01em;
+}
+
+.curItemEn {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: #888888;
+}
+
+.curItemDesc {
+  font-size: 13px; color: #555555;
+  line-height: 1.7; margin-top: 6px;
+}
+
+.curDivider {
+  height: 1px;
+  background: rgba(0,0,0,0.09);
+  margin: 0;
+}
+
+.shopBtn {
+  padding: 14px 20px;
+  background: #111111;
+  color: #EDEBE3;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-height: 48px; touch-action: manipulation;
+  border-radius: 2px; align-self: flex-start;
+}
+.shopBtn:hover { background: #2A2A2A; }
+
+/* 등장 */
+.sCur[data-visible="true"] .curItem { animation: fadeUpIn 1.0s cubic-bezier(0.25,1,0.5,1) 0.18s backwards; }
+.sCur[data-visible="true"] .curItem:nth-child(3) { animation-delay: 0.32s; }
+.sCur[data-visible="true"] .curItem:nth-child(5) { animation-delay: 0.46s; }
+
+/* ══════════════════════════════════════════
+   Section 4 — Only Natural Ingredients
+══════════════════════════════════════════ */
+.s5 {
+  background: #F5F2EC;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.s5Content {
+  padding: 80px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.ingredientsTitle {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 38px; font-weight: 900;
+  color: #111111; letter-spacing: -0.03em; line-height: 1.08;
+}
+
+.s5Sub {
+  font-size: 14px; color: #666666; line-height: 1.85;
+}
+
+.finalCta {
+  display: inline-flex; align-items: center;
+  gap: 8px; font-size: 13px; font-weight: 700;
+  letter-spacing: 0.06em; color: #111111;
+  border-bottom: 1.5px solid #111111;
+  padding-bottom: 4px; background: transparent;
+  cursor: pointer; align-self: flex-start;
+  margin-top: 8px; transition: opacity 0.18s;
+}
+.finalCta:hover { opacity: 0.62; }
+
+.s5Illustration {
+  position: relative; z-index: 1;
+  padding: 0 0 24px;
+  will-change: transform;
+}
+.riceSvg {
+  width: 100%; height: auto;
+  color: #2C1F10; opacity: 0.70;
+}
+
+.s5[data-visible="true"] .ingredientsTitle { animation: fadeUpIn 1.2s cubic-bezier(0.25,1,0.5,1) 0.08s backwards; }
+.s5[data-visible="true"] .s5Illustration   { animation: fadeUpIn 1.1s cubic-bezier(0.25,1,0.5,1) 0.28s backwards; }
+
+/* ══════════════════════════════════════════
+   Section 5 — 어울리는 것들 (페어링)
+══════════════════════════════════════════ */
+.s2 {
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 72px 24px 52px;
+  gap: 40px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+.s2Header { display: flex; align-items: flex-start; gap: 14px; }
+
+.s2Title {
+  font-family: 'Noto Serif KR', Georgia, serif;
+  font-size: 28px; font-weight: 700;
+  color: #111111; letter-spacing: -0.02em; line-height: 1.15;
+}
+
+.s2Desc {
+  font-size: 12px; color: #888888;
+  letter-spacing: 0.04em; margin-top: 4px;
+}
+
+.illustRow {
+  display: flex; gap: 12px; align-items: flex-end;
+}
+
+.teapotWrap, .pancakeWrap {
+  flex: 1; display: flex;
+  flex-direction: column; align-items: center; gap: 10px;
+}
+
+.teapotSvg {
+  width: 100%; height: auto; max-height: 180px;
+  color: #1A1A1A;
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.teapotWrap:hover .teapotSvg { transform: translateY(-6px); }
+
+.pancakeSvg {
+  width: 100%; height: auto; max-height: 160px;
+  color: #1A1A1A; cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.pancakeWrap:hover .pancakeSvg { transform: scale(1.12); }
+
+.illustLabel {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.10em; color: #666666;
+}
+
+.s2Cta { display: flex; justify-content: center; padding-top: 4px; }
+
+.outlineBtn {
+  padding: 14px 36px;
+  border: 2px solid #111111;
+  background: transparent;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: #111111; cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  min-height: 50px; touch-action: manipulation;
+}
+.outlineBtn:hover { background: #111111; color: #FFFFFF; }
+
+/* 등장 */
+.s2[data-visible="true"] .teapotWrap  { animation: fadeUpIn 1.1s cubic-bezier(0.25,1,0.5,1) 0.08s backwards; }
+.s2[data-visible="true"] .pancakeWrap { animation: fadeUpIn 1.1s cubic-bezier(0.25,1,0.5,1) 0.24s backwards; }
+.s2[data-visible="true"] .outlineBtn  { animation: scaleReveal 1.0s cubic-bezier(0.25,1,0.5,1) 0.40s backwards; }
+
+/* ══════════════════════════════════════════
+   공용 키프레임
+══════════════════════════════════════════ */
+@keyframes fadeUpIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleReveal {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}

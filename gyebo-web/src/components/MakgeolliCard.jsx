@@ -1,105 +1,52 @@
-import { useState } from 'react'
+/**
+ * MakgeolliCard — 2열 그리드 카드
+ * borderless 썸네일 + hover 105% 스케일 + 퀵뷰 페이드인
+ */
+
 import styles from './MakgeolliCard.module.css'
 
-const LEVEL_LABEL = { intro: '입문', mid: '중급', deep: '심화' }
+const LEVEL_KO = { intro: '입문', mid: '중급', deep: '심화' }
 
-export default function MakgeolliCard({ item, ordinal, highlighted }) {
-  const [open, setOpen] = useState(false)
-
+export default function MakgeolliCard({ item, ordinal, thumbRef, onClick, highlighted }) {
   const num = String(ordinal).padStart(2, '0')
 
   return (
     <article
-      className={`${styles.item} ${styles[`level_${item.level}`] ?? ''} ${highlighted ? styles.highlighted : ''} ${open ? styles.open : ''}`}
-      style={{ '--item-color': item.color }}
+      className={`${styles.card} ${highlighted ? styles.highlighted : ''}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => e.key === 'Enter' && onClick?.()}
+      aria-label={`${item.name} 상세 보기`}
     >
-      {/* ── 헤더 행 (항상 표시) ────────────── */}
-      <button
-        className={styles.header}
-        onClick={() => setOpen(v => !v)}
-        aria-expanded={open}
-        aria-controls={`detail-${item.id}`}
-      >
-        {/* 순번 — 족보의 항렬 번호, ghosted serif */}
-        <span className={styles.num} aria-hidden="true">{num}</span>
-
-        <div className={styles.main}>
-          <div className={styles.nameRow}>
-            <h2 className={styles.name}>{item.name}</h2>
-            <span
-              className={styles.badge}
-              style={{ color: item.color }}
-            >
-              {LEVEL_LABEL[item.level]}
-            </span>
-          </div>
-          <p className={styles.meta}>{item.region} · {item.ingredient}</p>
-        </div>
-
-        {/* 전개 화살표 — 미닫이문처럼 */}
-        <span
-          className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}
-          aria-hidden="true"
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </span>
-      </button>
-
-      {/* ── 상세 영역 (그리드 애니메이션) ──── */}
-      {/* CSS grid-template-rows 트릭: 0fr → 1fr (높이 측정 불필요) */}
+      {/* 썸네일 — FLIP source, overflow hidden 으로 bg 스케일 클립 */}
       <div
-        id={`detail-${item.id}`}
-        className={`${styles.detailWrap} ${open ? styles.detailOpen : ''}`}
-        aria-hidden={!open}
+        ref={thumbRef}
+        className={styles.thumb}
+        style={{ '--card-color': item.color }}
       >
-        <div className={styles.detailInner}>
-          {/* 항목 컬러 선 — 자개 상감처럼, 해당 막걸리의 고유색 */}
-          <div
-            className={styles.colorRibbon}
-            style={{ background: item.color }}
-          />
+        {/* 배경 — hover 시 105% 스케일 (thumb 자체는 transform 안건드림) */}
+        <div className={styles.thumbBg} aria-hidden="true" />
 
-          <div className={styles.detail}>
-            {/* 이야기 */}
-            <p className={styles.story}>{item.story}</p>
-
-            {/* 맛 프로필 — 계보 문서의 수치 행 */}
-            <div className={styles.profile}>
-              <FlavorRow label="단맛"  value={item.flavor.sweet} color={item.color} />
-              <FlavorRow label="드라이" value={item.flavor.dry}   color={item.color} />
-              <FlavorRow label="바디"  value={item.flavor.body}  color={item.color} />
-              <div className={styles.abvRow}>
-                <span className={styles.abvLabel}>도수</span>
-                <span className={styles.abvValue}>{item.flavor.abv}%</span>
-              </div>
-            </div>
-
-            {/* 태그 */}
-            <div className={styles.tags}>
-              {item.tags.map(t => (
-                <span key={t} className={styles.tag}>{t}</span>
-              ))}
-            </div>
-          </div>
+        {/* 썸네일 텍스트 오버레이 */}
+        <div className={styles.thumbOverlay} aria-hidden="true">
+          <span className={styles.thumbNum}>{num}</span>
+          <span className={styles.thumbIngr}>{item.ingredient}</span>
         </div>
+
+        {/* Quick View — hover 페이드인 */}
+        <div className={styles.quickView} aria-hidden="true">
+          <span className={styles.quickLabel}>자세히 보기</span>
+        </div>
+      </div>
+
+      {/* 카드 하단 정보 */}
+      <div className={styles.info}>
+        <span className={styles.name}>{item.name}</span>
+        <span className={`${styles.badge} ${styles[`lv_${item.level}`]}`}>
+          {LEVEL_KO[item.level]}
+        </span>
       </div>
     </article>
-  )
-}
-
-function FlavorRow({ label, value, color }) {
-  return (
-    <div className={styles.flavorRow}>
-      <span className={styles.flavorLabel}>{label}</span>
-      <div className={styles.flavorTrack} role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={5}>
-        <div
-          className={styles.flavorFill}
-          style={{ width: `${(value / 5) * 100}%`, background: color }}
-        />
-      </div>
-      <span className={styles.flavorNum}>{value}</span>
-    </div>
   )
 }

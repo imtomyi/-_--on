@@ -1,198 +1,135 @@
 /* ─────────────────────────────────────────
-   계보 카드 — 크림 베이스, 열리면 노랑 워시
+   계보 그리드 카드
+   borderless · hover scale · quickview
    ───────────────────────────────────────── */
 
-.item {
-  border-bottom: 1px solid var(--line);
-  background: var(--bg);
-  transition: background 0.2s ease-out;
-  position: relative;  /* ::before 컬러 리본 기준 */
-}
-.item:first-child { border-top: none; }
-.item:last-child  { border-bottom: none; }
-
-/* 항목 고유색 좌측 선 — 항상 표시. 스크롤 시 카드마다 개성 부여 */
-.item::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--item-color, var(--jade));
-  opacity: 0.22;
-  transition: opacity 0.22s ease-out;
-}
-.item:hover::before  { opacity: 0.40; }
-.open::before        { opacity: 0.65; }
-
-/* 레벨별 미묘한 배경 존 — 크림 안에서 미세한 온도 차이 */
-.level_intro { background: rgba(255,240,170,0.06); }
-.level_mid   { background: var(--bg); }
-.level_deep  { background: rgba(135,207,189,0.05); }
-
-/* 하이라이트(추천) — 노랑 워시로 */
-.highlighted { background: var(--yellow-lt); }
-.highlighted .num { color: var(--red); opacity: 0.20; }
-
-/* ── 헤더 행 ──────────────────────────────── */
-.header {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 60px 1fr 32px;
-  align-items: center;
-  gap: 4px;
-  padding: 20px var(--px) 20px 20px;
-  text-align: left;
-  transition: background 0.15s ease-out;
-  min-height: 72px;
+.card {
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  outline: none;
 }
-.header:hover  { background: rgba(26,16,5,0.03); }
-.header:active { background: rgba(135,207,189,0.10); }
 
-/* 열린 상태 — 옥색 워시로 콘텐츠 존 표시 */
-.open .header { background: var(--jade-lt); }
+/* ── 썸네일 ─────────────────────────────── */
+.thumb {
+  aspect-ratio: 3 / 4;
+  border-radius: 10px;
+  background: transparent;
+  overflow: hidden;      /* bg 스케일 클립 */
+  position: relative;
+  /* FLIP 시 CSS transition 금지 — GSAP 이 전담 */
+}
 
-/* 순번 — 반투명 먹색. 64px로 족보 열람 느낌 */
-.num {
+/* 배경 블록 — hover 시만 scale */
+.thumbBg {
+  position: absolute;
+  inset: 0;
+  background: var(--card-color, var(--yellow));
+  transition: transform 0.40s var(--ease);
+  will-change: transform;
+}
+.card:hover .thumbBg { transform: scale(1.07); }
+
+/* 텍스트 오버레이 */
+.thumbOverlay {
+  position: absolute;
+  inset: 0;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.32) 100%);
+  pointer-events: none;
+}
+
+.thumbNum {
   font-family: var(--serif);
-  font-size: 46px;
+  font-size: 26px;
   font-weight: 700;
-  color: var(--ink);
-  opacity: 0.08;
-  line-height: 1;
+  color: rgba(255,255,255,0.22);
   letter-spacing: -0.05em;
-  transition: opacity 0.2s ease-out, color 0.2s;
+  line-height: 1;
   user-select: none;
-  overflow: hidden;   /* 60px 열에서 넘치는 부분 클리핑 — 에디토리얼 효과 */
 }
-.open .num { opacity: 0.28; color: var(--jade-dk); }
 
-.main { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.thumbIngr {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.60);
+  text-transform: uppercase;
+}
 
-.nameRow { display: flex; align-items: baseline; gap: 8px; }
+/* Quick View 오버레이 — hover 시 페이드인 */
+.quickView {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.26);
+  opacity: 0;
+  transition: opacity 0.22s var(--ease);
+  pointer-events: none;
+}
+.card:hover .quickView { opacity: 1; }
+
+.quickLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255,255,255,0.72);
+  padding: 6px 13px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+/* ── 카드 하단 정보 ─────────────────────── */
+.info {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 0 2px;
+}
 
 .name {
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.01em;
-  line-height: 1.2;
+  line-height: 1.35;
+  flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* 레벨 배지 */
 .badge {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  padding: 2px 6px;
+  border-radius: 99px;
+  border: 1px solid currentColor;
   flex-shrink: 0;
   opacity: 0.75;
 }
+.lv_intro { color: var(--jade-dk); }
+.lv_mid   { color: var(--yellow-dk); }
+.lv_deep  { color: var(--red); }
 
-.meta { font-size: 12px; color: var(--ink-3); letter-spacing: 0.02em; }
-
-/* 화살표 */
-.chevron {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink-3);
-  transition: transform 0.25s ease-out, color 0.2s;
-  padding-right: 4px;
-}
-.chevronOpen { transform: rotate(90deg); color: var(--jade-dk); }
-
-/* ── 상세 영역 ──────────────────────────── */
-.detailWrap {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.30s ease-out;
-}
-.detailOpen { grid-template-rows: 1fr; }
-.detailInner { overflow: hidden; display: flex; }
-
-/* 항목 고유색 리본 */
-.colorRibbon {
-  flex: 0 0 3px;
-  opacity: 0.55;
-  align-self: stretch;
-  margin-left: 20px;
+/* 추천 하이라이트 */
+.highlighted .thumb {
+  outline: 2.5px solid var(--yellow);
+  outline-offset: 3px;
 }
 
-.detail {
-  flex: 1;
-  padding: 16px 24px 24px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  /* 상세 콘텐츠 영역만 살짝 라운드 — 내용물 담는 그릇 */
-  background: rgba(255,255,255,0.45);
-  margin: 8px 12px 12px 0;
-  border-radius: var(--r-md);
+/* 포커스 링 (키보드) */
+.card:focus-visible .thumb {
+  outline: 2px solid var(--jade);
+  outline-offset: 3px;
 }
-
-.story {
-  font-size: 14px;
-  line-height: 1.85;
-  color: var(--ink-2);
-  font-weight: 400;
-}
-
-/* ── 맛 프로필 ──────────────────────────── */
-.profile { display: flex; flex-direction: column; gap: 9px; }
-
-.flavorRow { display: flex; align-items: center; gap: 10px; }
-
-.flavorLabel {
-  font-size: 11px;
-  color: var(--ink-3);
-  letter-spacing: 0.04em;
-  width: 38px;
-  flex-shrink: 0;
-}
-
-/* 맛 바 — 옥색 트랙, 항목 고유색 필 */
-.flavorTrack {
-  flex: 1;
-  height: 2px;
-  background: var(--jade-lt);
-  border-radius: 99px;
-  overflow: hidden;
-}
-.flavorFill {
-  height: 100%;
-  border-radius: inherit;
-  opacity: 0.70;
-  transition: width 0.4s ease-out;
-}
-
-.flavorNum {
-  font-size: 11px;
-  color: var(--ink-3);
-  width: 14px;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.abvRow { display: flex; align-items: center; gap: 10px; margin-top: 2px; }
-.abvLabel { font-size: 11px; color: var(--ink-3); letter-spacing: 0.04em; width: 38px; }
-
-/* 도수 — 단청 빨강 */
-.abvValue { font-size: 13px; font-weight: 700; color: var(--red); letter-spacing: 0.04em; }
-
-/* ── 태그 ───────────────────────────────── */
-.tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag {
-  padding: 4px 10px;
-  border: 1px solid var(--line-dk);
-  border-radius: var(--r);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--ink-3);
-  letter-spacing: 0.06em;
-  transition: border-color 0.15s, color 0.15s;
-  cursor: pointer;
-}
-.tag:hover { border-color: var(--jade-dk); color: var(--jade-dk); }

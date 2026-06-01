@@ -123,10 +123,13 @@ export const makgeolliList = [
   },
 ]
 
-// 취향 테스트 질문 (미니 버전, 2문항)
+// 취향 테스트 질문 — 항아리에 담는 3문항
+// kind: 'list' (모서리 둥근 버튼) | 'bubble' (원형 버블)
 export const tasteQuestions = [
   {
     id: 'sweetness',
+    kind: 'list',
+    status: "LET'S START",
     question: '어떤 맛을 더 좋아해요?',
     options: [
       { label: '달고 부드럽게', value: 'sweet' },
@@ -134,8 +137,23 @@ export const tasteQuestions = [
     ],
   },
   {
+    id: 'mood',
+    kind: 'bubble',
+    status: 'ONE MORE',
+    question: '오늘은 어떤 한 잔?',
+    options: [
+      { label: '산뜻하게', value: 'fresh' },
+      { label: '향긋하게', value: 'aroma' },
+      { label: '깊고 묵직하게', value: 'rich' },
+      { label: '감성적으로', value: 'emotional' },
+      { label: '든든하게', value: 'hearty' },
+    ],
+  },
+  {
     id: 'experience',
-    question: '막걸리 경험이 어느 정도예요?',
+    kind: 'list',
+    status: 'LAST ONE',
+    question: '막걸리, 얼마나 즐겨요?',
     options: [
       { label: '처음이거나 익숙하지 않아요', value: 'intro' },
       { label: '어느 정도 마셔봤어요', value: 'mid' },

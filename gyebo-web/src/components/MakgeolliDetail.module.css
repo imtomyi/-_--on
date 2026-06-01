@@ -1,0 +1,300 @@
+/* ─────────────────────────────────────────
+   막걸리 상세 — FLIP 오버레이
+   transform / opacity 전용 (60fps)
+   ───────────────────────────────────────── */
+
+/* ── 딤 배경 (전체 뷰포트) ─────────────── */
+.dim {
+  position: fixed;
+  inset: 0;
+  z-index: 299;
+  background: rgba(17, 11, 5, 0.58);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* ── max-width 컨테이너 (두루마리 무대) ─── */
+.container {
+  position: fixed;
+  inset: 0;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: none;   /* 자식이 개별 활성화 */
+}
+
+/* 상단 족자 봉 — 황동 라인 (고정 프레임) */
+.topDowel {
+  flex-shrink: 0;
+  height: 4px;
+  background: linear-gradient(180deg, #d9c79a, #8a7038);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* 클립 레이어 — 위→아래 와이프로 펼쳐짐 */
+.clip {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: auto;
+  will-change: clip-path;
+  /* 펼쳐진 종이 우측 미세 그림자 (두께감) */
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+}
+
+/* 두루마리 축 — 펼쳐지는 가장자리 막대 */
+.roller {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  z-index: 5;
+  pointer-events: none;
+  will-change: transform;
+}
+.rollerBar {
+  position: absolute;
+  top: -7px;
+  left: -10px; right: -10px;
+  height: 14px;
+  border-radius: 8px;
+  background: linear-gradient(180deg,
+    #e3d3a6 0%, #c2a868 42%, #8a7038 74%, #b59a5e 100%);
+  box-shadow:
+    0 14px 26px rgba(0,0,0,0.38),
+    0 3px 6px rgba(0,0,0,0.45),
+    inset 0 1px 1px rgba(255,255,255,0.5),
+    inset 0 -1px 1px rgba(0,0,0,0.25);
+}
+/* 축 양끝 마구리 */
+.rollerBar::before,
+.rollerBar::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 8px; height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #b59a5e, #6f5a2c);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+.rollerBar::before { left: -4px; }
+.rollerBar::after  { right: -4px; }
+
+/* ══════════════════════════════════════════
+   히어로 (FLIP 공유 요소)
+   will-change: transform 으로 합성 레이어
+══════════════════════════════════════════ */
+.hero {
+  flex-shrink: 0;
+  height: 42vh;
+  min-height: 220px;
+  max-height: 300px;
+  background: var(--card-color, var(--yellow));
+  position: relative;
+  overflow: hidden;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+/* 그라데이션 오버레이 */
+.heroContent {
+  position: absolute;
+  inset: 0;
+  padding: 24px var(--px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.06) 0%,
+    transparent 35%,
+    rgba(0,0,0,0.42) 100%
+  );
+}
+
+/* 배경 번호 — 에디토리얼 ghost */
+.heroNum {
+  font-family: var(--serif);
+  font-size: 72px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.20);
+  letter-spacing: -0.06em;
+  line-height: 1;
+  user-select: none;
+}
+
+.heroIngr {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+}
+
+/* 닫기 버튼 */
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.30);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(255,255,255,0.88);
+  transition: background 0.18s;
+  z-index: 2;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+.closeBtn:hover  { background: rgba(0,0,0,0.55); }
+.closeBtn:active { opacity: 0.72; }
+
+/* ══════════════════════════════════════════
+   정보 시트 (스크롤 영역)
+══════════════════════════════════════════ */
+.sheet {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg);
+  pointer-events: auto;
+  will-change: transform, opacity;
+  /* iOS 고정 스크롤 */
+  overscroll-behavior: contain;
+}
+
+.content {
+  padding: 28px var(--px) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── 제목 블록 ──────────────────────────── */
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.levelBadge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid currentColor;
+  align-self: flex-start;
+  opacity: 0.80;
+}
+.lv_intro { color: var(--jade-dk); }
+.lv_mid   { color: var(--yellow-dk); }
+.lv_deep  { color: var(--red); }
+
+.name {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+
+.meta {
+  font-size: 13px;
+  color: var(--ink-3);
+  letter-spacing: 0.03em;
+}
+
+/* 황금 구분선 */
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    var(--yellow) 0%,
+    rgba(200,168,24,0.15) 60%,
+    transparent 100%
+  );
+}
+
+/* 스토리 */
+.story {
+  font-size: 14px;
+  line-height: 1.92;
+  color: var(--ink-2);
+  font-weight: 400;
+}
+
+/* ── 맛 프로필 ──────────────────────────── */
+.profile { display: flex; flex-direction: column; gap: 11px; }
+
+.flavorRow { display: flex; align-items: center; gap: 10px; }
+
+.flavorLabel {
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.flavorTrack {
+  flex: 1;
+  height: 2px;
+  background: var(--line-dk);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.flavorFill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--jade);
+  /* 펼침 직후 bar 성장 */
+  transition: width 0.45s var(--ease) 0.22s;
+}
+
+.flavorNum {
+  font-size: 11px;
+  color: var(--ink-3);
+  width: 14px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.abvRow { display: flex; align-items: center; gap: 10px; margin-top: 2px; }
+.abvLabel { font-size: 11px; color: var(--ink-3); width: 40px; letter-spacing: 0.04em; }
+.abvValue {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--yellow);
+  letter-spacing: 0.06em;
+}
+
+/* ── 태그 ───────────────────────────────── */
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  padding: 5px 12px;
+  border: 1px solid var(--line-dk);
+  border-radius: var(--r);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+  transition: border-color 0.15s, color 0.15s;
+}
+.tag:hover { border-color: var(--jade); color: var(--jade-dk); }
