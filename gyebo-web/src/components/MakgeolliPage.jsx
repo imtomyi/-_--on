@@ -8,8 +8,12 @@ import { makgeolliList, tasteQuestions } from '../data/makgeolli'
 import MakgeolliDetail from './MakgeolliDetail'
 import TasteTest from './TasteTest'
 import FlavorMap from './FlavorMap'
+import RecoResult from './RecoResult'
 import gsap from 'gsap'
+import { useLang } from '../i18n/LanguageContext'
 import styles from './MakgeolliPage.module.css'
+
+const pre = { whiteSpace: 'pre-line' }
 
 /* 카드 썸네일용 미니 병 */
 function MiniBottle() {
@@ -31,12 +35,14 @@ function MiniBottle() {
 /* ═══════════════════════════════════════════
    Main
    ═══════════════════════════════════════════ */
-export default function MakgeolliPage({ onBack }) {
+export default function MakgeolliPage({ onBack, initialView = 'list' }) {
   const [selected, setSelected]     = useState(null)
   const [showTest, setShowTest]     = useState(false)
   const [recommended, setRecommended] = useState(null)
-  const [view, setView]             = useState('list')
+  const [showReco, setShowReco]     = useState(false)
+  const [view, setView]             = useState(initialView)
 
+  const { t, tm } = useLang()
   const gridRef = useRef(null)
 
   /* 진입 시 최상단 */
@@ -77,32 +83,31 @@ export default function MakgeolliPage({ onBack }) {
 
       {/* ══ 네비게이션 ════════════════════════ */}
       <nav className={styles.nav}>
-        <span className={styles.navLogo}>막걸리 계보</span>
+        <span className={styles.navLogo}>{t('nav.logo')}</span>
         <div className={styles.navRight}>
-          <button className={styles.navLink} onClick={() => setView('map')}>계보도</button>
-          <button className={styles.navLink} onClick={() => setShowTest(true)}>취향</button>
-          {onBack && <button className={styles.navBack} onClick={onBack}>← 홈</button>}
+          {onBack && <button className={styles.navBack} onClick={onBack}>{t('cat.nav.home')}</button>}
         </div>
       </nav>
 
       {/* ══ 인트로 헤더 ═══════════════════════ */}
       <header className={styles.intro}>
-        <span className={styles.introEye}>HAENGGUNG-DONG · 수원 행궁동</span>
+        <span className={styles.introEye}>{t('cat.intro.eye')}</span>
         <h1 className={styles.introTitle}>
-          <span className={styles.introKr}>계보를 잇다</span>
+          <span className={styles.introKr}>{t('cat.intro.title')}</span>
           <span className={styles.introEn}>The Makgeolli Lineage</span>
         </h1>
-        <p className={styles.introSub}>
-          행궁동 막걸리 계보가 큐레이션한 열 가지 술.<br/>
-          카드를 눌러 각 막걸리의 이야기를 만나보세요.
-        </p>
+        <p className={styles.introSub} style={pre}>{t('cat.intro.sub')}</p>
+        <div className={styles.introActions}>
+          <button className={styles.introActionBtn} onClick={() => setView('map')}>{t('cat.nav.map')}</button>
+          <button className={styles.introActionBtn} onClick={() => setShowTest(true)}>{t('cat.nav.taste')}</button>
+        </div>
       </header>
 
       {/* ══ 컬렉션 카드 그리드 ════════════════ */}
       <section className={styles.collection} id="catalog">
         <div className={styles.colHead}>
-          <span className={styles.colCount}>COLLECTION · {makgeolliList.length}종</span>
-          <h2 className={styles.colTitle}>막걸리 계보</h2>
+          <span className={styles.colCount}>COLLECTION · {makgeolliList.length}{t('cat.col.unit')}</span>
+          <h2 className={styles.colTitle}>{t('cat.col.title')}</h2>
         </div>
 
         <div ref={gridRef} className={styles.grid}>
@@ -113,7 +118,7 @@ export default function MakgeolliPage({ onBack }) {
               data-visible="false"
               style={{ '--card-color': item.color, animationDelay: `${idx * 0.05}s` }}
               onClick={() => openDetail(item)}
-              aria-label={`${item.name} 상세 보기`}
+              aria-label={`${tm(item, 'name')} ${t('cat.card.view')}`}
             >
               <div className={styles.cardThumb}>
                 <span className={styles.cardNum}>{String(idx + 1).padStart(2, '0')}</span>
@@ -121,10 +126,10 @@ export default function MakgeolliPage({ onBack }) {
                 <span className={styles.cardAbv}>{item.flavor.abv}°</span>
               </div>
               <div className={styles.cardInfo}>
-                <span className={styles.cardRegion}>{item.region}</span>
-                <span className={styles.cardName}>{item.name}</span>
+                <span className={styles.cardRegion}>{tm(item, 'region')}</span>
+                <span className={styles.cardName}>{tm(item, 'name')}</span>
                 <span className={`${styles.cardLevel} ${styles[`lv_${item.level}`]}`}>
-                  {item.levelLabel}
+                  {t(`level.${item.level}`)}
                 </span>
               </div>
             </button>
@@ -137,11 +142,11 @@ export default function MakgeolliPage({ onBack }) {
         <div className={styles.footerSeal} aria-hidden="true">
           <span className={styles.footerChar}>계</span>
         </div>
-        <span className={styles.footerName}>막걸리 계보</span>
-        <span className={styles.footerSub}>수원 행궁동 · HAENGGUNG-DONG</span>
+        <span className={styles.footerName}>{t('cat.footer.name')}</span>
+        <span className={styles.footerSub}>{t('cat.footer.sub')}</span>
         <div className={styles.footerActions}>
-          <button className={styles.footerBtn} onClick={() => setView('map')}>맛 계보도 보기</button>
-          <button className={styles.footerBtnGhost} onClick={() => setShowTest(true)}>취향 테스트</button>
+          <button className={styles.footerBtn} onClick={() => setView('map')}>{t('cat.footer.map')}</button>
+          <button className={styles.footerBtnGhost} onClick={() => setShowTest(true)}>{t('cat.footer.taste')}</button>
         </div>
       </footer>
 
@@ -150,7 +155,7 @@ export default function MakgeolliPage({ onBack }) {
         <TasteTest
           questions={tasteQuestions}
           list={makgeolliList}
-          onResult={res => { setRecommended(res); setShowTest(false) }}
+          onResult={res => { setRecommended(res); setShowTest(false); setShowReco(true) }}
           onClose={() => setShowTest(false)}
         />
       )}
@@ -164,13 +169,14 @@ export default function MakgeolliPage({ onBack }) {
         />
       )}
 
-      {/* 추천 토스트 */}
-      {recommended && !showTest && (
-        <div className={styles.recoToast} role="status">
-          <span className={styles.recoLabel}>당신을 위한 추천</span>
-          <span className={styles.recoName}>{recommended.name}</span>
-          <button className={styles.recoClose} onClick={() => setRecommended(null)}>✕</button>
-        </div>
+      {/* 취향 테스트 결과 풀스크린 */}
+      {showReco && recommended && (
+        <RecoResult
+          item={recommended}
+          onView={() => { setShowReco(false); openDetail(recommended) }}
+          onRetry={() => { setShowReco(false); setRecommended(null); setShowTest(true) }}
+          onClose={() => setShowReco(false)}
+        />
       )}
     </div>
   )

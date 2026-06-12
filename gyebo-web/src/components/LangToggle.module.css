@@ -1,0 +1,67 @@
+/* ═══════════════════════════════════════════
+   LangToggle — 글래스모피즘 캡슐 토글
+   ═══════════════════════════════════════════ */
+
+.wrap {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  /* max-width 480 컨테이너 기준 우측 하단에 플로팅 고정 */
+  transform: translateX(calc(min(50vw, var(--max-w) / 2) - 100% - 16px));
+  z-index: 200;
+  pointer-events: none;
+}
+
+.track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  pointer-events: auto;
+}
+
+/* 슬라이딩 인디케이터 */
+.pill {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  bottom: 3px;
+  width: 40px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffffff, #f2efe6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+  will-change: transform, width;
+  z-index: 0;
+}
+
+.opt {
+  position: relative;
+  z-index: 1;
+  min-width: 40px;          /* CLS 방지 — 균등 폭 */
+  padding: 7px 12px;
+  border: none;
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(0, 0, 0, 0.42);
+  cursor: pointer;
+  border-radius: 999px;
+  transition: color 0.25s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.opt:hover { color: rgba(0, 0, 0, 0.7); }
+.optOn { color: var(--ink, #1a1a1a); }
+
+/* 다크 배경(상세/지형도 일부) 위에서도 읽히도록 — 필요 시 data-attr 로 확장 가능 */
+@media (prefers-reduced-motion: reduce) {
+  .pill { transition: none; }
+}

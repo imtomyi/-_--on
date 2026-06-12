@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+  :root{
+    --ink:#161412;
+    --muted:#8d8780;
+    --faint:#b9b3ab;
+    --line:#e4e0d8;
+    --panel:#f1efea;
+    --panel2:#e9e6df;
+    --accent:#E8451E;       /* 단청 vermilion — 템플릿 오렌지 */
+    --accent-ink:#B5340F;
+    --paper:#ffffff;
+    --kr-head:"Apple SD Gothic Neo","Pretendard",sans-serif;
+    --kr-body:"Pretendard","Apple SD Gothic Neo",sans-serif;
+    --serif:"Bodoni 72","Didot","Georgia",serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ background:#7a7a7a; }
+  body{ font-family:var(--kr-body); color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  .slide{
+    position:relative;
+    width:1280px; height:720px;
+    background:var(--paper);
+    overflow:hidden;
+    break-after:page;
+    page-break-after:always;
+  }
+  .slide:last-child{ break-after:auto; }
+
+  /* ── 공통 헤더/푸터 ── */
+  .hd{
+    position:absolute; top:46px; left:64px; right:64px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--serif); font-size:14px; letter-spacing:.22em;
+    color:var(--ink); text-transform:uppercase;
+  }
+  .hd .r{ color:var(--muted); }
+  .hd-line{ position:absolute; top:78px; left:64px; right:64px; height:1px; background:var(--line); }
+  .pg{ position:absolute; bottom:40px; right:64px; font-family:var(--serif); font-size:13px; letter-spacing:.18em; color:var(--faint); }
+  .pgl{ position:absolute; bottom:40px; left:64px; font-family:var(--serif); font-size:12px; letter-spacing:.28em; color:var(--faint); text-transform:uppercase; }
+
+  /* 섹션 번호/라벨 */
+  .secnum{ font-family:var(--serif); font-weight:700; color:var(--accent); line-height:.8; }
+  .seclabel{ font-family:var(--serif); font-size:14px; letter-spacing:.3em; color:var(--muted); text-transform:uppercase; }
+
+  /* 헤드라인 */
+  h1.kr{ font-family:var(--kr-head); font-weight:800; color:var(--ink); letter-spacing:-.02em; line-height:1.12; }
+  .accent{ color:var(--accent); }
+
+  /* 이미지 placeholder */
+  .ph{
+    position:relative; background:var(--panel);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .ph::after{
+    content:attr(data-label);
+    font-family:var(--kr-body); font-size:14px; color:var(--faint);
+    letter-spacing:.02em; text-align:center; padding:0 16px; line-height:1.5;
+  }
+  .ph .tag{
+    position:absolute; top:12px; left:12px;
+    font-family:var(--serif); font-size:10px; letter-spacing:.2em; color:var(--faint);
+    text-transform:uppercase;
+  }
+  .ph img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+
+  /* 오렌지 모티프 */
+  .blob{ position:absolute; border-radius:50%; background:var(--accent); }
+  .ring{ position:absolute; border-radius:50%; border:1.5px solid var(--accent); }
+  .ring-ink{ position:absolute; border-radius:50%; border:1px solid var(--line); }
+
+  .body{ font-family:var(--kr-body); color:var(--muted); line-height:1.85; }
+  .chip{ display:inline-block; font-family:var(--kr-body); font-weight:600; }
+</style>
+</head>
+<body>
+
+<!-- ════════ S1 · COVER ════════ -->
+<section class="slide">
+  <!-- 시그니처 오렌지 형태 -->
+  <div class="blob" style="width:560px;height:560px;right:-150px;top:-140px;"></div>
+  <div class="ring" style="width:300px;height:300px;right:78px;top:300px;border-color:#ffffff;opacity:.55;"></div>
+  <div class="ring-ink" style="width:150px;height:150px;left:150px;bottom:96px;"></div>
+
+  <div class="hd"><span>막걸리 계보</span><span class="r" style="color:#ffffff;text-transform:none;">行-on · 중간발표</span></div>
+  <div class="hd-line"></div>
+
+  <div style="position:absolute;left:64px;top:212px;">
+    <div class="seclabel" style="color:var(--accent);margin-bottom:26px;text-transform:none;">行-on 2026 · 행궁동 공방거리 살리기</div>
+    <h1 class="kr" style="font-size:104px;line-height:1.04;">한 잔이,<br>거리를 <span class="accent">깨운다</span></h1>
+    <div class="body" style="margin-top:34px;font-size:21px;color:var(--ink);max-width:560px;">
+      막걸리 테이크아웃으로 되살리는, 행궁동 공방거리
+    </div>
+  </div>
+
+  <div class="pgl">Haenggung-dong, Suwon</div>
+  <div class="pg">2026</div>
+</section>
+
+<!-- ════════ S2 · INDEX ════════ -->
+<section class="slide">
+  <div class="hd"><span>막걸리 계보</span><span class="r">Presentation</span></div>
+  <div class="hd-line"></div>
+
+  <div style="position:absolute;left:64px;top:150px;">
+    <div class="seclabel">Contents</div>
+    <h1 class="kr" style="font-family:var(--serif);font-weight:700;font-size:90px;letter-spacing:.04em;margin-top:8px;">INDEX</h1>
+  </div>
+
+  <div style="position:absolute;right:64px;top:170px;width:560px;">
+    <div class="idx" style="border-top:1px solid var(--line);"></div>
+  </div>
+
+  <div style="position:absolute;right:64px;top:184px;width:600px;display:flex;flex-direction:column;">
+    <div class="row" style="display:flex;gap:26px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--line);">
+      <span class="secnum" style="font-size:24px;width:44px;">01</span>
+      <span style="font-family:var(--kr-head);font-weight:700;font-size:24px;">行-on이 마주한 문제</span>
+    </div>
+    <div class="row" style="display:flex;gap:26px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--line);">
+      <span class="secnum" style="font-size:24px;width:44px;">02</span>
+      <span style="font-family:var(--kr-head);font-weight:700;font-size:24px;">공방거리의 막걸리 계보</span>
+    </div>
+    <div class="row" style="display:flex;gap:26px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--line);">
+      <span class="secnum" style="font-size:24px;width:44px;">03</span>
+      <span style="font-family:var(--kr-head);font-weight:700;font-size:24px;">해결 ① 막걸리 테이크아웃 <span style="color:var(--accent);font-size:15px;letter-spacing:.1em;">MAIN</span></span>
+    </div>
+    <div class="row" style="display:flex;gap:26px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--line);">
+      <span class="secnum" style="font-size:24px;width:44px;">04</span>
+      <span style="font-family:var(--kr-head);font-weight:700;font-size:24px;">해결 ② 막걸리산책 웹</span>
+    </div>
+    <div class="row" style="display:flex;gap:26px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--line);">
+      <span class="secnum" style="font-size:24px;width:44px;">05</span>
+      <span style="font-family:var(--kr-head);font-weight:700;font-size:24px;">지금, 그리고 앞으로</span>
+    </div>
+  </div>
+  <div class="pg">2026</div>
+</section>
+
+<!-- ════════ S3 · PROBLEM ════════ -->
+<section class="slide">
+  <div class="hd"><span>막걸리 계보</span><span class="r">Presentation</span></div>
+  <div class="hd-line"></div>
+
+  <div style="position:absolute;left:64px;top:150px;display:flex;align-items:flex-start;gap:22px;">
+    <span class="secnum" style="font-size:60px;">01</span>
+    <div style="padding-top:6px;">
+      <div class="seclabel">Problem</div>
+      <h1 class="kr" style="font-size:50px;margin-top:10px;">비어가는<br>행궁동 <span class="accent">공방거리</span></h1>
+    </div>
+  </div>
+
+  <!-- 문제 3 -->
+  <div class="seclabel" style="position:absolute;left:64px;top:360px;color:var(--accent);">기록에서 발견한 문제</div>
+  <div style="position:absolute;left:64px;top:396px;width:560px;">
+    <div style="display:flex;gap:20px;padding:20px 0;border-top:1px solid var(--line);">
+      <span class="secnum" style="font-size:17px;width:34px;">i</span>
+      <div><div style="font-family:var(--kr-head);font-weight:700;font-size:20px;">유입 부족</div>
+      <div class="body" style="font-size:15px;margin-top:3px;">거리로 들어오지 않는 사람들</div></div>
+    </div>
+    <div style="display:flex;gap:20px;padding:20px 0;border-top:1px solid var(--line);">
+      <span class="secnum" style="font-size:17px;width:34px;">ii</span>
+      <div><div style="font-family:var(--kr-head);font-weight:700;font-size:20px;">평일 공백</div>
+      <div class="body" style="font-size:15px;margin-top:3px;">현저히 적은 주중 방문객</div></div>
+    </div>
+    <div style="display:flex;gap:20px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+      <span class="secnum" style="font-size:17px;width:34px;">iii</span>
+      <div><div style="font-family:var(--kr-head);font-weight:700;font-size:20px;">단절된 이야기</div>
+      <div class="body" style="font-size:15px;margin-top:3px;">좋은 가게가 있어도, 홍보가 부족해 닿지 않는 스토리</div></div>
+    </div>
+  </div>
+
+  <div class="seclabel" style="position:absolute;right:64px;top:152px;text-align:right;">FIELD RESEARCH · 현장 기록</div>
+  <div class="ph" data-label="공방거리 현장 기록" style="position:absolute;right:64px;top:184px;width:512px;height:398px;">
+    <img src="images/01_alley.jpg" onerror="this.remove()" alt="">
+  </div>
+  <div class="body" style="position:absolute;right:64px;top:592px;width:512px;text-align:right;font-size:13px;color:var(--muted);">
+    공방거리를 직접 돌며 사진으로 기록하고, 문제를 정리했습니다.
+  </div>
+  <div class="pg">2026</div>
+</section>
+
+<!-- ════════ S4 · INSIGHT (quote) ════════ -->
+<section class="slide" style="background:var(--ink);">
+  <div class="hd" style="color:#f3efe9;"><span>막걸리 계보</span><span class="r" style="color:#8f8881;">Insight</span></div>
+  <div class="hd-line" style="background:#34302c;"></div>
+
+  <div class="ring" style="width:300px;height:300px;left:40px;top:240px;opacity:.85;"></div>
+  <div class="blob" style="width:16px;height:16px;left:182px;top:382px;"></div>
+
+  <div style="position:absolute;left:64px;right:64px;top:268px;text-align:center;">
+    <h1 class="kr" style="color:#f6f1ea;font-size:56px;line-height:1.3;font-weight:800;">
+      “사람들은 목적지가 있어야<br><span class="accent">골목</span>으로 유입된다”
+    </h1>
+    <div class="body" style="color:#b7afa6;font-size:20px;margin-top:30px;">
+      그래서 行-on은, 막걸리 계보를 거리로 보낼 ‘한 잔’을 만들기로 결심했습니다.
+    </div>
+  </div>
+  <div class="pgl" style="color:#6f6860;">The Turning Point</div>
+  <div class="pg" style="color:#6f6860;">2026</div>
+</section>
+
+<!-- ════════ S5 · THE STORE ════════ -->
+<section class="slide">
+  <div class="hd"><span>막걸리 계보</span><span class="r">Presentation</span></div>
+  <div class="hd-line"></div>
+
+  <div style="position:absolute;left:64px;top:150px;display:flex;align-items:flex-start;gap:22px;">
+    <span class="secnum" style="font-size:60px;">02</span>
+    <div style="padding-top:6px;">
+      <div class="seclabel">The Store</div>
+      <h1 class="kr" style="font-size:52px;margin-top:10px;">막걸리 계보</h1>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:64px;top:336px;width:556px;">
+    <div style="display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--line);">
+      <span class="seclabel" style="width:88px;color:var(--accent);">위치</span>
+      <span style="font-family:var(--kr-head);font-weight:600;font-size:18px;">행궁동 공방거리</span>
+    </div>
+    <div style="display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--line);">
+      <span class="seclabel" style="width:88px;color:var(--accent);">콘셉트</span>
+      <span style="font-family:var(--kr-head);font-weight:600;font-size:18px;">전국의 막걸리를 큐레이션하는 가게</span>
+    </div>
+    <div style="display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+      <span class="seclabel" style="width:88px;color:var(--accent);">비전</span>
+      <span style="font-family:var(--kr-head);font-weight:600;font-size:18px;">행궁동 <span style="color:var(--accent);">→</span> 전통 <span style="color:var(--accent);">→</span> 막걸리</span>
+    </div>
+    <div class="body" style="margin-top:24px;font-size:17px;color:var(--ink);">
+      막걸리에 진심인 가게. <span style="color:var(--accent);font-weight:700;">공방거리의 거점</span>이 되어준다.
+    </div>
+  </div>
+
+  <div class="ph" data-label="사장님과 만난 사진" style="position:absolute;right:64px;top:150px;width:512px;height:452px;">
+    <img src="images/02_owner.jpg" onerror="this.remove()" alt="">
+  </div>
+  <div class="body" style="position:absolute;right:64px;top:610px;width:512px;text-align:right;font-size:13px;color:var(--muted);">
+    막걸리 계보 사장님과 함께 — 직접 찾아가 비전을 들었습니다.
+  </div>
+  <div class="pg">2026</div>
+</section>
+
+<!-- ════════ S6 · SOLUTION ① (MAIN) ════════ -->
+<section class="slide">
+  <div class="hd"><span>막걸리 계보</span><span class="r">Presentation</span></div>
+  <div class="hd-line"></div>
+  <div class="blob" style="width:13px;height:13px;left:64px;top:163px;"></div>
+
+  <div style="position:absolute;left:64px;top:150px;display:flex;align-items:flex-start;gap:20px;">
+    <span class="secnum" style="font-size:56px;">03</span>
+    <div style="padding-top:4px;">
+      <div class="seclabel">Main · 메인 아이템</div>
+      <h1 class="kr" style="font-size:34px;margin-top:8px;line-height:1.28;">모두의 시선을 사로잡는,<br>막걸리 <span class="accent">Take-out</span></h1>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:152px;top:312px;width:440px;">
+    <div class="body" style="font-size:15px;color:var(--ink);line-height:1.8;">
+      막걸리 계보를 <b style="color:var(--ink);">리브랜딩</b>합니다.<br>
+      거리에서 마주친 <span style="color:var(--accent);font-weight:700;">예쁜 테이크아웃 컵</span> — 손님이 먼저 팔달문과 사진을 찍어 인스타에 올리고, 그 한 장이 다시 ‘막걸리 계보’로 발걸음을 이끕니다.
+    </div>
+    <div style="margin-top:18px;display:inline-flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:9px 18px;">
+      <span class="blob" style="position:static;width:9px;height:9px;border-radius:50%;"></span>
+      <span style="font-family:var(--kr-head);font-weight:700;font-size:14px;">사장님 컨펌 완료</span>
+    </div>
+  </div>
+
+  <!-- 히어로: 테이크아웃 컵 (팔달문 모티프) -->
+  <span class="seclabel" style="position:absolute;left:632px;top:150px;color:var(--accent);">Takeout · 테이크아웃 컵</span>
+  <img src="images/03_cup.jpg" onerror="this.style.display='none'" alt="테이크아웃 컵 디자인"
+       style="position:absolute;left:632px;top:166px;width:584px;height:262px;object-fit:contain;" />
+
+  <!-- 메뉴판 BEFORE → AFTER -->
+  <span class="seclabel" style="position:absolute;left:632px;top:434px;">메뉴판 리뉴얼</span>
+  <div class="ph" data-label="현재 메뉴판" style="position:absolute;left:632px;top:458px;width:104px;height:168px;">
+    <img src="images/04_menu.jpg" onerror="this.remove()" alt=""><span class="tag">Before</span>
+  </div>
+  <span style="position:absolute;left:752px;top:526px;font-size:26px;color:var(--accent);font-family:var(--kr-body);">→</span>
+  <div class="ph" data-label="개편 메뉴판" style="position:absolute;left:794px;top:458px;width:422px;height:168px;">
+    <img src="images/03_lineup.jpg" onerror="this.remove()" alt=""><span class="tag">After · 개편안</span>
+  </div>
+  <div class="pg">2026</div>
+</section>
+
+<!-- ════════ S7 · SOLUTION ② (WEB) ════════ -->
+<section class="slide" style="background:var(--panel);">
+  <div class="hd"><span>막걸리 계보</span><span class="r">Presentation</span></div>
+  <div class="hd-line" style="background:#dad6cd;"></div>
+
+  <div style="position:absolute;left:64px;top:150px;display:flex;align-items:flex-start;gap:22px;">
+    <span class="secnum" style="font-size:60px;">04</span>
+    <div style="padding-top:6px;">
+      <div class="seclabel">Derivative · 파생</div>
+      <h1 class="kr" style="font-size:44px;margin-top:10px;line-height:1.25;">거리에 활기를 불어넣을<br><span class="accent">‘막걸리 산책’</span></h1>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:152px;top:372px;width:470px;">
+    <div class="body" style="font-size:17px;color:var(--ink);line-height:1.95;">
+      막걸리 딱 한 잔을 마시며 거닐기 좋은<br>
+      <b style="color:var(--accent);">‘막걸리 산책’</b> 코스를 웹으로 구현.
+    </div>
+    <div class="body" style="margin-top:18px;font-size:16px;color:var(--muted);">
+      → 손님에게 <b style="color:var(--ink);">가게에 올 이유</b>를 만든다.
+    </div>
+  </div>
+
+  <div style="position:absolute;right:64px;top:150px;width:512px;height:476px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div class="ph" data-label="막걸리산책 웹&#10;산책 코스 화면" style="background:#e4e0d8;"><img src="images/06_web_course.jpg" onerror="this.remove()" alt=""><span class="tag">Web</span></div>
+    <div class="ph" data-label="막걸리 취향 찾기&#10;화면" style="background:#e4e0d8;"><img src="images/07_web_taste.jpg" onerror="this.remove()" alt=""><span class="tag">Web</span></div>
+  </div>
+  <div class="pg">2026</div>
+</section>
+
+<!-- ════════ S8 · PROGRESS (진행상황) ════════ -->
+<section class="slide">
+  <div class="hd"><span>막걸리 계보</span><span class="r">Presentation</span></div>
+  <div class="hd-line"></div>
+
+  <div style="position:absolute;left:64px;top:150px;display:flex;align-items:flex-start;gap:22px;">
+    <span class="secnum" style="font-size:60px;">05</span>
+    <div style="padding-top:6px;">
+      <div class="seclabel">Progress</div>
+      <h1 class="kr" style="font-size:50px;margin-top:10px;">지금, 그리고 <span class="accent">앞으로</span></h1>
+    </div>
+  </div>
+
+  <!-- NOW -->
+  <div style="position:absolute;left:64px;top:344px;width:560px;">
+    <div style="font-family:var(--serif);font-size:15px;letter-spacing:.24em;color:var(--accent);margin-bottom:18px;">NOW · 지금까지 한 것</div>
+    <div class="now body" style="color:var(--ink);font-size:16.5px;line-height:1.5;">
+      <div style="padding:16px 0;border-top:1px solid var(--line);display:flex;align-items:center;gap:12px;">컬러칩 확정
+        <span style="display:inline-flex;gap:6px;align-items:center;">
+          <span style="width:15px;height:15px;border-radius:50%;background:#4E4E4E;border:1px solid rgba(0,0,0,.12);"></span>
+          <span style="width:15px;height:15px;border-radius:50%;background:#EC5025;border:1px solid rgba(0,0,0,.12);"></span>
+          <span style="width:15px;height:15px;border-radius:50%;background:#405EAB;border:1px solid rgba(0,0,0,.12);"></span>
+        </span>
+      </div>
+      <div style="padding:16px 0;border-top:1px solid var(--line);">메뉴판 디자인</div>
+      <div style="padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">막걸리산책 웹 디자인</div>
+    </div>
+  </div>
+
+  <!-- NEXT -->
+  <div style="position:absolute;right:64px;top:344px;width:512px;">
+    <div style="font-family:var(--serif);font-size:15px;letter-spacing:.24em;color:var(--muted);margin-bottom:18px;">NEXT · 앞으로</div>
+    <div style="display:flex;flex-direction:column;gap:11px;">
+      <div style="display:flex;align-items:center;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 22px;">
+        <span class="secnum" style="font-size:19px;">01</span><span style="font-family:var(--kr-head);font-weight:700;font-size:17px;">디자인 완성</span></div>
+      <div style="display:flex;align-items:center;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 22px;">
+        <span class="secnum" style="font-size:19px;">02</span><span style="font-family:var(--kr-head);font-weight:700;font-size:17px;">막걸리 스토리라인 살리기 <span style="color:var(--muted);font-weight:500;font-size:14px;">· 사장님 소통</span></span></div>
+      <div style="display:flex;align-items:center;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 22px;">
+        <span class="secnum" style="font-size:19px;">03</span><span style="font-family:var(--kr-head);font-weight:700;font-size:17px;">웹 개발</span></div>
+      <div style="display:flex;align-items:center;gap:16px;background:var(--accent);border:1px solid var(--accent);border-radius:12px;padding:14px 22px;">
+        <span class="secnum" style="font-size:19px;color:#ffd9cd;">04</span><span style="font-family:var(--kr-head);font-weight:700;font-size:17px;color:#fff;">최종 발표</span></div>
+    </div>
+  </div>
+  <div class="pg">2026</div>
+</section>
+
+<!-- ════════ S9 · THE LOOP (vision) ════════ -->
+<section class="slide">
+  <div class="hd"><span>막걸리 계보</span><span class="r">Presentation</span></div>
+  <div class="hd-line"></div>
+  <div class="ring" style="width:260px;height:260px;right:-70px;bottom:-70px;opacity:.5;"></div>
+
+  <div style="position:absolute;left:64px;top:150px;">
+    <div class="seclabel">The Virtuous Loop · 선순환</div>
+    <h1 class="kr" style="font-size:50px;margin-top:10px;">한 잔에서 시작되는 <span class="accent">선순환</span></h1>
+  </div>
+
+  <!-- flow -->
+  <div style="position:absolute;left:64px;right:64px;top:322px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+    <div class="loopstep"><div class="ln">거점</div><div class="lt">막걸리 계보</div></div>
+    <div class="arr">→</div>
+    <div class="loopstep"><div class="ln">한 잔</div><div class="lt">테이크아웃</div></div>
+    <div class="arr">→</div>
+    <div class="loopstep"><div class="ln">경험</div><div class="lt">막걸리산책 웹</div></div>
+    <div class="arr">→</div>
+    <div class="loopstep"><div class="ln">유입</div><div class="lt">공방거리 방문</div></div>
+    <div class="arr accent">→</div>
+    <div class="loopstep on"><div class="ln" style="color:#ffd9cd;">회복</div><div class="lt" style="color:#fff;">상권이 살아난다</div></div>
+  </div>
+
+  <div style="position:absolute;left:64px;right:64px;top:500px;font-family:var(--kr-head);font-weight:800;font-size:30px;color:var(--ink);text-align:center;line-height:1.4;">
+    “막걸리 계보 한 잔이, <span style="color:var(--accent);">공방거리를 걷게 만든다</span>”
+  </div>
+  <div class="pg">2026</div>
+  <style>
+    .loopstep{ flex:1; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:26px 12px; text-align:center; }
+    .loopstep.on{ background:var(--accent); border-color:var(--accent); }
+    .loopstep .ln{ font-family:var(--serif); font-size:12px; letter-spacing:.18em; color:var(--accent); text-transform:uppercase; margin-bottom:10px; }
+    .loopstep .lt{ font-family:var(--kr-head); font-weight:700; font-size:17px; color:var(--ink); }
+    .arr{ font-family:var(--kr-body); font-size:22px; color:var(--faint); flex:0 0 auto; }
+    .arr.accent{ color:var(--accent); }
+  </style>
+</section>
+
+<!-- ════════ S10 · THANKS ════════ -->
+<section class="slide" style="background:var(--ink);">
+  <div class="blob" style="width:520px;height:520px;left:-200px;bottom:-240px;"></div>
+  <div class="ring" style="width:280px;height:280px;right:140px;top:130px;opacity:.7;"></div>
+
+  <div class="hd" style="color:#f3efe9;"><span>막걸리 계보</span><span class="r" style="color:#8f8881;">Thank You</span></div>
+  <div class="hd-line" style="background:#34302c;"></div>
+
+  <div style="position:absolute;left:64px;top:236px;">
+    <h1 class="kr" style="font-family:var(--serif);font-weight:700;color:#f6f1ea;font-size:108px;letter-spacing:.02em;">THANK YOU</h1>
+    <div class="body" style="color:#c9c1b8;font-size:21px;margin-top:26px;">
+      막걸리 계보<span style="color:var(--accent);font-weight:700;padding:0 12px;">&times;</span>행궁동 공방거리
+    </div>
+  </div>
+  <div class="pg" style="color:#6f6860;">2026</div>
+</section>
+
+</body>
+</html>

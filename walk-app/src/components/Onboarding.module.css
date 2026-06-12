@@ -6,7 +6,7 @@
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(160deg, #87CFBD 0%, #B8E4DA 28%, #FFFCF0 58%);
+  background: linear-gradient(160deg, #405EAB 0%, #5d77bd 18%, #F4EEE3 50%, #EE6240 82%, #EC5025 100%);
 }
 
 /* 콘텐츠 너비 제한 — 배경은 풀뷰포트, 내용만 480px */
@@ -45,7 +45,7 @@
   font-weight: 900;
   letter-spacing: -0.02em;
   line-height: 1.2;
-  color: var(--ink);
+  color: #FFFFFF;
   text-align: left;
 }
 
@@ -63,7 +63,7 @@
   font-weight: 900;
   letter-spacing: -0.02em;
   line-height: 1.2;
-  color: var(--ink);
+  color: #FFFFFF;
   text-align: right;
   width: 100%;
 }
@@ -72,7 +72,7 @@
   font-family: 'Noto Serif KR', serif;
   font-size: 32px;
   font-weight: 700;
-  color: #6B3A2A;
+  color: #FFFFFF;
 }
 
 /* 제목용 강조 — 명조체 + 사이즈 포함 */
@@ -80,22 +80,22 @@
   font-family: 'Noto Serif KR', serif;
   font-size: 32px;
   font-weight: 700;
-  color: #1A4A30;
+  color: #FFFFFF;
 }
 
 /* 소제목용 강조 — 색상만 */
 .subGreen {
-  color: #1A4A30;
+  color: #FFFFFF;
   font-weight: 700;
 }
 
 .subBrown {
-  color: #6B3A2A;
+  color: #FFFFFF;
   font-weight: 700;
 }
 
 .accentBrown {
-  color: #6B3A2A;
+  color: #FFFFFF;
   font-weight: 700;
 }
 
@@ -129,7 +129,7 @@
 .subLineLeft {
   font-size: 18px;
   font-weight: 400;
-  color: var(--ink);
+  color: #FFFFFF;
   line-height: 1.4;
   text-align: left;
   letter-spacing: -0.01em;
@@ -138,7 +138,7 @@
 .subLineRight {
   font-size: 18px;
   font-weight: 400;
-  color: var(--ink);
+  color: #FFFFFF;
   line-height: 1.4;
   text-align: right;
   letter-spacing: -0.01em;
@@ -148,8 +148,8 @@
   margin-top: 0;
   width: 100%;
   min-height: 56px;
-  background: linear-gradient(135deg, #A82820 0%, #6E1418 100%);
-  color: #FFFFF5;
+  background: linear-gradient(135deg, #2A2A2A 0%, #121212 100%);
+  color: #FFFFFF;
   font-size: 16px;
   font-weight: 700;
   border-radius: var(--radius-md);
@@ -160,7 +160,7 @@
   transition: opacity 0.15s, transform 0.1s;
   position: relative;
   z-index: 1;
-  box-shadow: 0 2px 10px rgba(100, 20, 20, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
   letter-spacing: 0.01em;
 }
 

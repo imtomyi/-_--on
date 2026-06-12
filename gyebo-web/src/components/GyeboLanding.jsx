@@ -4,11 +4,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './GyeboLanding.module.css'
 import { makgeolliList } from '../data/makgeolli'
 import { useLenis } from '../hooks/useLenis'
-import WebGLMorph from './WebGLMorph'
+import { useLang } from '../i18n/LanguageContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const LEVEL_KO = { intro: '입문', mid: '중급', deep: '심화' }
+const pre = { whiteSpace: 'pre-line' }   // '\n' 줄바꿈 렌더
 
 /* 프리뷰 스트립용 — 3벌 복제로 양방향 무한 루프 */
 const tripleList = [
@@ -122,6 +122,8 @@ export default function GyeboLanding({ onCatalog }) {
   const s5IllustRef   = useRef(null)
   const teapotRef     = useRef(null)
   const pancakeRef    = useRef(null)
+
+  const { t, tm } = useLang()
 
   useLenis()
 
@@ -245,9 +247,9 @@ export default function GyeboLanding({ onCatalog }) {
 
       {/* ── 고정 네비게이션 ───────────────── */}
       <nav ref={navRef} className={styles.nav} data-scrolled="false">
-        <span className={styles.navLogo}>막걸리 계보</span>
+        <span className={styles.navLogo}>{t('nav.logo')}</span>
         <button className={styles.navCta} onClick={onCatalog}>
-          계보 보기 →
+          {t('nav.cta')}
         </button>
       </nav>
 
@@ -257,32 +259,30 @@ export default function GyeboLanding({ onCatalog }) {
       <section className={`${styles.section} ${styles.s1}`} data-visible="true">
         <div className={styles.s1Inner}>
           <div className={styles.s1Copy}>
-            <span className={styles.s1Tag}>행궁동 수원 · Haenggung-dong</span>
+            <span className={styles.s1Tag}>{t('s1.tag')}</span>
             <h1 className={styles.heroTitle}>
-              <span className={styles.krLine}>숨 쉬는 항아리,</span>
+              <span className={styles.krLine}>{t('s1.krline')}</span>
               <span className={styles.enLine}>Makgeolli</span>
               <span className={styles.enLine2}>Story</span>
             </h1>
-            <p className={styles.heroSub}>열 가지 막걸리가 남긴<br/>각각의 이야기와 계보</p>
           </div>
         </div>
 
         <div className={styles.previewStrip} ref={stripRef} aria-label="막걸리 목록 미리보기">
           {tripleList.map((item) => (
-            <button key={item._k} className={styles.previewCard} onClick={onCatalog} aria-label={item.name}>
+            <button key={item._k} className={styles.previewCard} onClick={onCatalog} aria-label={tm(item, 'name')}>
               <div className={styles.previewThumb}>
                 <span className={styles.previewPlaceholderLine} aria-hidden="true" />
-                <span className={styles.previewIngrLabel}>{item.ingredient}</span>
+                <span className={styles.previewIngrLabel}>{tm(item, 'ingredient')}</span>
               </div>
-              <span className={styles.previewName}>{item.name}</span>
-              <span className={styles.previewLevel}>{LEVEL_KO[item.level]}</span>
+              <span className={styles.previewName}>{tm(item, 'name')}</span>
             </button>
           ))}
         </div>
 
         <div className={styles.scrollHint}>
           <ScrollArrow />
-          <span className={styles.scrollLabel}>Scroll</span>
+          <span className={styles.scrollLabel}>{t('s1.scroll')}</span>
         </div>
       </section>
 
@@ -291,48 +291,48 @@ export default function GyeboLanding({ onCatalog }) {
       ════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.s3}`} ref={r(0)} data-visible="false">
         <div className={styles.s3Center}>
-          <h2 className={styles.s3Title}>선택받은<br/>막걸리</h2>
+          <h2 className={styles.s3Title} style={pre}>{t('s3.title')}</h2>
 
           <div className={styles.s3Cards}>
             <div className={styles.s3Card} data-align="left">
               <div className={styles.s3Thumb}>
                 <span className={styles.s3ThumbCross} aria-hidden="true" />
-                <span className={styles.s3ThumbIngr}>앉은뱅이밀</span>
+                <span className={styles.s3ThumbIngr}>{t('s3.c1.ingr')}</span>
               </div>
               <div className={styles.s3CardInfo}>
-                <span className={styles.s3CardName}>앉은뱅이술</span>
-                <span className={styles.s3CardMeta}>전통 토종밀 · 심화</span>
-                <p className={styles.s3CardStory}>씨앗을 지키고 복원하여 빚어냈다. 한 잔에 씨앗 하나의 역사가 담겨있다.</p>
+                <span className={styles.s3CardName}>{t('s3.c1.name')}</span>
+                <span className={styles.s3CardMeta}>{t('s3.c1.meta')}</span>
+                <p className={styles.s3CardStory}>{t('s3.c1.story')}</p>
               </div>
             </div>
 
             <div className={styles.s3Card} data-align="right">
               <div className={styles.s3Thumb}>
                 <span className={styles.s3ThumbCross} aria-hidden="true" />
-                <span className={styles.s3ThumbIngr}>오미자</span>
+                <span className={styles.s3ThumbIngr}>{t('s3.c2.ingr')}</span>
               </div>
               <div className={styles.s3CardInfo}>
-                <span className={styles.s3CardName}>문경오미자막걸리</span>
-                <span className={styles.s3CardMeta}>경북 문경 · 중급</span>
-                <p className={styles.s3CardStory}>오미(五味) — 다섯 가지 맛이 한 잔에. 한 모금 마시고 잠시 생각하게 되는 술.</p>
+                <span className={styles.s3CardName}>{t('s3.c2.name')}</span>
+                <span className={styles.s3CardMeta}>{t('s3.c2.meta')}</span>
+                <p className={styles.s3CardStory}>{t('s3.c2.story')}</p>
               </div>
             </div>
 
             <div className={styles.s3Card} data-align="left">
               <div className={styles.s3Thumb}>
                 <span className={styles.s3ThumbCross} aria-hidden="true" />
-                <span className={styles.s3ThumbIngr}>쌀</span>
+                <span className={styles.s3ThumbIngr}>{t('s3.c3.ingr')}</span>
               </div>
               <div className={styles.s3CardInfo}>
-                <span className={styles.s3CardName}>해창막걸리 9도</span>
-                <span className={styles.s3CardMeta}>전남 해남 · 심화</span>
-                <p className={styles.s3CardStory}>정통파의 자존심. 9도의 깊은 풍미와 길게 남는 여운.</p>
+                <span className={styles.s3CardName}>{t('s3.c3.name')}</span>
+                <span className={styles.s3CardMeta}>{t('s3.c3.meta')}</span>
+                <p className={styles.s3CardStory}>{t('s3.c3.story')}</p>
               </div>
             </div>
           </div>
 
           <button className={styles.processLink} onClick={onCatalog}>
-            계보 전체 보기
+            {t('common.viewAll')}
             <span className={styles.linkArrow}>→</span>
           </button>
         </div>
@@ -345,8 +345,8 @@ export default function GyeboLanding({ onCatalog }) {
         <div className={styles.curInner}>
           <div className={styles.curHead}>
             <div>
-              <h2 className={styles.curTitle}>계보가<br/>고르는 방식</h2>
-              <p className={styles.curSub}>Curation Criteria</p>
+              <h2 className={styles.curTitle} style={pre}>{t('scur.title')}</h2>
+              <p className={styles.curSub}>{t('scur.sub')}</p>
             </div>
           </div>
 
@@ -354,9 +354,9 @@ export default function GyeboLanding({ onCatalog }) {
             <div className={styles.curItem}>
               <span className={styles.curRoman}>Ⅰ</span>
               <div className={styles.curItemBody}>
-                <span className={styles.curItemKo}>지역성</span>
+                <span className={styles.curItemKo}>{t('scur.1.term')}</span>
                 <span className={styles.curItemEn}>Terroir</span>
-                <p className={styles.curItemDesc}>산지와 계절이 빚어낸<br/>원재료의 이야기</p>
+                <p className={styles.curItemDesc} style={pre}>{t('scur.1.desc')}</p>
               </div>
             </div>
             <div className={styles.curDivider} />
@@ -364,9 +364,9 @@ export default function GyeboLanding({ onCatalog }) {
             <div className={styles.curItem}>
               <span className={styles.curRoman}>Ⅱ</span>
               <div className={styles.curItemBody}>
-                <span className={styles.curItemKo}>장인성</span>
+                <span className={styles.curItemKo}>{t('scur.2.term')}</span>
                 <span className={styles.curItemEn}>Craftsmanship</span>
-                <p className={styles.curItemDesc}>대형 공장이 아닌<br/>소규모 양조장의 손맛</p>
+                <p className={styles.curItemDesc} style={pre}>{t('scur.2.desc')}</p>
               </div>
             </div>
             <div className={styles.curDivider} />
@@ -374,37 +374,20 @@ export default function GyeboLanding({ onCatalog }) {
             <div className={styles.curItem}>
               <span className={styles.curRoman}>Ⅲ</span>
               <div className={styles.curItemBody}>
-                <span className={styles.curItemKo}>서사</span>
+                <span className={styles.curItemKo}>{t('scur.3.term')}</span>
                 <span className={styles.curItemEn}>Narrative</span>
-                <p className={styles.curItemDesc}>한 잔에 담긴<br/>역사와 문화의 맥락</p>
+                <p className={styles.curItemDesc} style={pre}>{t('scur.3.desc')}</p>
               </div>
             </div>
             <div className={styles.curDivider} />
           </div>
 
           <button className={styles.shopBtn} onClick={onCatalog}>
-            계보 전체 보기
+            {t('common.viewAll')}
           </button>
         </div>
       </section>
 
-      {/* ════════════════════════════════════
-          Section 4 — 재료
-      ════════════════════════════════════ */}
-      <section className={`${styles.section} ${styles.s5}`} ref={r(2)} data-visible="false">
-        <div className={styles.s5Content}>
-          <h2 className={styles.ingredientsTitle} ref={ingTitleRef}>
-            Only Natural<br/>Ingredients
-          </h2>
-          <p className={styles.s5Sub}>쌀, 물, 누룩.<br/>그것으로 충분합니다.</p>
-          <button className={styles.finalCta} onClick={onCatalog}>
-            막걸리 계보 보기 →
-          </button>
-        </div>
-        <div className={styles.s5Illustration} ref={s5IllustRef} aria-hidden="true">
-          <RiceOverhead />
-        </div>
-      </section>
 
       {/* ════════════════════════════════════
           Section 5 — 페어링
@@ -412,7 +395,7 @@ export default function GyeboLanding({ onCatalog }) {
       <section className={`${styles.section} ${styles.s2}`} ref={r(3)} data-visible="false">
         <div className={styles.s2Header}>
           <div>
-            <h2 className={styles.s2Title}>어울리는 것들</h2>
+            <h2 className={styles.s2Title}>{t('s2.title')}</h2>
             <p className={styles.s2Desc}>Explore the perfect match</p>
           </div>
         </div>
@@ -420,11 +403,11 @@ export default function GyeboLanding({ onCatalog }) {
         <div className={styles.illustRow}>
           <div className={styles.teapotWrap} ref={teapotRef}>
             <Teapot />
-            <span className={styles.illustLabel}>주전자</span>
+            <span className={styles.illustLabel}>{t('s2.label.teapot')}</span>
           </div>
           <div className={styles.pancakeWrap} ref={pancakeRef}>
             <Pancake />
-            <span className={styles.illustLabel}>부침개</span>
+            <span className={styles.illustLabel}>{t('s2.label.pancake')}</span>
           </div>
         </div>
 

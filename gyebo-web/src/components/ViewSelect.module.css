@@ -1,0 +1,191 @@
+/* ═══════════════════════════════════════════
+   ViewSelect — 탐색 방식 선택 화면
+   ═══════════════════════════════════════════ */
+
+.page {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: #E9E9E9;
+  color: var(--ink);
+  font-family: var(--sans);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 네비 ─────────────────────────────────── */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--px);
+  background: rgba(233,233,233,0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.navLogo {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.navBack {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--yellow-dk);
+  background: transparent;
+  border: 1px solid rgba(200,168,24,0.5);
+  padding: 7px 12px;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.navBack:hover { background: rgba(200,168,24,0.08); }
+
+/* ── 헤더 ─────────────────────────────────── */
+.header {
+  padding: 44px var(--px) 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.eye {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: var(--yellow-dk);
+}
+.title {
+  font-family: var(--serif);
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #161616;
+}
+.sub {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  margin-top: 4px;
+}
+
+/* ── 선택 카드 영역 ───────────────────────── */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 var(--px);
+  flex: 1;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 20px;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(0,0,0,0.07);
+  border-radius: 18px;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  transition: transform 0.22s var(--ease),
+              border-color 0.22s var(--ease),
+              box-shadow 0.22s var(--ease);
+  width: 100%;
+}
+.choice:hover,
+.choice:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+}
+.choice[data-variant="list"]:hover  { border-color: rgba(200,168,24,0.5); }
+.choice[data-variant="map"]:hover   { border-color: rgba(135,207,189,0.6); }
+.choice:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+.choice:active { transform: translateY(0); }
+
+/* 아이콘 래퍼 */
+.choiceIconWrap {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.choiceIconWrap[data-variant="list"] {
+  background: rgba(200,168,24,0.10);
+  color: var(--yellow-dk);
+}
+.choiceIconWrap[data-variant="map"] {
+  background: rgba(135,207,189,0.18);
+  color: var(--jade-dk);
+}
+
+.choiceIcon {
+  width: 28px;
+  height: 28px;
+}
+
+/* 텍스트 */
+.choiceBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.choiceLabel {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #161616;
+}
+.choiceDesc {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 화살표 */
+.choiceArrow {
+  flex-shrink: 0;
+  font-size: 18px;
+  color: rgba(0,0,0,0.25);
+  font-family: var(--serif);
+}
+
+/* ── 하단 힌트 ───────────────────────────── */
+.hint {
+  padding: 24px var(--px) 36px;
+  font-size: 11px;
+  color: #AAA;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* ── 등장 애니메이션 ─────────────────────── */
+.header {
+  animation: fadeUp 0.5s var(--ease) both;
+}
+.choices {
+  animation: fadeUp 0.55s var(--ease) 0.08s both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header, .choices { animation: none; }
+  .choice:hover { transform: none; }
+}

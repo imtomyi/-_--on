@@ -2,9 +2,9 @@ import { courses } from '../data/courses'
 import styles from './Home.module.css'
 
 const characterAccent = {
-  'nuruk-green': 'var(--jade)',
-  'nuruk-gold':  'var(--gold)',
-  'nuruk-plum':  'var(--azalea)',
+  'nuruk-green': '#405EAB',   // 01 · 파랑
+  'nuruk-gold':  '#EC5025',   // 02 · 주황
+  'nuruk-plum':  '#1A1A1A',   // 03 · 세련된 블랙
 }
 
 export default function Home({ onSelect }) {
@@ -17,14 +17,13 @@ export default function Home({ onSelect }) {
           <span className={styles.topBarLabel}>코스 선택</span>
           <h1 className={styles.topBarTitle}>어떤 코스로 걸을까요?</h1>
         </div>
-        <span className={styles.topBarCount}>{courses.length}</span>
       </header>
 
       <div className={styles.hairlineGold} />
 
       <ul className={styles.list}>
         {courses.map((course, idx) => {
-          const accent = characterAccent[course.character] ?? 'var(--jade)'
+          const accent = characterAccent[course.character] ?? '#405EAB'
           return (
             <li key={course.id}>
               <button
