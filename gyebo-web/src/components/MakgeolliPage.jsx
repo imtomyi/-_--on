@@ -9,28 +9,12 @@ import MakgeolliDetail from './MakgeolliDetail'
 import TasteTest from './TasteTest'
 import FlavorMap from './FlavorMap'
 import RecoResult from './RecoResult'
+import Survey from './Survey'
 import gsap from 'gsap'
 import { useLang } from '../i18n/LanguageContext'
 import styles from './MakgeolliPage.module.css'
 
 const pre = { whiteSpace: 'pre-line' }
-
-/* 카드 썸네일용 미니 병 */
-function MiniBottle() {
-  return (
-    <svg viewBox="0 0 60 150" fill="none" xmlns="http://www.w3.org/2000/svg"
-      className={styles.miniBottle} aria-hidden="true">
-      <path d="M20 146 C12 146 6 139 6 130 L6 70 C6 61 11 54 16 51 L17 36
-               C12 33 10 27 10 21 L10 12 L50 12 L50 21 C50 27 48 33 43 36
-               L44 52 C49 55 54 62 54 71 L54 131 C54 140 48 146 40 146 Z"
-        fill="rgba(255,255,255,0.5)" stroke="rgba(0,0,0,0.2)" strokeWidth="1.3"/>
-      <path d="M9 104 L51 104 L50 130 C49 140 43 145 35 145 L23 145 C16 145 10 140 9 130 Z"
-        fill="var(--card-color, #d8caa6)" opacity="0.95"/>
-      <rect x="18" y="7" width="24" height="7" rx="2" fill="rgba(0,0,0,0.32)"/>
-      <line x1="14" y1="76" x2="46" y2="76" stroke="rgba(0,0,0,0.15)" strokeWidth="0.8"/>
-    </svg>
-  )
-}
 
 /* ═══════════════════════════════════════════
    Main
@@ -40,6 +24,8 @@ export default function MakgeolliPage({ onBack, initialView = 'list' }) {
   const [showTest, setShowTest]     = useState(false)
   const [recommended, setRecommended] = useState(null)
   const [showReco, setShowReco]     = useState(false)
+  const [recoSource, setRecoSource] = useState('test')  // 'test' | 'survey' — '다시 테스트' 재진입용
+  const [showSurvey, setShowSurvey] = useState(false)
   const [view, setView]             = useState(initialView)
 
   const { t, tm } = useLang()
@@ -91,7 +77,6 @@ export default function MakgeolliPage({ onBack, initialView = 'list' }) {
 
       {/* ══ 인트로 헤더 ═══════════════════════ */}
       <header className={styles.intro}>
-        <span className={styles.introEye}>{t('cat.intro.eye')}</span>
         <h1 className={styles.introTitle}>
           <span className={styles.introKr}>{t('cat.intro.title')}</span>
           <span className={styles.introEn}>The Makgeolli Lineage</span>
@@ -122,8 +107,23 @@ export default function MakgeolliPage({ onBack, initialView = 'list' }) {
             >
               <div className={styles.cardThumb}>
                 <span className={styles.cardNum}>{String(idx + 1).padStart(2, '0')}</span>
-                <MiniBottle />
-                <span className={styles.cardAbv}>{item.flavor.abv}°</span>
+                {item.favorite && (
+                  <span className={styles.favBadge}>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77 5.82 21l1.18-6.88-5-4.87 7.1-1.01L12 2z"/>
+                    </svg>
+                    사장님 최애
+                  </span>
+                )}
+                <img
+                  className={styles.cardImg}
+                  src={item.image}
+                  alt={`${tm(item, 'name')} 재료 일러스트`}
+                  loading="lazy"
+                />
+                {item.metrics.abv != null && (
+                  <span className={styles.cardAbv}>{item.metrics.abv}°</span>
+                )}
               </div>
               <div className={styles.cardInfo}>
                 <span className={styles.cardRegion}>{tm(item, 'region')}</span>
@@ -139,14 +139,13 @@ export default function MakgeolliPage({ onBack, initialView = 'list' }) {
 
       {/* ══ 푸터 ══════════════════════════════ */}
       <footer className={styles.footer}>
-        <div className={styles.footerSeal} aria-hidden="true">
-          <span className={styles.footerChar}>계</span>
-        </div>
         <span className={styles.footerName}>{t('cat.footer.name')}</span>
-        <span className={styles.footerSub}>{t('cat.footer.sub')}</span>
+        <p className={styles.footerAddr}>경기 수원시 팔달구 정조로 781-13 1층</p>
+        <a className={styles.footerTel} href="tel:050714450052">0507-1445-0052</a>
         <div className={styles.footerActions}>
           <button className={styles.footerBtn} onClick={() => setView('map')}>{t('cat.footer.map')}</button>
           <button className={styles.footerBtnGhost} onClick={() => setShowTest(true)}>{t('cat.footer.taste')}</button>
+          <button className={styles.footerBtnGhost} onClick={() => setShowSurvey(true)}>맞춤 추천</button>
         </div>
       </footer>
 
@@ -155,7 +154,7 @@ export default function MakgeolliPage({ onBack, initialView = 'list' }) {
         <TasteTest
           questions={tasteQuestions}
           list={makgeolliList}
-          onResult={res => { setRecommended(res); setShowTest(false); setShowReco(true) }}
+          onResult={res => { setRecommended(res); setRecoSource('test'); setShowTest(false); setShowReco(true) }}
           onClose={() => setShowTest(false)}
         />
       )}
@@ -174,8 +173,19 @@ export default function MakgeolliPage({ onBack, initialView = 'list' }) {
         <RecoResult
           item={recommended}
           onView={() => { setShowReco(false); openDetail(recommended) }}
-          onRetry={() => { setShowReco(false); setRecommended(null); setShowTest(true) }}
+          onRetry={() => {
+            setShowReco(false); setRecommended(null)
+            recoSource === 'survey' ? setShowSurvey(true) : setShowTest(true)
+          }}
           onClose={() => setShowReco(false)}
+        />
+      )}
+
+      {/* 맞춤 막걸리 추천 설문 */}
+      {showSurvey && (
+        <Survey
+          onResult={res => { setRecommended(res); setRecoSource('survey'); setShowSurvey(false); setShowReco(true) }}
+          onClose={() => setShowSurvey(false)}
         />
       )}
     </div>

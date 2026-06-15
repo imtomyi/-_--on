@@ -9,64 +9,85 @@
  * d3/Mapbox 대신 이미지 + GSAP transform 으로 모바일 60fps 시네마틱 모션.
  */
 
-import { useState, useRef, useLayoutEffect } from 'react'
+import { useState, useRef, useMemo, useLayoutEffect } from 'react'
 import { makgeolliList } from '../data/makgeolli'
 import gsap from 'gsap'
 import styles from './FlavorMap.module.css'
 
 const LEVEL_KO = { intro: '입문', mid: '중급', deep: '심화' }
 
-/* 한반도 이미지(korea-map.jpg) 기준 지역 좌표 % (좌→우, 상→하) */
+/* 한반도 이미지(korea-map.png) '이미지 박스' 기준 지역 좌표 % (좌→우, 상→하) */
 const REGION_POS = {
-  '경기 양평':   { x: 47, y: 51, label: '경기 양평' },
-  '경북 청송':   { x: 64, y: 63, label: '경북 청송' },
-  '충남 공주':   { x: 42, y: 59, label: '충남 공주' },
-  '전남 고흥':   { x: 49, y: 80, label: '전남 고흥' },
-  '경북 문경':   { x: 57, y: 59, label: '경북 문경' },
-  '충북 단양':   { x: 54, y: 57, label: '충북 단양' },
-  '전남 해남':   { x: 42, y: 83, label: '전남 해남' },
-  '미확인':      { x: 51, y: 64, label: '한반도 어딘가' },
-  '전통 토종밀': { x: 56, y: 73, label: '경남 진주' },
+  '경기 양평': { x: 44, y: 54, label: '경기 양평' },
+  '경북 청송': { x: 65, y: 65, label: '경북 청송' },
+  '충남 공주': { x: 39, y: 65, label: '충남 공주' },
+  '전남 고흥': { x: 41, y: 85, label: '전남 고흥' },
+  '경북 문경': { x: 53, y: 63, label: '경북 문경' },
+  '충북 단양': { x: 56, y: 59, label: '충북 단양' },
+  '전통 토종밀': { x: 52, y: 79, label: '경남 진주' },   // 앉은뱅이밀 산지(진주)로 줌
+  '전남 해남': { x: 31, y: 86, label: '전남 해남' },
 }
 const posOf = item => REGION_POS[item.region] ?? { x: 50, y: 64, label: item.region }
 
-/* 맛 4분면 노드 위치 (%) — X: 달다↔드라이 / Y: 가볍다↔묵직 */
+/* 맛 4분면 노드 위치 (%) — X: 달다↔드라이(산미−단맛) / Y: 가볍다↔묵직(바디) */
 function nodePct(item) {
-  const x = 12 + ((item.flavor.sweet - item.flavor.dry + 3) / 6) * 76
-  const y = 12 + ((item.flavor.body - 2) / 3) * 76
+  const { sweetness, acidity, body } = item.metrics
+  const dryness = acidity - sweetness          // -3..3 (클수록 드라이)
+  const x = 12 + ((dryness + 4) / 8) * 76
+  const y = 12 + ((body - 2) / 3) * 76
   return { x, y }
 }
-/* ABV → 노드 지름(px) */
-const sizeOf = item => 42 + ((item.flavor.abv - 6) / 3) * 34   // 42 ~ 76
-
-/* 지역 병 SVG */
-function RootBottle({ color }) {
-  return (
-    <svg viewBox="0 0 80 200" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.bottleSvg} aria-hidden="true">
-      <defs>
-        <linearGradient id="fm-glass" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#ffffff" stopOpacity="0.5"/>
-          <stop offset="0.5" stopColor="#ffffff" stopOpacity="0.12"/>
-          <stop offset="1" stopColor="#ffffff" stopOpacity="0.34"/>
-        </linearGradient>
-      </defs>
-      <path d="M27 196 C16 196 9 188 9 178 L9 96 C9 86 15 79 21 76 L22 50
-               C16 47 14 40 14 33 L14 14 L66 14 L66 33 C66 40 64 47 58 50
-               L59 77 C65 80 71 87 71 97 L71 178 C71 188 64 196 53 196 Z"
-        fill="url(#fm-glass)" stroke="rgba(255,255,255,0.6)" strokeWidth="1.4"/>
-      <path d="M13 132 L67 132 L66 176 C65 187 58 194 49 194 L31 194
-               C22 194 15 187 14 176 Z"
-        fill={color} opacity="0.92"/>
-      <rect x="24" y="6" width="32" height="9" rx="3" fill="rgba(0,0,0,0.3)"/>
-      <rect x="18" y="92" width="44" height="40" rx="3" fill="rgba(255,255,255,0.65)" stroke="rgba(0,0,0,0.1)"/>
-      <text x="40" y="110" textAnchor="middle" fontFamily="serif" fontSize="13" fill="#3a2d20">계보</text>
-      <line x1="26" y1="120" x2="54" y2="120" stroke="rgba(200,168,24,0.7)" strokeWidth="1"/>
-    </svg>
-  )
+/* 도수(abv, 미상=6) → 노드 지름(px): 도수 높을수록 큼 */
+const sizeOf = item => {
+  const a = item.metrics.abv ?? 6
+  return 30 + ((a - 6) / 3) * 18   // 6도 30 ~ 9도 48
 }
+
+/* 도수 → 주황·갈색 단일 계열 색 (도수 높을수록 짙어짐) */
+function nodeColor(item) {
+  const a = item.metrics.abv ?? 6
+  const t = Math.max(0, Math.min(1, (a - 6) / 3))
+  const L = [0xF0, 0xC1, 0x86], D = [0x7A, 0x43, 0x1C]   // 연한 주황 → 짙은 갈색
+  const m = i => Math.round(L[i] + (D[i] - L[i]) * t)
+  return `rgb(${m(0)}, ${m(1)}, ${m(2)})`
+}
+
+/* 노드 배치 + 충돌 완화(겹침 방지) — 명목 매트릭스 px 기준 relaxation */
+function layoutNodes(list, W = 327, H = 580) {
+  const ns = list.map(item => {
+    const { x, y } = nodePct(item)
+    return { px: (x / 100) * W, py: (y / 100) * H, size: sizeOf(item) }
+  })
+  for (let it = 0; it < 140; it++) {
+    for (let i = 0; i < ns.length; i++) {
+      for (let j = i + 1; j < ns.length; j++) {
+        const a = ns[i], b = ns[j]
+        let dx = b.px - a.px, dy = b.py - a.py
+        let d = Math.hypot(dx, dy)
+        if (d < 0.01) {                       // 동일 위치 → 결정적으로 분리
+          dx = Math.cos(i * 2.39); dy = Math.sin(i * 2.39); d = 1
+        }
+        const min = (a.size + b.size) / 2 + 9   // 9px 여유
+        if (d < min) {
+          const push = (min - d) / 2, ux = dx / d, uy = dy / d
+          a.px -= ux * push; a.py -= uy * push
+          b.px += ux * push; b.py += uy * push
+        }
+      }
+    }
+  }
+  return ns.map(n => {
+    const r = n.size / 2
+    const px = Math.max(r + 4, Math.min(W - r - 4, n.px))
+    const py = Math.max(r + 4, Math.min(H - r - 4, n.py))
+    return { x: (px / W) * 100, y: (py / H) * 100, size: n.size }
+  })
+}
+
 
 export default function FlavorMap({ onBack }) {
   const [active, setActive]   = useState(null)   // 선택된 막걸리 (지역 뷰)
+  const layout = useMemo(() => layoutNodes(makgeolliList), [])  // 겹침 완화된 노드 위치
 
   const busy     = useRef(false)
   const pageRef  = useRef(null)
@@ -96,17 +117,24 @@ export default function FlavorMap({ onBack }) {
     const p = posOf(item)
 
     // 줌 변환 계산 (반응형) — region 점을 뷰포트 중앙으로
+    // 좌표(p)는 '지도 이미지 박스' 기준 % → 실제 렌더된 이미지 위치로 환산
     const pageRect = pageRef.current.getBoundingClientRect()
     const mapRect  = mapRef.current.getBoundingClientRect()
-    const regionX  = mapRect.left + (p.x / 100) * mapRect.width
-    const regionY  = mapRect.top  + (p.y / 100) * mapRect.height
+    const imgEl    = mapRef.current.querySelector(`.${styles.mapImg}`)
+    const imgRect  = (imgEl || mapRef.current).getBoundingClientRect()
+    const regionX  = imgRect.left + (p.x / 100) * imgRect.width
+    const regionY  = imgRect.top  + (p.y / 100) * imgRect.height
+    // transform-origin 은 컨테이너(.map) 기준 % 로 변환
+    const ox = ((regionX - mapRect.left) / mapRect.width)  * 100
+    const oy = ((regionY - mapRect.top)  / mapRect.height) * 100
+    const origin = `${ox}% ${oy}%`
     const dx = (pageRect.left + pageRect.width  / 2) - regionX
     const dy = (pageRect.top  + pageRect.height * 0.42) - regionY
     const scale = 2.7
 
     if (reduce) {
       gsap.set(matrixRef.current, { opacity: 0 })
-      gsap.set(mapRef.current, { scale, x: dx, y: dy, transformOrigin: `${p.x}% ${p.y}%`, filter: 'blur(0px)', opacity: 0.5 })
+      gsap.set(mapRef.current, { scale, x: dx, y: dy, transformOrigin: origin, filter: 'blur(0px)', opacity: 0.5 })
       revealStage(true)
       busy.current = false
       return
@@ -120,7 +148,7 @@ export default function FlavorMap({ onBack }) {
     /* 맵 선명 + 시네마틱 줌 (Expo.inOut) */
     tl.to(mapRef.current, {
       scale, x: dx, y: dy,
-      transformOrigin: `${p.x}% ${p.y}%`,
+      transformOrigin: origin,
       filter: 'blur(0px)',
       duration: 1.3, ease: 'expo.inOut',
     }, 0.1)
@@ -182,7 +210,7 @@ export default function FlavorMap({ onBack }) {
 
       {/* ── 한반도 맵 레이어 (배경 ↔ 줌) ── */}
       <div ref={mapRef} className={styles.map} aria-hidden="true">
-        <img src="/korea-map.jpg" alt="" className={styles.mapImg} />
+        <img src="/korea-map.png" alt="" className={styles.mapImg} />
       </div>
 
       {/* ── 헤더 ── */}
@@ -218,15 +246,14 @@ export default function FlavorMap({ onBack }) {
 
         {/* 노드 */}
         {makgeolliList.map((item, idx) => {
-          const { x, y } = nodePct(item)
-          const size = sizeOf(item)
+          const { x, y, size } = layout[idx]
           return (
             <button
               key={item.id}
               className={styles.node}
-              style={{ left: `${x}%`, top: `${y}%`, '--size': `${size}px` }}
+              style={{ left: `${x}%`, top: `${y}%`, '--size': `${size}px`, '--nc': nodeColor(item) }}
               onClick={() => openRegion(item)}
-              aria-label={`${item.name} ${item.flavor.abv}도`}
+              aria-label={`${item.name} ${LEVEL_KO[item.level]}`}
             >
               <span className={styles.nodeBubble} />
               <span className={styles.nodeNum}>{idx + 1}</span>
@@ -239,7 +266,7 @@ export default function FlavorMap({ onBack }) {
       <div ref={stageRef} className={styles.stage} style={{ pointerEvents: 'none' }}>
         <div ref={rippleRef} className={styles.ripple} style={{ opacity: 0 }} />
         <div ref={bottleRef} className={styles.bottle} style={{ opacity: 0 }}>
-          {active && <RootBottle color={active.color} />}
+          {active && <img className={styles.bottleImg} src={active.image} alt="" />}
         </div>
       </div>
 
@@ -254,13 +281,16 @@ export default function FlavorMap({ onBack }) {
             <h2 className={styles.panelName}>{active.name}</h2>
             <div className={styles.panelSpecRow}>
               <span className={styles.panelChip}>특산물 · {active.ingredient}</span>
-              <span className={styles.panelChip}>{active.flavor.abv}도</span>
+              <span className={styles.panelChip}>{active.brewery}</span>
+              {active.metrics.abv != null && (
+                <span className={styles.panelChip}>{active.metrics.abv}도</span>
+              )}
             </div>
             <p className={styles.panelStory}>{active.story}</p>
             <div className={styles.panelBars}>
-              <Bar label="단맛"   v={active.flavor.sweet} />
-              <Bar label="드라이" v={active.flavor.dry} />
-              <Bar label="바디"   v={active.flavor.body} />
+              <Bar label="단맛" v={active.metrics.sweetness} />
+              <Bar label="산미" v={active.metrics.acidity} />
+              <Bar label="바디" v={active.metrics.body} />
             </div>
             <div className={styles.panelTags}>
               {active.tags.map(t => <span key={t} className={styles.panelTag}>{t}</span>)}

@@ -38,19 +38,22 @@ export default function KakaoMap({ course, activeIdx, onMarkerClick }) {
     // 장소 마커
     const markers = course.places.map((place, idx) => {
       const isGyebo = place.type === 'start' || place.type === 'end'
-      const markerContent = `
-        <div style="
-          width:32px; height:32px;
-          background:${isGyebo ? '#C4932A' : '#FFFCF5'};
-          border:2px solid ${isGyebo ? '#C4932A' : '#DDD0B8'};
-          border-radius:50%;
-          display:flex; align-items:center; justify-content:center;
-          font-size:13px; font-weight:800;
-          color:${isGyebo ? '#FFFCF5' : '#1E140A'};
-          box-shadow:0 2px 8px rgba(30,20,10,0.18);
-          cursor:pointer;
-        ">${isGyebo ? '🍶' : idx + 1}</div>
-      `
+      const markerContent = isGyebo
+        ? `<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;">
+            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(150deg,#E8C44E,#BC8A1E);border:2px solid #FFF3CC;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(150,110,20,0.42);">
+              <svg width="17" height="21" viewBox="0 0 17 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.5 20 C4 20 3 19 3 17.3 L3 10.5 C3 9.2 3.8 8.3 4.7 7.9 L5 4.2 C4.3 3.8 4 3.3 4 2.6 L4 1 L13 1 L13 2.6 C13 3.3 12.7 3.8 12 4.2 L12.3 7.9 C13.2 8.3 14 9.2 14 10.5 L14 17.3 C14 19 13 20 11.5 20 Z" fill="#FFFCF0"/>
+                <rect x="4.6" y="11.6" width="7.8" height="5.6" rx="1" fill="#BC8A1E" opacity="0.55"/>
+              </svg>
+            </div>
+            <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid #BC8A1E;margin-top:-2px;"></div>
+          </div>`
+        : `<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;">
+            <div style="width:30px;height:30px;border-radius:50%;background:#FFFCF0;border:2px solid #BA2028;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(70,45,20,0.26);">
+              <span style="font-family:'Noto Serif KR',serif;font-size:14px;font-weight:700;color:#2A1A0E;line-height:1;">${idx + 1}</span>
+            </div>
+            <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #BA2028;margin-top:-2px;"></div>
+          </div>`
       const overlay = new kakao.maps.CustomOverlay({
         position: new kakao.maps.LatLng(place.lat, place.lng),
         content: markerContent,

@@ -8,6 +8,27 @@ const STYLE_URL = `https://api.maptiler.com/maps/aquarelle/style.json?key=${MAPT
 
 const ROUTE_COLOR = '#BA2028'  // --azalea
 
+/* 거점 마커 HTML — 수채화 지도와 어우러지는 종이/금색 물방울 핀 */
+function markerHTML(isGyebo, idx) {
+  if (isGyebo) {
+    return `<div style="display:flex;flex-direction:column;align-items:center;">
+      <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(150deg,#E8C44E,#BC8A1E);border:2px solid #FFF3CC;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(150,110,20,0.42);">
+        <svg width="17" height="21" viewBox="0 0 17 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.5 20 C4 20 3 19 3 17.3 L3 10.5 C3 9.2 3.8 8.3 4.7 7.9 L5 4.2 C4.3 3.8 4 3.3 4 2.6 L4 1 L13 1 L13 2.6 C13 3.3 12.7 3.8 12 4.2 L12.3 7.9 C13.2 8.3 14 9.2 14 10.5 L14 17.3 C14 19 13 20 11.5 20 Z" fill="#FFFCF0"/>
+          <rect x="4.6" y="11.6" width="7.8" height="5.6" rx="1" fill="#BC8A1E" opacity="0.55"/>
+        </svg>
+      </div>
+      <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid #BC8A1E;margin-top:-2px;filter:drop-shadow(0 2px 1px rgba(120,80,10,0.25));"></div>
+    </div>`
+  }
+  return `<div style="display:flex;flex-direction:column;align-items:center;">
+    <div style="width:30px;height:30px;border-radius:50%;background:#FFFCF0;border:2px solid ${ROUTE_COLOR};display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(70,45,20,0.26);">
+      <span style="font-family:'Noto Serif KR',serif;font-size:14px;font-weight:700;color:#2A1A0E;line-height:1;">${idx + 1}</span>
+    </div>
+    <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid ${ROUTE_COLOR};margin-top:-2px;filter:drop-shadow(0 2px 1px rgba(120,40,30,0.22));"></div>
+  </div>`
+}
+
 // 두 좌표 사이 거리 (m)
 function haversine(a, b) {
   const R = 6371000
@@ -170,24 +191,12 @@ export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHei
     markersRef.current = course.places.map((place, idx) => {
       const isGyebo = place.type === 'start' || place.type === 'end'
       const el = document.createElement('div')
-      Object.assign(el.style, {
-        width: '34px', height: '34px',
-        background: isGyebo ? '#C4932A' : '#FFFFFF',
-        border: `2.5px solid ${isGyebo ? '#A07010' : '#D8CEB8'}`,
-        borderRadius: '50%',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: isGyebo ? '16px' : '13px',
-        fontWeight: '800',
-        color: isGyebo ? '#FFFCF5' : '#1E140A',
-        fontFamily: 'Pretendard, sans-serif',
-        boxShadow: '0 2px 10px rgba(30,20,10,0.25)',
-        cursor: 'pointer',
-        userSelect: 'none',
-      })
-      el.textContent = isGyebo ? '🍶' : String(idx + 1)
+      el.style.cursor = 'pointer'
+      el.style.userSelect = 'none'
+      el.innerHTML = markerHTML(isGyebo, idx)
       el.addEventListener('click', () => onMarkerClick?.(idx))
 
-      return new maplibregl.Marker({ element: el, anchor: 'center' })
+      return new maplibregl.Marker({ element: el, anchor: 'bottom' })
         .setLngLat([place.lng, place.lat])
         .addTo(map)
     })

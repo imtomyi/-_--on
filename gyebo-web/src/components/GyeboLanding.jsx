@@ -10,11 +10,22 @@ gsap.registerPlugin(ScrollTrigger)
 
 const pre = { whiteSpace: 'pre-line' }   // '\n' 줄바꿈 렌더
 
-/* 프리뷰 스트립용 — 3벌 복제로 양방향 무한 루프 */
+/* id → 막걸리 (일러스트 매핑) */
+const byId = Object.fromEntries(makgeolliList.map(m => [m.id, m]))
+
+/* 프리뷰 스트립 표시 순서 — 같은(비슷한) 일러스트가 붙지 않도록 섞음
+   (쌀/찹쌀 계열: jipyeong·haenam-chap·haechang 를 컬러풀한 것들 사이로 분산) */
+const PREVIEW_ORDER = [
+  'jipyeong', 'cheongsong', 'haenam-chap', 'gongju', 'mungyeong',
+  'haechang', 'goheung', 'sobaek', 'anjeun', 'cloud',
+]
+const previewBase = PREVIEW_ORDER.map(id => byId[id])
+
+/* 3벌 복제로 양방향 무한 루프 */
 const tripleList = [
-  ...makgeolliList.map(item => ({ ...item, _k: `a-${item.id}` })),
-  ...makgeolliList.map(item => ({ ...item, _k: `b-${item.id}` })),
-  ...makgeolliList.map(item => ({ ...item, _k: `c-${item.id}` })),
+  ...previewBase.map(item => ({ ...item, _k: `a-${item.id}` })),
+  ...previewBase.map(item => ({ ...item, _k: `b-${item.id}` })),
+  ...previewBase.map(item => ({ ...item, _k: `c-${item.id}` })),
 ]
 
 /* ── SVG: 유리병 (Section 4) ─────────────── */
@@ -221,12 +232,32 @@ export default function GyeboLanding({ onCatalog }) {
     const pause  = () => { userScrolling.current = true;  clearTimeout(resumeTimer) }
     const resume = () => { resumeTimer = setTimeout(() => { userScrolling.current = false }, 1800) }
 
+    /* 마우스 드래그로 직접 스크롤 (데스크탑) — 터치는 네이티브 스크롤 */
+    let dragging = false, dragStartX = 0, dragStartLeft = 0
+    const onDown = (e) => {
+      dragging = true
+      dragStartX = e.clientX
+      dragStartLeft = strip.scrollLeft
+      pause()
+      strip.style.cursor = 'grabbing'
+    }
+    const onMove = (e) => {
+      if (!dragging) return
+      strip.scrollLeft = dragStartLeft - (e.clientX - dragStartX)
+    }
+    const onUp = () => {
+      if (!dragging) return
+      dragging = false
+      strip.style.cursor = 'grab'
+      resume()
+    }
+
     strip.addEventListener('touchstart',  pause,  { passive: true })
     strip.addEventListener('touchend',    resume, { passive: true })
     strip.addEventListener('touchcancel', resume, { passive: true })
-    strip.addEventListener('mousedown',   pause)
-    strip.addEventListener('mouseup',     resume)
-    strip.addEventListener('mouseleave',  resume)
+    strip.addEventListener('mousedown',   onDown)
+    window.addEventListener('mousemove',  onMove)
+    window.addEventListener('mouseup',    onUp)
 
     return () => {
       cancelAnimationFrame(rafRef.current)
@@ -234,9 +265,9 @@ export default function GyeboLanding({ onCatalog }) {
       strip.removeEventListener('touchstart',  pause)
       strip.removeEventListener('touchend',    resume)
       strip.removeEventListener('touchcancel', resume)
-      strip.removeEventListener('mousedown',   pause)
-      strip.removeEventListener('mouseup',     resume)
-      strip.removeEventListener('mouseleave',  resume)
+      strip.removeEventListener('mousedown',   onDown)
+      window.removeEventListener('mousemove',  onMove)
+      window.removeEventListener('mouseup',    onUp)
     }
   }, [])
 
@@ -259,7 +290,6 @@ export default function GyeboLanding({ onCatalog }) {
       <section className={`${styles.section} ${styles.s1}`} data-visible="true">
         <div className={styles.s1Inner}>
           <div className={styles.s1Copy}>
-            <span className={styles.s1Tag}>{t('s1.tag')}</span>
             <h1 className={styles.heroTitle}>
               <span className={styles.krLine}>{t('s1.krline')}</span>
               <span className={styles.enLine}>Makgeolli</span>
@@ -270,13 +300,12 @@ export default function GyeboLanding({ onCatalog }) {
 
         <div className={styles.previewStrip} ref={stripRef} aria-label="막걸리 목록 미리보기">
           {tripleList.map((item) => (
-            <button key={item._k} className={styles.previewCard} onClick={onCatalog} aria-label={tm(item, 'name')}>
+            <div key={item._k} className={styles.previewCard}>
               <div className={styles.previewThumb}>
-                <span className={styles.previewPlaceholderLine} aria-hidden="true" />
-                <span className={styles.previewIngrLabel}>{tm(item, 'ingredient')}</span>
+                <img className={styles.previewImg} src={item.image} alt="" draggable="false" />
               </div>
               <span className={styles.previewName}>{tm(item, 'name')}</span>
-            </button>
+            </div>
           ))}
         </div>
 
@@ -296,8 +325,7 @@ export default function GyeboLanding({ onCatalog }) {
           <div className={styles.s3Cards}>
             <div className={styles.s3Card} data-align="left">
               <div className={styles.s3Thumb}>
-                <span className={styles.s3ThumbCross} aria-hidden="true" />
-                <span className={styles.s3ThumbIngr}>{t('s3.c1.ingr')}</span>
+                <img className={styles.s3Img} src={byId.anjeun.image} alt="" />
               </div>
               <div className={styles.s3CardInfo}>
                 <span className={styles.s3CardName}>{t('s3.c1.name')}</span>
@@ -308,8 +336,7 @@ export default function GyeboLanding({ onCatalog }) {
 
             <div className={styles.s3Card} data-align="right">
               <div className={styles.s3Thumb}>
-                <span className={styles.s3ThumbCross} aria-hidden="true" />
-                <span className={styles.s3ThumbIngr}>{t('s3.c2.ingr')}</span>
+                <img className={styles.s3Img} src={byId.mungyeong.image} alt="" />
               </div>
               <div className={styles.s3CardInfo}>
                 <span className={styles.s3CardName}>{t('s3.c2.name')}</span>
@@ -320,8 +347,7 @@ export default function GyeboLanding({ onCatalog }) {
 
             <div className={styles.s3Card} data-align="left">
               <div className={styles.s3Thumb}>
-                <span className={styles.s3ThumbCross} aria-hidden="true" />
-                <span className={styles.s3ThumbIngr}>{t('s3.c3.ingr')}</span>
+                <img className={styles.s3Img} src={byId.haechang.image} alt="" />
               </div>
               <div className={styles.s3CardInfo}>
                 <span className={styles.s3CardName}>{t('s3.c3.name')}</span>
@@ -384,36 +410,6 @@ export default function GyeboLanding({ onCatalog }) {
 
           <button className={styles.shopBtn} onClick={onCatalog}>
             {t('common.viewAll')}
-          </button>
-        </div>
-      </section>
-
-
-      {/* ════════════════════════════════════
-          Section 5 — 페어링
-      ════════════════════════════════════ */}
-      <section className={`${styles.section} ${styles.s2}`} ref={r(3)} data-visible="false">
-        <div className={styles.s2Header}>
-          <div>
-            <h2 className={styles.s2Title}>{t('s2.title')}</h2>
-            <p className={styles.s2Desc}>Explore the perfect match</p>
-          </div>
-        </div>
-
-        <div className={styles.illustRow}>
-          <div className={styles.teapotWrap} ref={teapotRef}>
-            <Teapot />
-            <span className={styles.illustLabel}>{t('s2.label.teapot')}</span>
-          </div>
-          <div className={styles.pancakeWrap} ref={pancakeRef}>
-            <Pancake />
-            <span className={styles.illustLabel}>{t('s2.label.pancake')}</span>
-          </div>
-        </div>
-
-        <div className={styles.s2Cta}>
-          <button className={styles.outlineBtn} onClick={onCatalog}>
-            Explore Pairings
           </button>
         </div>
       </section>

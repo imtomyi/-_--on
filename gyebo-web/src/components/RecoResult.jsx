@@ -107,9 +107,9 @@ export default function RecoResult({ item, onView, onRetry, onClose }) {
         {/* 맛 프로필 바 */}
         <div className={styles.flavorRow}>
           {[
-            { label: '달콤함', val: item.flavor.sweet, max: 5, color: '#C8A818' },
-            { label: '드라이',  val: item.flavor.dry,   max: 5, color: '#5AA899' },
-            { label: '바디감',  val: item.flavor.body,  max: 5, color: '#BA2028' },
+            { label: '달콤함', val: item.metrics.sweetness, max: 5, color: '#C8A818' },
+            { label: '산미',   val: item.metrics.acidity,   max: 5, color: '#5AA899' },
+            { label: '바디감', val: item.metrics.body,      max: 5, color: '#BA2028' },
           ].map(({ label, val, max, color }) => (
             <div key={label} className={styles.flavorItem}>
               <span className={styles.flavorLabel}>{label}</span>

@@ -5,11 +5,11 @@
    - localStorage 영속화 / 기본 'ko'
    ───────────────────────────────────────── */
 
-import { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react'
 import { ui, mkg, LANGS } from './locales'
 
 const STORAGE_KEY = 'gyebo.lang'
-const FADE_MS = 300
+const FADE_MS = 220
 
 const LanguageContext = createContext(null)
 
@@ -36,11 +36,14 @@ export function LanguageProvider({ children }) {
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       try { localStorage.setItem(STORAGE_KEY, next) } catch { /* ignore */ }
       if (reduce) return next
-      // 크로스페이드: 페이드아웃 → 텍스트 교체 → 페이드인
+      // 크로스페이드: 페이드아웃 → (투명 상태에서) 텍스트 교체 → 다음 프레임에 페이드인
+      // 무거운 리렌더를 페이드인 시작과 분리해 끊김 방지
       setFading(true)
       window.setTimeout(() => {
         setLangState(next)
-        setFading(false)
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => setFading(false))
+        )
       }, FADE_MS)
       return cur   // 페이드아웃 동안은 현재 언어 유지
     })
@@ -57,8 +60,13 @@ export function LanguageProvider({ children }) {
     return entry?.[lang]?.[field] ?? entry?.ko?.[field] ?? item[field]
   }, [lang])
 
+  const value = useMemo(
+    () => ({ lang, setLang, t, tm, fading, fadeMs: FADE_MS }),
+    [lang, setLang, t, tm, fading]
+  )
+
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t, tm, fading, fadeMs: FADE_MS }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   )

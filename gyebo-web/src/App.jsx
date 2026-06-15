@@ -18,8 +18,13 @@ export default function App() {
       {/* 언어 토글 — 페이드 대상 밖(항상 활성) */}
       <LangToggle />
 
-      {/* 콘텐츠 크로스페이드 (언어 변경 시 0.3s) — 컴포넌트는 언마운트되지 않아 캔버스/모션 유지 */}
-      <div style={{ opacity: fading ? 0 : 1, transition: `opacity ${fadeMs}ms ease` }}>
+      {/* 콘텐츠 크로스페이드 (언어 변경 시) — 합성 레이어 고정으로 글래스 blur 재계산/끊김 방지 */}
+      <div style={{
+        opacity: fading ? 0 : 1,
+        transition: `opacity ${fadeMs}ms ease`,
+        willChange: 'opacity',
+        transform: 'translateZ(0)',
+      }}>
         {screen === 'catalog'
           ? <MakgeolliPage
               onBack={() => setScreen('select')}

@@ -124,6 +124,10 @@ export default function MakgeolliDetail({ item, ordinal, onClose }) {
 
           {/* 히어로 */}
           <div className={styles.hero} style={{ '--card-color': item.color }}>
+            {/* 재료 일러스트 메달리온 */}
+            <div className={styles.heroPlate} aria-hidden="true">
+              <img className={styles.heroImg} src={item.image} alt="" />
+            </div>
             <div className={styles.heroContent}>
               <span className={styles.heroNum} aria-hidden="true">{num}</span>
               <span className={styles.heroIngr}>{item.ingredient}</span>
@@ -148,7 +152,7 @@ export default function MakgeolliDetail({ item, ordinal, onClose }) {
                 {LEVEL_KO[item.level]}
               </span>
               <h2 className={styles.name}>{item.name}</h2>
-              <p className={styles.meta}>{item.region} · {item.ingredient}</p>
+              <p className={styles.meta}>{item.region} · {item.brewery}</p>
             </div>
 
             {/* 구분선 */}
@@ -157,15 +161,25 @@ export default function MakgeolliDetail({ item, ordinal, onClose }) {
             {/* 스토리 */}
             <p className={styles.story}>{item.story}</p>
 
+            {/* 테이스팅 노트 */}
+            {item.tastingNote && (
+              <div className={styles.noteBlock}>
+                <span className={styles.noteLabel}>TASTING NOTE</span>
+                <p className={styles.noteText}>{item.tastingNote}</p>
+              </div>
+            )}
+
             {/* 맛 프로필 */}
             <div className={styles.profile}>
-              <FlavorBar label="단맛"   value={item.flavor.sweet} />
-              <FlavorBar label="드라이" value={item.flavor.dry}   />
-              <FlavorBar label="바디"   value={item.flavor.body}  />
-              <div className={styles.abvRow}>
-                <span className={styles.abvLabel}>도수</span>
-                <span className={styles.abvValue}>{item.flavor.abv}%</span>
-              </div>
+              <FlavorBar label="단맛" value={item.metrics.sweetness} />
+              <FlavorBar label="산미" value={item.metrics.acidity} />
+              <FlavorBar label="바디" value={item.metrics.body} />
+              {item.metrics.abv != null && (
+                <div className={styles.abvRow}>
+                  <span className={styles.abvLabel}>도수</span>
+                  <span className={styles.abvValue}>{item.metrics.abv}%</span>
+                </div>
+              )}
             </div>
 
             {/* 태그 */}

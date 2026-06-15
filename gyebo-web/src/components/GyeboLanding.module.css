@@ -4,7 +4,13 @@
    ───────────────────────────────────────── */
 
 .page {
-  background: #F5F2EC;
+  /* 한지 크림 바탕 + 단청(파랑·빨강·주황) 은은한 액센트 — 세련된 전통 */
+  background:
+    radial-gradient(125% 80% at 8% 3%, rgba(64,94,171,0.13) 0%, transparent 44%),
+    radial-gradient(120% 78% at 94% 100%, rgba(186,32,40,0.10) 0%, transparent 46%),
+    radial-gradient(90% 55% at 90% 24%, rgba(236,80,37,0.06) 0%, transparent 52%),
+    linear-gradient(168deg, #F3ECDB 0%, #EFE7D3 46%, #F2EBD8 100%);
+  background-attachment: fixed;
   font-family: 'Pretendard', -apple-system, sans-serif;
   overscroll-behavior: none;
 }
@@ -181,6 +187,8 @@
   scrollbar-width: none;
   flex-shrink: 0;
   cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
   animation: fadeUpIn 1.0s cubic-bezier(0.25,1,0.5,1) 0.90s backwards;
 }
 .previewStrip::-webkit-scrollbar { display: none; }
@@ -194,27 +202,31 @@
   gap: 7px;
   background: transparent;
   border: none;
-  cursor: pointer;
+  cursor: grab;
   padding: 0;
-  touch-action: manipulation;
 }
 
 .previewThumb {
   width: 78px;
   height: 96px;
-  border: 1px dashed rgba(0,0,0,0.22);
-  border-radius: 6px;
-  background: rgba(0,0,0,0.025);
+  border-radius: 8px;
+  background: transparent;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  transition: background 0.18s, border-color 0.18s;
+  overflow: hidden;
+  transition: background 0.18s;
 }
-.previewCard:hover .previewThumb {
-  background: rgba(0,0,0,0.06);
-  border-color: rgba(0,0,0,0.42);
+.previewImg {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  pointer-events: none;          /* 드래그가 스트립으로 전달되도록 */
+  -webkit-user-drag: none;
+  /* 흰 배경 사각 제거: 가장자리 페이드 */
+  -webkit-mask-image: radial-gradient(circle, #000 56%, rgba(0,0,0,0.38) 72%, transparent 88%);
+  mask-image: radial-gradient(circle, #000 56%, rgba(0,0,0,0.38) 72%, transparent 88%);
 }
 
 .previewPlaceholderLine {
@@ -343,19 +355,26 @@
   width: 38%;
   flex-shrink: 0;
   aspect-ratio: 4 / 5;
-  border: 1px dashed rgba(255,255,255,0.20);
-  border-radius: 6px;
-  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  background: #FBF7EE;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  transition: background 0.2s, border-color 0.2s;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.22);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.s3Img {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(circle, #000 58%, rgba(0,0,0,0.4) 74%, transparent 90%);
+  mask-image: radial-gradient(circle, #000 58%, rgba(0,0,0,0.4) 74%, transparent 90%);
 }
 .s3Card:hover .s3Thumb {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.36);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.3);
 }
 
 .s3ThumbCross {
@@ -423,10 +442,6 @@
 ══════════════════════════════════════════ */
 .sCur {
   background-color: #EDEBE3;
-  background-image:
-    linear-gradient(rgba(0,0,0,0.038) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.038) 1px, transparent 1px);
-  background-size: 44px 44px;
   display: flex;
   flex-direction: column;
   justify-content: center;

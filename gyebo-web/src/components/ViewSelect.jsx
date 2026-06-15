@@ -52,7 +52,6 @@ export default function ViewSelect({ onList, onMap, onBack }) {
 
       {/* 헤더 */}
       <header className={styles.header}>
-        <span className={styles.eye}>HAENGGUNG-DONG · 수원 행궁동</span>
         <h1 className={styles.title}>어떻게<br/>탐색할까요?</h1>
         <p className={styles.sub}>열 가지 막걸리를 두 가지 방식으로 만날 수 있어요</p>
       </header>
