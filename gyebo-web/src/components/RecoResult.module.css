@@ -79,32 +79,36 @@
   padding: 4px 22px 20px;
 }
 
-/* 병 영역 */
-.bottleWrap {
+/* 재료 일러스트 영역 */
+.imgWrap {
   flex-shrink: 0;
   position: relative;
-  width: 88px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.04);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.bottle {
-  width: 88px;
-  height: auto;
+.ingredientImg {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
   position: relative;
   z-index: 1;
-  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.22));
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.14));
 }
 .glow {
   position: absolute;
-  bottom: -6px;
+  bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
-  height: 20px;
+  width: 64px;
+  height: 18px;
   border-radius: 50%;
-  opacity: 0.35;
-  filter: blur(12px);
+  opacity: 0.3;
+  filter: blur(10px);
   z-index: 0;
 }
 
@@ -168,6 +172,26 @@
   font-size: 13px;
   color: #444;
   line-height: 1.75;
+}
+
+/* ── 테이스팅 노트 ───────────────────── */
+.tastingWrap {
+  margin: 0 22px 20px;
+}
+.tastingLabel {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+.tastingNote {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.72;
+  margin: 0;
 }
 
 /* ── 맛 프로필 바 ────────────────────── */

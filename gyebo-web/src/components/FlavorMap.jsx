@@ -24,7 +24,7 @@ const REGION_POS = {
   '전남 고흥': { x: 41, y: 85, label: '전남 고흥' },
   '경북 문경': { x: 53, y: 63, label: '경북 문경' },
   '충북 단양': { x: 56, y: 59, label: '충북 단양' },
-  '전통 토종밀': { x: 52, y: 79, label: '경남 진주' },   // 앉은뱅이밀 산지(진주)로 줌
+  '충남 서천': { x: 40, y: 59, label: '충남 서천' },   // 한산소곡주(앉은뱅이술) 산지
   '전남 해남': { x: 31, y: 86, label: '전남 해남' },
 }
 const posOf = item => REGION_POS[item.region] ?? { x: 50, y: 64, label: item.region }

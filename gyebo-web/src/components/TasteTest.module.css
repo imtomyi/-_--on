@@ -204,7 +204,7 @@
 .jarWrap {
   position: absolute;
   left: 50%;
-  bottom: -48px;
+  bottom: -20px;
   transform: translateX(-50%);
   width: 240px;
   height: 230px;
@@ -235,42 +235,8 @@
   transform: translateX(-50%);
 }
 
-/* ── 다음 버튼 (플로팅) ─────────────────── */
-.next {
-  position: absolute;
-  right: var(--px);
-  bottom: 28px;
-  z-index: 5;
-  width: 60px; height: 60px;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #E3DFD5;
-  color: #b3ada1;
-  cursor: not-allowed;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  transition: background 0.25s var(--ease), color 0.25s var(--ease),
-              transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
-}
-.nextOn {
-  background: linear-gradient(150deg, var(--blue), var(--blue-dk));
-  color: #ffffff;
-  cursor: pointer;
-  box-shadow: 0 12px 26px rgba(64,94,171,0.4);
-  animation: nextPulse 1.8s ease-in-out infinite;
-}
-.nextOn:hover { transform: translateY(-3px) scale(1.04); }
-.nextOn:active { transform: translateY(0) scale(0.97); }
-@keyframes nextPulse {
-  0%, 100% { box-shadow: 0 12px 26px rgba(64,94,171,0.4); }
-  50%      { box-shadow: 0 12px 32px rgba(64,94,171,0.6); }
-}
-
 /* ── 접근성 ─────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .bubble { animation: none; }
-  .nextOn { animation: none; }
   .fill { transition: none; }
 }

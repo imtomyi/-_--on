@@ -23,7 +23,6 @@ export default function App() {
         opacity: fading ? 0 : 1,
         transition: `opacity ${fadeMs}ms ease`,
         willChange: 'opacity',
-        transform: 'translateZ(0)',
       }}>
         {screen === 'catalog'
           ? <MakgeolliPage

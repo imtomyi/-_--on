@@ -157,10 +157,10 @@ export default function TasteTest({ questions, list, onResult, onClose }) {
   }, [])
 
   /* ── 항아리 드롭 → 다음 질문 ── */
-  function advance() {
-    if (busy.current || selected == null) return
+  function advance(valueOverride) {
+    const value = valueOverride ?? selected
+    if (busy.current || value == null) return
     busy.current = true
-    const value  = selected
     const isLast = step === total - 1
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const nextAnswers = { ...answers, [q.id]: value }
@@ -286,7 +286,7 @@ export default function TasteTest({ questions, list, onResult, onClose }) {
                   key={opt.value}
                   ref={el => { optionRefs.current[opt.value] = el }}
                   className={`${styles.bubble} ${selected === opt.value ? styles.bubbleOn : ''} ${styles[`b${i % 5}`]}`}
-                  onClick={() => setSelected(opt.value)}
+                  onClick={() => { setSelected(opt.value); advance(opt.value) }}
                   aria-pressed={selected === opt.value}
                 >
                   {opt.label}
@@ -300,7 +300,7 @@ export default function TasteTest({ questions, list, onResult, onClose }) {
                   key={opt.value}
                   ref={el => { optionRefs.current[opt.value] = el }}
                   className={`${styles.option} ${selected === opt.value ? styles.optionOn : ''}`}
-                  onClick={() => setSelected(opt.value)}
+                  onClick={() => { setSelected(opt.value); advance(opt.value) }}
                   aria-pressed={selected === opt.value}
                 >
                   <span className={styles.optionDot} aria-hidden="true" />
@@ -312,20 +312,8 @@ export default function TasteTest({ questions, list, onResult, onClose }) {
         </div>
       </main>
 
-      {/* ── 하단: 항아리 + 다음 버튼 ── */}
+      {/* ── 하단: 항아리 ── */}
       <OnggiJar jarRef={jarRef} mouthRef={mouthRef} fillRef={fillRef} glowRef={glowRef} />
-
-      <button
-        className={`${styles.next} ${selected != null ? styles.nextOn : ''}`}
-        onClick={advance}
-        disabled={selected == null}
-        aria-label={step === total - 1 ? '결과 보기' : '다음'}
-      >
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-          <path d="M4 11H18M18 11L12 5M18 11L12 17"
-            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      </button>
     </div>
   )
 }

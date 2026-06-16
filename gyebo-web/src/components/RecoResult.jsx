@@ -8,44 +8,6 @@ import styles from './RecoResult.module.css'
 
 const LEVEL_KO = { intro: '입문', mid: '중급', deep: '심화' }
 
-/* 막걸리 병 SVG */
-function ResultBottle({ color }) {
-  return (
-    <svg viewBox="0 0 100 280" fill="none" xmlns="http://www.w3.org/2000/svg"
-      className={styles.bottle} aria-hidden="true">
-      <defs>
-        <linearGradient id="rr-glass" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0"   stopColor="#ffffff" stopOpacity="0.55"/>
-          <stop offset="0.5" stopColor="#ffffff" stopOpacity="0.14"/>
-          <stop offset="1"   stopColor="#ffffff" stopOpacity="0.38"/>
-        </linearGradient>
-        <linearGradient id="rr-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor={color} stopOpacity="0.9"/>
-          <stop offset="1" stopColor={color} stopOpacity="0.75"/>
-        </linearGradient>
-      </defs>
-      {/* 병 몸통 */}
-      <path d="M34 272 C20 272 11 262 11 250 L11 130 C11 118 18 109 26 105 L28 66
-               C20 62 17 52 17 43 L17 18 L83 18 L83 43 C83 52 80 62 72 66
-               L74 106 C82 110 89 119 89 131 L89 250 C89 262 80 272 66 272 Z"
-        fill="url(#rr-glass)" stroke="rgba(255,255,255,0.5)" strokeWidth="1.6"/>
-      {/* 라벨 영역 */}
-      <path d="M14 170 L86 170 L85 248 C84 261 77 270 66 270 L34 270 C23 270 15 261 14 248 Z"
-        fill="url(#rr-fill)"/>
-      {/* 병마개 */}
-      <rect x="30" y="8" width="40" height="12" rx="4" fill="rgba(0,0,0,0.35)"/>
-      {/* 어깨 라인 */}
-      <path d="M14 122 Q50 114 86 122" stroke="rgba(255,255,255,0.3)" strokeWidth="1" fill="none"/>
-      {/* 라벨 텍스트 장식 */}
-      <rect x="22" y="182" width="56" height="52" rx="3" stroke="rgba(255,255,255,0.35)" strokeWidth="0.8" fill="none"/>
-      <line x1="28" y1="197" x2="72" y2="197" stroke="rgba(255,255,255,0.5)" strokeWidth="0.7"/>
-      <line x1="28" y1="224" x2="72" y2="224" stroke="rgba(255,255,255,0.4)" strokeWidth="0.7"/>
-      {/* 하이라이트 */}
-      <path d="M22 140 L22 245" stroke="rgba(255,255,255,0.18)" strokeWidth="4" strokeLinecap="round"/>
-    </svg>
-  )
-}
-
 export default function RecoResult({ item, onView, onRetry, onClose }) {
   const rootRef = useRef(null)
   const cardRef = useRef(null)
@@ -79,11 +41,10 @@ export default function RecoResult({ item, onView, onRetry, onClose }) {
           <button className={styles.closeBtn} onClick={handleClose} aria-label="닫기">✕</button>
         </div>
 
-        {/* 병 + 텍스트 메인 */}
+        {/* 재료 일러스트 + 텍스트 메인 */}
         <div className={styles.main}>
-          <div className={styles.bottleWrap} style={{ '--item-color': item.color }}>
-            <ResultBottle color={item.color} />
-            {/* 배경 글로우 */}
+          <div className={styles.imgWrap} style={{ '--item-color': item.color }}>
+            <img src={item.image} alt={item.ingredient} className={styles.ingredientImg} />
             <div className={styles.glow} style={{ background: item.color }} />
           </div>
 
@@ -103,6 +64,14 @@ export default function RecoResult({ item, onView, onRetry, onClose }) {
 
         {/* 스토리 */}
         <p className={styles.story}>{item.story}</p>
+
+        {/* 테이스팅 노트 */}
+        {item.tastingNote && (
+          <div className={styles.tastingWrap}>
+            <span className={styles.tastingLabel}>테이스팅 노트</span>
+            <p className={styles.tastingNote}>{item.tastingNote}</p>
+          </div>
+        )}
 
         {/* 맛 프로필 바 */}
         <div className={styles.flavorRow}>
