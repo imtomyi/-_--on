@@ -1,0 +1,48 @@
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--max-w);
+  height: calc(var(--nav-h) + var(--safe-b));
+  padding-bottom: var(--safe-b);
+  background: var(--surface);
+  border-top: 0.5px solid #CACACA;
+  display: flex;
+  z-index: 100;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: #CACACA;
+  transition: color 0.15s;
+  padding: 10px 0 12px;
+}
+
+.tabActive {
+  color: var(--red);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+}
+.icon svg { width: 100%; height: 100%; }
+
+.label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.tabActive .label {
+  font-weight: 500;
+}

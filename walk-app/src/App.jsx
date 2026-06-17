@@ -2,19 +2,27 @@ import { useState, useCallback, useEffect } from 'react'
 import Onboarding from './components/Onboarding'
 import Home from './components/Home'
 import CourseDetail from './components/CourseDetail'
+import WalkScreen from './components/WalkScreen'
+import CompletionScreen from './components/CompletionScreen'
+import MapScreen from './components/MapScreen'
 import { courses } from './data/courses'
 
 // pathname → screen 이름
 function pathToScreen(path) {
-  if (path === '/home')   return 'home'
-  if (path === '/detail') return 'detail'
+  if (path === '/home')       return 'home'
+  if (path === '/map')        return 'map'
+  if (path === '/detail')     return 'detail'
+  if (path === '/walk')       return 'walk'
+  if (path === '/complete')   return 'complete'
   return 'onboarding'
 }
 
-// screen 이름 → pathname
 function screenToPath(screen) {
-  if (screen === 'home')   return '/home'
-  if (screen === 'detail') return '/detail'
+  if (screen === 'home')      return '/home'
+  if (screen === 'map')       return '/map'
+  if (screen === 'detail')    return '/detail'
+  if (screen === 'walk')      return '/walk'
+  if (screen === 'complete')  return '/complete'
   return '/onboarding'
 }
 
@@ -29,7 +37,7 @@ function getInitialCourse() {
   return courses[0]
 }
 
-// screen: 'onboarding' | 'home' | 'detail'
+// screen: 'onboarding' | 'home' | 'map' | 'detail' | 'walk' | 'complete'
 export default function App() {
   const [screen, setScreen] = useState(getInitialScreen)
   const [prevScreen, setPrevScreen] = useState(null)
@@ -45,7 +53,6 @@ export default function App() {
     if (course) setSelectedCourse(course)
     setScreen(to)
 
-    // URL 동기화
     if (!skipPush) {
       const path = screenToPath(to)
       const url = course ? `${path}?course=${course.id}` : path
@@ -62,17 +69,15 @@ export default function App() {
     }, 320)
   }, [screen, transitioning])
 
-  // 브라우저 뒤로가기/앞으로가기 대응
   useEffect(() => {
     const handlePop = () => {
       const to = pathToScreen(window.location.pathname)
-      navigate(to, null, true, true /* skipPush */)
+      navigate(to, null, true, true)
     }
     window.addEventListener('popstate', handlePop)
     return () => window.removeEventListener('popstate', handlePop)
   }, [navigate])
 
-  // 초기 진입 시 URL을 명시적 경로로 교체 (/ → /onboarding)
   useEffect(() => {
     const current = window.location.pathname
     if (current === '/' || current === '') {
@@ -80,10 +85,51 @@ export default function App() {
     }
   }, [])
 
+  const handleTab = useCallback((tab) => {
+    if (tab === 'home' || tab === 'course') navigate('home')
+    else if (tab === 'map') navigate('map')
+    else if (tab === 'me') {}  // 프로필 미구현
+  }, [navigate])
+
   function renderScreen(s) {
-    if (s === 'onboarding') return <Onboarding onStart={() => navigate('home')} />
-    if (s === 'home')       return <Home onSelect={(c) => navigate('detail', c)} />
-    return                         <CourseDetail course={selectedCourse} onBack={() => navigate('home', null, true)} />
+    if (s === 'onboarding') return (
+      <Onboarding onStart={() => navigate('home')} />
+    )
+    if (s === 'home') return (
+      <Home
+        onSelect={(c) => navigate('detail', c)}
+        onTab={handleTab}
+      />
+    )
+    if (s === 'map') return (
+      <MapScreen
+        onSelectCourse={(c) => navigate('detail', c)}
+        onTab={handleTab}
+      />
+    )
+    if (s === 'detail') return (
+      <CourseDetail
+        course={selectedCourse}
+        onBack={() => navigate('home', null, true)}
+        onStartWalk={() => navigate('walk')}
+        onTab={handleTab}
+      />
+    )
+    if (s === 'walk') return (
+      <WalkScreen
+        course={selectedCourse}
+        onComplete={() => navigate('complete')}
+        onTab={handleTab}
+      />
+    )
+    if (s === 'complete') return (
+      <CompletionScreen
+        course={selectedCourse}
+        onOtherCourse={() => navigate('home', null, true)}
+        onTab={handleTab}
+      />
+    )
+    return null
   }
 
   const enterClass = isBack ? 'enterBack' : 'enter'

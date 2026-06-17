@@ -1,174 +1,144 @@
+/* ── 래퍼 ──────────────────────────────────
+   Figma: white bg, 317px wide (max-w 480px), 617px tall
+   ─────────────────────────────────────────── */
 .wrap {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
   position: relative;
-  overflow: hidden;
-  background: linear-gradient(160deg, #405EAB 0%, #5d77bd 18%, #F4EEE3 50%, #EE6240 82%, #EC5025 100%);
-}
-
-/* 콘텐츠 너비 제한 — 배경은 풀뷰포트, 내용만 480px */
-.inner {
-  width: 100%;
+  min-height: 100dvh;
   max-width: var(--max-w);
-  min-height: 100dvh;
-  padding: 72px 32px 56px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  position: relative;
 }
 
-/* 카피 영역 */
-.copy {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* ── 블롭 배경 ────────────────────────────
+   Figma: position absolute, x:-71 y:~210 from screen top
+   (text area starts ~330px from top, blob y:-119 relative to inner container)
+   ─────────────────────────────────────────── */
+.blob {
+  position: absolute;
+  left: -47px;    /* screen-x = container-x(24) + blob-x(-71) = -47 */
+  top: 211px;     /* statusbar(26) + padding-top(45) + logo(239) + gap(20) - blob-y(119) = 211 */
+  pointer-events: none;
+  z-index: 0;
+}
+.blob svg {
+  display: block;
+}
+
+/* ── 스테이터스 바 ──────────────────────────
+   Figma: 832:20, padding 9px 20px 7px, hug height ≈ 26px
+   ─────────────────────────────────────────── */
+.statusBar {
+  flex-shrink: 0;
+  height: 26px;
+}
+
+/* ── 메인 콘텐츠 ──────────────────────────
+   Figma: 832:21, column, center, gap 20px, padding 45px 24px 36px
+   ─────────────────────────────────────────── */
+.main {
   position: relative;
   z-index: 1;
-  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 45px 24px 36px;
 }
 
-.eyebrow {
-  font-size: 11px;
+/* ── 로고 영역 ────────────────────────────
+   Figma: 832:22, row center, hug width, 239px height
+   ─────────────────────────────────────────── */
+.logoArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 239px;
+  flex-shrink: 0;
+}
+
+.logoImg {
+  width: 127px;
+  height: 121px;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── 텍스트 영역 ──────────────────────────
+   Figma: 832:24, column stretch, 269×180
+   ─────────────────────────────────────────── */
+.textArea {
+  width: 269px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+/* 자막 — Figma: Noto Serif KR Regular 13px, #999999, center, letter-spacing 7.69% */
+.subtitle {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #999999;
+  text-align: center;
+  letter-spacing: 0.077em;
+  line-height: 19.5px;
+  margin: 0 0 0 0;
+}
+
+/* 제목 — Figma: Noto Serif KR Bold 26px, letter-spacing 7.69%, center */
+.heading {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 26px;
   font-weight: 700;
-  letter-spacing: 0.3em;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-
-.line1 {
-  font-size: 34px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: #FFFFFF;
-  text-align: left;
-}
-
-.bottomGroup {
-  width: 100%;
+  text-align: center;
+  letter-spacing: 0.077em;
+  line-height: 36.4px;
+  margin: 0;
   margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
 }
 
-.line2 {
-  font-size: 34px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: #FFFFFF;
-  text-align: right;
-  width: 100%;
+/* ts1: MaruBuriOTF → fallback Noto Serif KR, #2C2C2A */
+.headingDark {
+  color: #2C2C2A;
 }
 
-.accent {
-  font-family: 'Noto Serif KR', serif;
-  font-size: 32px;
-  font-weight: 700;
-  color: #FFFFFF;
+/* ts2: MaruBuriOTF → fallback Noto Serif KR, #C04830 */
+.headingRed {
+  color: #C04830;
 }
 
-/* 제목용 강조 — 명조체 + 사이즈 포함 */
-.accentGreen {
-  font-family: 'Noto Serif KR', serif;
-  font-size: 32px;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-/* 소제목용 강조 — 색상만 */
-.subGreen {
-  color: #FFFFFF;
-  font-weight: 700;
-}
-
-.subBrown {
-  color: #FFFFFF;
-  font-weight: 700;
-}
-
-.accentBrown {
-  color: #FFFFFF;
-  font-weight: 700;
-}
-
-.sub {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.75;
-}
-
-/* 구분선 */
-.divider {
-  width: 36px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--azalea), transparent);
-  border-radius: 1px;
-  margin: 0 auto;
-}
-
-/* CTA 버튼 — 화면 수직 중앙 */
-.btnGroup {
-  position: absolute;
-  top: 50%;
-  left: 32px;
-  right: 32px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.subLineLeft {
-  font-size: 18px;
-  font-weight: 400;
-  color: #FFFFFF;
-  line-height: 1.4;
-  text-align: left;
-  letter-spacing: -0.01em;
-}
-
-.subLineRight {
-  font-size: 18px;
-  font-weight: 400;
-  color: #FFFFFF;
-  line-height: 1.4;
-  text-align: right;
-  letter-spacing: -0.01em;
-}
-
+/* ── CTA 버튼 ────────────────────────────
+   Figma: 832:32, 257×51, white fill, #C04830 stroke 1px, radius 12px
+   Text: "시작하기" MaruBuriOTF SemiBold 600, 14px, 3.57% letter-spacing
+   ─────────────────────────────────────────── */
 .cta {
-  margin-top: 0;
-  width: 100%;
-  min-height: 56px;
-  background: linear-gradient(135deg, #2A2A2A 0%, #121212 100%);
-  color: #FFFFFF;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: var(--radius-md);
+  width: 257px;
+  height: 51px;
+  background: #FFFFFF;
+  border: 1px solid #C04830;
+  border-radius: 12px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: opacity 0.15s, transform 0.1s;
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
-  letter-spacing: 0.01em;
+  justify-content: space-between;
+  padding: 0 21px;
+  flex-shrink: 0;
+  color: #C04830;
+  transition: background 0.15s;
 }
-
 .cta:active {
-  opacity: 0.85;
-  transform: translateY(1px);
+  background: rgba(192, 72, 48, 0.04);
 }
 
-.arrow {
-  font-size: 18px;
+.ctaText {
+  font-family: 'Noto Serif KR', serif; /* MaruBuriOTF fallback */
+  font-size: 14px;
+  font-weight: 600;
+  color: #C04830;
+  letter-spacing: 0.036em;
 }

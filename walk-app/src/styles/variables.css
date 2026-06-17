@@ -1,42 +1,49 @@
 /* ─────────────────────────────────────────
-   산책 앱 디자인 토큰
-   메인 컬러: #fff0aa (연노랑) · #87cfbd (청록) · #ba2028 (단청빨강)
-   색상 수정 시 이 파일만 변경하면 전체 반영
+   산책 앱 디자인 토큰 — Figma 2026 팔레트
+   메인: #C04830 (레드) · #4A5580 (네이비) · #FFFFFF (배경)
    ───────────────────────────────────────── */
 :root {
-  /* 배경 — fff0aa 직접 사용 */
-  --paper:      #FFFCF0;
-  --surface:    #FFFFFF;
+  /* 배경 */
+  --bg:          #FFFFFF;
+  --bg-secondary: #EBEDF4;
+  --surface:     #FFFFFF;
 
-  /* 텍스트 */
-  --ink:        #1A0C08;
-  --muted:      #6B5E52;
+  /* 주요 텍스트 */
+  --ink:         #2C2C2A;
+  --muted:       #999999;
 
-  /* 구분선 */
-  --line:       #EDE5C8;
+  /* 경계선 */
+  --border:      #E0E2EB;
+  --border-dark: #CACACA;
 
-  /* 황금 노랑 — fff0aa 계열 */
-  --gold:       #C8A818;   /* 진한 버전 — 강조 텍스트·아이콘 */
-  --gold-lt:    #FFF5C0;   /* fff0aa 연하게 — 배지 배경 */
-
-  /* 청록 — 87cfbd 계열 */
-  --jade:       #87CFBD;   /* 그대로 — 보조 강조 */
-  --jade-lt:    #D4EFE9;   /* 연하게 — 배지 배경 */
-
-  /* 단청 빨강 — ba2028 계열 */
-  --azalea:     #BA2028;   /* 메인 액션·강조 */
-  --azalea-lt:  #FAE8E9;   /* 아주 연하게 — 활성 카드 배경 */
-
-  /* 히트맵 */
-  --heatmap:    rgba(186, 32, 40, 0.18);
-
-  /* 짙은 빨강 — 배지 텍스트용 */
-  --plum:       #8A1520;
+  /* 핵심 색상 */
+  --red:         #C04830;   /* 메인 액션·강조 */
+  --red-dark:    #A33A24;
+  --navy:        #4A5580;   /* 보조 강조·네이비 */
+  --blue:        #3254FF;   /* 활성 상태·링크 */
+  --green:       #9DB89A;   /* 성공·완료 (세이지 그린) */
 
   /* 레이아웃 */
-  --max-w:      480px;
-  --radius-sm:  8px;
-  --radius-md:  12px;
-  --radius-lg:  16px;
+  --max-w:       480px;
+  --nav-h:       60px;
+  --safe-b:      env(safe-area-inset-bottom, 0px);
+
+  /* 반경 */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
   --radius-pill: 999px;
+
+  /* 레거시 호환 (지도 컴포넌트용) */
+  --paper:       var(--bg);
+  --line:        var(--border);
+  --azalea:      var(--red);
+  --azalea-lt:   #FAE8E9;
+  --jade:        #87CFBD;
+  --jade-lt:     #D4EFE9;
+  --gold:        #C8A818;
+  --gold-lt:     #FFF5C0;
+  --plum:        #8A1520;
+  --heatmap:     rgba(192, 72, 48, 0.20);
 }

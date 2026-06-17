@@ -8,6 +8,16 @@ const STYLE_URL = `https://api.maptiler.com/maps/aquarelle/style.json?key=${MAPT
 
 const ROUTE_COLOR = '#BA2028'  // --azalea
 
+/* 지도 메뉴용 드롭 핀 */
+function dropPinHTML() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="38" viewBox="0 0 22 38" fill="none">
+    <path d="M10.1445 37.6445C14.2867 37.6445 17.6445 36.3014 17.6445 34.6445C17.6445 32.9877 14.2867 31.6445 10.1445 31.6445C6.0024 31.6445 2.64453 32.9877 2.64453 34.6445C2.64453 36.3014 6.0024 37.6445 10.1445 37.6445Z" fill="black" fill-opacity="0.1"/>
+    <path d="M10.6445 19.6445C15.6151 19.6445 19.6445 15.6151 19.6445 10.6445C19.6445 5.67397 15.6151 1.64453 10.6445 1.64453C5.67397 1.64453 1.64453 5.67397 1.64453 10.6445C1.64453 15.6151 5.67397 19.6445 10.6445 19.6445Z" fill="white" stroke="#C04830" stroke-width="3.29"/>
+    <path d="M4.64453 18.6445H16.6445L10.6445 25.6445L4.64453 18.6445Z" fill="#C04830"/>
+    <path d="M10.6445 14.6445C12.8537 14.6445 14.6445 12.8537 14.6445 10.6445C14.6445 8.43539 12.8537 6.64453 10.6445 6.64453C8.43539 6.64453 6.64453 8.43539 6.64453 10.6445C6.64453 12.8537 8.43539 14.6445 10.6445 14.6445Z" fill="#C04830"/>
+  </svg>`
+}
+
 /* 거점 마커 HTML — 수채화 지도와 어우러지는 종이/금색 물방울 핀 */
 function markerHTML(isGyebo, idx) {
   if (isGyebo) {
@@ -47,19 +57,7 @@ function buildPathDists(path) {
 }
 
 function applyBrandColors(map) {
-  const safe = (fn) => { try { fn() } catch (_) {} }
-  safe(() => map.setPaintProperty('Background',          'background-color', '#EEE9E0'))
-  safe(() => map.setPaintProperty('Land',                'fill-color',       '#EEE9E0'))
-  safe(() => map.setPaintProperty('Residential pattern', 'fill-color',       '#E0D8CC'))
-  safe(() => map.setPaintProperty('Building',            'fill-color',       '#D4C0A8'))
-  safe(() => map.setPaintProperty('Road network',        'line-color',       '#FAF8F4'))
-  safe(() => map.setPaintProperty('Path',                'line-color',       '#EDE8E0'))
-  safe(() => map.setPaintProperty('Path minor',          'line-color',       '#E8E2D8'))
-  safe(() => map.setPaintProperty('Forest',              'fill-color',       '#78A87A'))
-  safe(() => map.setPaintProperty('Grass',               'fill-color',       '#90BC8E'))
-  safe(() => map.setPaintProperty('Wood',                'fill-color',       '#78A87A'))
-  safe(() => map.setPaintProperty('Water pattern',       'fill-color',       '#88B8D0'))
-  safe(() => map.setPaintProperty('River',               'line-color',       '#78AAC4'))
+  // Aquarelle 스타일 그대로 사용 — 색상 오버라이드 없음
 }
 
 function addRouteLayers(map, course) {
@@ -90,7 +88,7 @@ function addRouteLayers(map, course) {
   })
 }
 
-export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHeight = 52 }) {
+export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHeight = 52, pinStyle = 'circle' }) {
   const containerRef   = useRef(null)
   const mapRef         = useRef(null)
   const markersRef     = useRef([])
@@ -193,7 +191,7 @@ export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHei
       const el = document.createElement('div')
       el.style.cursor = 'pointer'
       el.style.userSelect = 'none'
-      el.innerHTML = markerHTML(isGyebo, idx)
+      el.innerHTML = pinStyle === 'drop' ? dropPinHTML() : markerHTML(isGyebo, idx)
       el.addEventListener('click', () => onMarkerClick?.(idx))
 
       return new maplibregl.Marker({ element: el, anchor: 'bottom' })

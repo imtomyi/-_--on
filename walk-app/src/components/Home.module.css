@@ -1,185 +1,273 @@
-/* ─────────────────────────────────────────
-   Home — 공방거리 코스 목록
-   editorial / catalog 톤
-   ───────────────────────────────────────── */
-
 .wrap {
-  min-height: 100dvh;
-  background: linear-gradient(160deg, #D7E1F4 0%, #EDE8DD 38%, #FCE9DE 78%, #FFFCF0 100%);
   position: relative;
+  min-height: 100dvh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
 }
 
 .inner {
+  flex: 1;
   max-width: var(--max-w);
+  width: 100%;
   margin: 0 auto;
-  padding-bottom: 80px;
-  position: relative;
+  padding: 0 20px;
+  overflow-y: auto;
 }
 
-.wrap::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle at 12% 8%, rgba(64, 94, 171, 0.08) 0%, transparent 38%),
-                    radial-gradient(circle at 92% 96%, rgba(236, 80, 37, 0.07) 0%, transparent 40%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ─── 상단 바 (컴팩트) ────────────────── */
-.topBar {
-  position: relative;
-  z-index: 1;
-  padding: 56px 28px 20px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.topBarLeft {
+/* ── 히어로 영역 ─────────────────────────── */
+.heroArea {
+  padding-top: 52px;
+  padding-bottom: 24px;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 6px;
 }
 
-.topBarLabel {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--azalea);
+.charImg {
+  width: 67px;
+  height: 66px;
+  margin-bottom: 10px;
+  object-fit: contain;
 }
 
-.topBarTitle {
+.caption {
   font-family: 'Noto Serif KR', serif;
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: var(--ink);
-}
-
-.topBarCount {
-  font-family: 'Noto Serif KR', serif;
-  font-size: 48px;
-  font-weight: 400;
-  color: var(--jade);
-  line-height: 1;
-  letter-spacing: -0.04em;
-  opacity: 0.5;
-  flex-shrink: 0;
-}
-
-/* 얇은 금색 가로 라인 */
-.hairlineGold {
-  position: relative;
-  z-index: 1;
-  height: 1px;
-  margin: 0 28px;
-  background: linear-gradient(90deg, transparent 0%, var(--gold) 14%, var(--gold) 86%, transparent 100%);
-  opacity: 0.5;
-}
-
-/* ─── 코스 리스트 ─────────────────────── */
-.list {
-  position: relative;
-  z-index: 1;
-  padding: 0 28px;
-  list-style: none;
-}
-
-.item {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 56px 1fr 22px;
-  gap: 4px 18px;
-  align-items: start;
-  padding: 26px 0 26px;
-  border-bottom: 1px solid var(--line);
-  text-align: left;
-  background: transparent;
-  transition: opacity 0.15s, transform 0.1s;
-}
-
-.list li:last-child .item {
-  border-bottom: none;
-}
-
-.item:active {
-  opacity: 0.7;
-  transform: translateY(1px);
-}
-
-/* 좌측 세리프 숫자 인덱스 */
-.num {
-  font-family: 'Noto Serif KR', serif;
-  font-size: 50px;
-  font-weight: 400;
-  color: var(--accent, var(--jade));
-  line-height: 0.85;
-  letter-spacing: -0.04em;
-  margin-top: -2px;
-  grid-column: 1;
-  grid-row: 1 / span 4;
-  align-self: start;
-}
-
-.itemSub {
-  grid-column: 2;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--accent, var(--azalea));
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.itemTitle {
-  grid-column: 2;
-  font-family: 'Noto Serif KR', serif;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.18;
-  color: var(--ink);
-}
-
-.itemDesc {
-  grid-column: 2;
   font-size: 13px;
+  font-weight: 400;
   color: var(--muted);
-  line-height: 1.65;
-  margin-top: 8px;
-  text-wrap: pretty;
+  letter-spacing: 0.04em;
+  margin: 0;
 }
 
-.itemMeta {
-  grid-column: 2;
-  margin-top: 12px;
+.heroTitle {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.heroRed {
+  color: var(--red);
+}
+
+/* ── 액션 영역 ──────────────────────────── */
+.actionArea {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding-bottom: 28px;
+}
+
+.resumeCard {
+  width: 100%;
+  background: var(--surface);
+  border: 0.5px solid var(--border-dark);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.15s;
+}
+.resumeCard:hover {
+  border-color: var(--navy);
+}
+
+.resumeTop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.resumeTag {
+  font-family: 'Pretendard', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--navy);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.resumeName {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+}
+
+.resumeBottom {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 11px;
-  color: var(--ink);
+}
+
+.progressTrack {
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--red);
+  border-radius: 99px;
+}
+
+.progressText {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.startBtn {
+  width: 100%;
+  height: 48px;
+  background: var(--red);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: 'Pretendard', system-ui, sans-serif;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.startBtn:hover {
+  background: var(--red-dark);
 }
 
-.metaSep {
-  color: var(--line);
-  font-weight: 400;
+/* ── 추천 코스 ──────────────────────────── */
+.courseSection {
+  padding-bottom: 16px;
 }
 
-.itemArrow {
-  grid-column: 3;
-  grid-row: 1 / span 4;
+.sectionLabel {
+  font-family: 'Pretendard', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+.courseList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.courseCard {
+  width: 100%;
+  background: var(--surface);
+  border: 0.5px solid var(--border-dark);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: stretch;
+  text-align: left;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  min-height: 110px;
+}
+.courseCard:hover {
+  border-color: var(--navy);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+/* 이미지: 오른쪽, 카드 전체 높이 */
+.courseImg {
+  flex-shrink: 0;
+  width: 100px;
+  align-self: stretch;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  order: 2;
+}
+.courseImg svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.courseImgLabel {
+  font-family: 'Pretendard', system-ui, sans-serif;
+  font-size: 11px;
+  color: var(--border-dark);
+}
+
+.courseInfo {
+  flex: 1;
+  min-width: 0;
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 12px 14px 14px;
+}
+
+.courseEyebrow {
+  font-family: 'Pretendard', system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--navy);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.courseName {
   font-family: 'Noto Serif KR', serif;
-  font-size: 18px;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--ink);
-  align-self: start;
-  justify-self: end;
-  margin-top: 8px;
-  opacity: 0.7;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.courseDesc {
+  font-family: 'Pretendard', system-ui, sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 2px 0 6px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.metaPill {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 9px;
+  color: var(--muted);
+  background: var(--bg-secondary);
+  border-radius: 99px;
+  padding: 2px 8px;
+}
+
+.navSpacer {
+  height: calc(var(--nav-h) + var(--safe-b) + 12px);
 }
