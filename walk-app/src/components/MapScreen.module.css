@@ -69,12 +69,21 @@
   border-radius: 20px 20px 0 0;
   padding: 8px 20px 20px;
   box-shadow: 0 -4px 24px rgba(44,44,42,0.16);
-  animation: slideUp 0.24s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slideUp 0.36s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.sheetClosing {
+  animation: slideDown 0.22s cubic-bezier(0.4, 0, 1, 1) both !important;
 }
 
 @keyframes slideUp {
-  from { transform: translateY(100%); }
-  to   { transform: translateY(0); }
+  from { transform: translateY(44%); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(0);   opacity: 1; }
+  to   { transform: translateY(44%); opacity: 0; }
 }
 
 .sheetHandle {
@@ -88,74 +97,123 @@
 
 .sheetHeader {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.sheetThumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: #E8E8E8;
+  flex-shrink: 0;
+}
+
+.sheetInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sheetNameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sheetTypeBadge {
+  font-family: 'Pretendard', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: #fff;
+  background: #4A5580;
+  border-radius: 8px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .sheetTitle {
-  font-size: 18px;
-  font-weight: 800;
+  font-family: 'Pretendard', system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.02em;
-  margin-bottom: 4px;
-}
-
-.sheetDesc {
-  font-size: 13px;
-  color: var(--muted);
 }
 
 .closeBtn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--muted);
   flex-shrink: 0;
+  padding: 4px;
+}
+
+.sheetSubtitleRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
 .sheetSubtitle {
+  font-family: 'Pretendard', system-ui, sans-serif;
   font-size: 12px;
   font-weight: 700;
-  color: var(--muted);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
+  color: #4A5580;
 }
 
 .courseRow {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: var(--bg);
-  border-radius: var(--radius-md);
-  padding: 14px;
+  gap: 12px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 14px;
   margin-bottom: 8px;
   text-align: left;
-  transition: background 0.12s;
+  transition: opacity 0.12s;
 }
-.courseRow:active { background: var(--border); }
+.courseRow:active { opacity: 0.75; }
+
+.courseRowActive {
+  border-color: var(--red);
+}
+
+.courseDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.courseDotRed  { background: var(--red); }
+.courseDotNavy { background: #4A5580; }
 
 .courseRowInfo {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
 }
 
 .courseRowName {
+  font-family: 'Pretendard', system-ui, sans-serif;
   font-size: 14px;
   font-weight: 700;
   color: var(--ink);
 }
 
 .courseRowMeta {
-  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Pretendard', system-ui, sans-serif;
+  font-size: 11px;
   color: var(--muted);
 }
 
@@ -163,10 +221,10 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: var(--red);
-  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
+.courseRowBtnRed  { background: var(--red); }
+.courseRowBtnNavy { background: #4A5580; }

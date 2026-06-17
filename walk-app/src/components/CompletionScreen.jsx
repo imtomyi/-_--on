@@ -29,34 +29,31 @@ export default function CompletionScreen({ course, onOtherCourse, onTab }) {
         {/* 방문한 거점 */}
         <div className={styles.section}>
           <p className={styles.sectionLabel}>방문한 거점</p>
-
-          {/* 원 + 다선 행 */}
-          <div className={styles.tlCircleRow}>
-            {course.places.map((place, i) => (
-              <div key={place.id} className={styles.tlCircle}>
-                {i === 0 && <div className={styles.tlInnerDot} />}
-              </div>
-            ))}
-          </div>
-
-          {/* 이름 + 배지 행 */}
-          <div className={styles.tlLabelRow}>
-            {course.places.map((place) => (
-              <div key={place.id} className={styles.tlLabelCol}>
-                <span className={styles.tlName}>{place.ko.name}</span>
-                <span className={`${styles.tlBadge} ${styles['badge_' + place.type]}`}>
-                  {placeTypeLabel[place.type]}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* 진행 바 */}
-          <div className={styles.progressRow}>
-            <div className={styles.progressTrack}>
-              <div className={styles.progressFill} />
+          <div className={styles.waypointCard}>
+            <div className={styles.tlRow}>
+              {course.places.map((place) => (
+                <div key={place.id} className={styles.tlItem}>
+                  <div className={styles.tlCircleWrap}>
+                    <div className={styles.tlCircle} />
+                    <div className={styles.tlCheck}>
+                      <svg viewBox="0 0 12 12" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" width="10" height="10">
+                        <path d="M2 6l3 3 5-5"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <span className={styles.tlName}>{place.ko.name}</span>
+                  <span className={`${styles.tlBadge} ${styles['badge_' + place.type]}`}>
+                    {placeTypeLabel[place.type]}
+                  </span>
+                </div>
+              ))}
             </div>
-            <span className={styles.countText}>{course.places.length} / {course.places.length}</span>
+            <div className={styles.progressRow}>
+              <div className={styles.progressTrack}>
+                <div className={styles.progressFill} />
+              </div>
+              <span className={styles.countText}>{course.places.length} / {course.places.length}</span>
+            </div>
           </div>
         </div>
 

@@ -46,7 +46,7 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  padding: 45px 24px 36px;
+  padding: 45px var(--pad-x) 36px;
 }
 
 /* ── 로고 영역 ────────────────────────────
@@ -82,13 +82,15 @@
 /* 자막 — Figma: Noto Serif KR Regular 13px, #999999, center, letter-spacing 7.69% */
 .subtitle {
   font-family: 'Noto Serif KR', serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   color: #999999;
   text-align: center;
   letter-spacing: 0.077em;
   line-height: 19.5px;
-  margin: 0 0 0 0;
+  margin: 0;
+  margin-top: auto;
+  margin-bottom: 4px;
 }
 
 /* 제목 — Figma: Noto Serif KR Bold 26px, letter-spacing 7.69%, center */
@@ -100,7 +102,6 @@
   letter-spacing: 0.077em;
   line-height: 36.4px;
   margin: 0;
-  margin-top: auto;
 }
 
 /* ts1: MaruBuriOTF → fallback Noto Serif KR, #2C2C2A */
@@ -120,6 +121,7 @@
 .cta {
   width: 257px;
   height: 51px;
+  margin-top: 80px;
   background: #FFFFFF;
   border: 1px solid #C04830;
   border-radius: 12px;

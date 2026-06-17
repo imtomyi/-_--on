@@ -14,13 +14,14 @@ export default function Home({ onSelect, onTab }) {
 
         {/* ── 히어로 헤더 ─────────────────────── */}
         <div className={styles.heroArea}>
-          {/* 막걸리계보 로고 */}
           <img src={logoImg} alt="막걸리계보" className={styles.charImg} />
-          <p className={styles.caption}>막걸리 한 잔 들고,</p>
-          <h1 className={styles.heroTitle}>
-            공방거리를<br/>
-            <span className={styles.heroRed}>걷다</span>
-          </h1>
+          <div className={styles.heroText}>
+            <p className={styles.caption}>막걸리 한 잔 들고,</p>
+            <h1 className={styles.heroTitle}>
+              공방거리를<br/>
+              <span className={styles.heroRed}>걷다</span>
+            </h1>
+          </div>
         </div>
 
         {/* ── 액션 버튼 영역 ──────────────────── */}
@@ -57,7 +58,7 @@ export default function Home({ onSelect, onTab }) {
                 <div className={styles.courseInfo}>
                   <p className={styles.courseEyebrow}>{course.ko.subtitle}</p>
                   <p className={styles.courseName}>{course.ko.title}</p>
-                  <p className={styles.courseDesc} style={{ WebkitLineClamp: 2 }}>{course.ko.description}</p>
+                  <p className={styles.courseDesc} style={{ WebkitLineClamp: 3 }}>{course.ko.description}</p>
                   <div className={styles.metaRow}>
                     <span className={styles.metaPill}>{course.ko.duration}</span>
                     <span className={styles.metaPill}>{course.distance}</span>

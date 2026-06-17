@@ -25,6 +25,7 @@
 
   /* 레이아웃 */
   --max-w:       480px;
+  --pad-x:       20px;
   --nav-h:       60px;
   --safe-b:      env(safe-area-inset-bottom, 0px);
 

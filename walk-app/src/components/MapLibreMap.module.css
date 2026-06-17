@@ -67,7 +67,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--azalea);
+  color: #FFFFFF;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: background 0.14s, color 0.14s, transform 0.14s, border-color 0.14s;

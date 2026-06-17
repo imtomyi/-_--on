@@ -6,36 +6,33 @@ import styles from './MapLibreMap.module.css'
 const MAPTILER_KEY = 'QQNAxXPBkSHpRaeYE6gU'
 const STYLE_URL = `https://api.maptiler.com/maps/aquarelle/style.json?key=${MAPTILER_KEY}`
 
-const ROUTE_COLOR = '#BA2028'  // --azalea
+const ROUTE_COLOR = '#4A5580'
 
 /* 지도 메뉴용 드롭 핀 */
 function dropPinHTML() {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="38" viewBox="0 0 22 38" fill="none">
     <path d="M10.1445 37.6445C14.2867 37.6445 17.6445 36.3014 17.6445 34.6445C17.6445 32.9877 14.2867 31.6445 10.1445 31.6445C6.0024 31.6445 2.64453 32.9877 2.64453 34.6445C2.64453 36.3014 6.0024 37.6445 10.1445 37.6445Z" fill="black" fill-opacity="0.1"/>
-    <path d="M10.6445 19.6445C15.6151 19.6445 19.6445 15.6151 19.6445 10.6445C19.6445 5.67397 15.6151 1.64453 10.6445 1.64453C5.67397 1.64453 1.64453 5.67397 1.64453 10.6445C1.64453 15.6151 5.67397 19.6445 10.6445 19.6445Z" fill="white" stroke="#C04830" stroke-width="3.29"/>
-    <path d="M4.64453 18.6445H16.6445L10.6445 25.6445L4.64453 18.6445Z" fill="#C04830"/>
-    <path d="M10.6445 14.6445C12.8537 14.6445 14.6445 12.8537 14.6445 10.6445C14.6445 8.43539 12.8537 6.64453 10.6445 6.64453C8.43539 6.64453 6.64453 8.43539 6.64453 10.6445C6.64453 12.8537 8.43539 14.6445 10.6445 14.6445Z" fill="#C04830"/>
+    <path d="M10.6445 19.6445C15.6151 19.6445 19.6445 15.6151 19.6445 10.6445C19.6445 5.67397 15.6151 1.64453 10.6445 1.64453C5.67397 1.64453 1.64453 5.67397 1.64453 10.6445C1.64453 15.6151 5.67397 19.6445 10.6445 19.6445Z" fill="white" stroke="#4A5580" stroke-width="3.29"/>
+    <path d="M4.64453 18.6445H16.6445L10.6445 25.6445L4.64453 18.6445Z" fill="#4A5580"/>
+    <path d="M10.6445 14.6445C12.8537 14.6445 14.6445 12.8537 14.6445 10.6445C14.6445 8.43539 12.8537 6.64453 10.6445 6.64453C8.43539 6.64453 6.64453 8.43539 6.64453 10.6445C6.64453 12.8537 8.43539 14.6445 10.6445 14.6445Z" fill="#4A5580"/>
   </svg>`
 }
 
-/* 거점 마커 HTML — 수채화 지도와 어우러지는 종이/금색 물방울 핀 */
+/* 거점 마커 HTML — isGyebo(출발·도착): 빨간 원, 중간 거점: 네이비 원 */
 function markerHTML(isGyebo, idx) {
   if (isGyebo) {
-    return `<div style="display:flex;flex-direction:column;align-items:center;">
-      <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(150deg,#E8C44E,#BC8A1E);border:2px solid #FFF3CC;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(150,110,20,0.42);">
-        <svg width="17" height="21" viewBox="0 0 17 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5.5 20 C4 20 3 19 3 17.3 L3 10.5 C3 9.2 3.8 8.3 4.7 7.9 L5 4.2 C4.3 3.8 4 3.3 4 2.6 L4 1 L13 1 L13 2.6 C13 3.3 12.7 3.8 12 4.2 L12.3 7.9 C13.2 8.3 14 9.2 14 10.5 L14 17.3 C14 19 13 20 11.5 20 Z" fill="#FFFCF0"/>
-          <rect x="4.6" y="11.6" width="7.8" height="5.6" rx="1" fill="#BC8A1E" opacity="0.55"/>
-        </svg>
-      </div>
-      <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid #BC8A1E;margin-top:-2px;filter:drop-shadow(0 2px 1px rgba(120,80,10,0.25));"></div>
+    return `<div style="position:relative;width:22px;height:22px;display:flex;align-items:center;justify-content:center;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none" style="position:absolute;inset:0;">
+        <path d="M10.75 20.75C16.2728 20.75 20.75 16.2728 20.75 10.75C20.75 5.22715 16.2728 0.75 10.75 0.75C5.22715 0.75 0.75 5.22715 0.75 10.75C0.75 16.2728 5.22715 20.75 10.75 20.75Z" fill="#C04830" stroke="white" stroke-width="1.5"/>
+      </svg>
+      <span style="position:relative;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:#fff;line-height:1;">${idx + 1}</span>
     </div>`
   }
-  return `<div style="display:flex;flex-direction:column;align-items:center;">
-    <div style="width:30px;height:30px;border-radius:50%;background:#FFFCF0;border:2px solid ${ROUTE_COLOR};display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(70,45,20,0.26);">
-      <span style="font-family:'Noto Serif KR',serif;font-size:14px;font-weight:700;color:#2A1A0E;line-height:1;">${idx + 1}</span>
-    </div>
-    <div style="width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid ${ROUTE_COLOR};margin-top:-2px;filter:drop-shadow(0 2px 1px rgba(120,40,30,0.22));"></div>
+  return `<div style="position:relative;width:24px;height:24px;display:flex;align-items:center;justify-content:center;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" style="position:absolute;inset:0;">
+      <path d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23Z" fill="#4A5580" stroke="white" stroke-width="2"/>
+    </svg>
+    <span style="position:relative;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;color:#fff;line-height:1;">${idx + 1}</span>
   </div>`
 }
 
@@ -88,7 +85,7 @@ function addRouteLayers(map, course) {
   })
 }
 
-export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHeight = 52, pinStyle = 'circle' }) {
+export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHeight = 52, pinStyle = 'circle', initZoom = null }) {
   const containerRef   = useRef(null)
   const mapRef         = useRef(null)
   const markersRef     = useRef([])
@@ -174,13 +171,18 @@ export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHei
       addRouteLayers(map, course)
       applyBrandColors(map)
 
-      const bounds = new maplibregl.LngLatBounds()
-      course.places.forEach(p => bounds.extend([p.lng, p.lat]))
-      map.fitBounds(bounds, {
-        padding: { top: 130, bottom: window.innerHeight * 0.52 + 20, left: 60, right: 60 },
-        duration: 0,
-        maxZoom: 16,
-      })
+      if (initZoom !== null) {
+        map.setCenter([course.places[0].lng, course.places[0].lat])
+        map.setZoom(initZoom)
+      } else {
+        const bounds = new maplibregl.LngLatBounds()
+        course.places.forEach(p => bounds.extend([p.lng, p.lat]))
+        map.fitBounds(bounds, {
+          padding: { top: 130, bottom: window.innerHeight * 0.52 + 20, left: 60, right: 60 },
+          duration: 0,
+          maxZoom: 16,
+        })
+      }
 
       setMapReady(true)
     })
@@ -244,13 +246,17 @@ export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHei
         onClick={panToUser}
         aria-label="현재 위치로"
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeLinecap="round">
-          <circle cx="12" cy="12" r="3.5" fill="currentColor" />
-          <circle cx="12" cy="12" r="7.5" stroke="currentColor" strokeWidth="1.8" />
-          <line x1="12" y1="1.5" x2="12" y2="5"   stroke="currentColor" strokeWidth="1.8" />
-          <line x1="12" y1="19" x2="12" y2="22.5" stroke="currentColor" strokeWidth="1.8" />
-          <line x1="1.5" y1="12" x2="5"   y2="12" stroke="currentColor" strokeWidth="1.8" />
-          <line x1="19"  y1="12" x2="22.5" y2="12" stroke="currentColor" strokeWidth="1.8" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <g clipPath="url(#clip_locate)">
+            <path d="M7.99967 14.6673C11.6816 14.6673 14.6663 11.6825 14.6663 8.00065C14.6663 4.31875 11.6816 1.33398 7.99967 1.33398C4.31778 1.33398 1.33301 4.31875 1.33301 8.00065C1.33301 11.6825 4.31778 14.6673 7.99967 14.6673Z" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M14.6667 8H12" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M3.99967 8H1.33301" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M8 4.00065V1.33398" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M8 14.6667V12" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+          </g>
+          <defs>
+            <clipPath id="clip_locate"><rect width="16" height="16" fill="white"/></clipPath>
+          </defs>
         </svg>
       </button>
     </div>

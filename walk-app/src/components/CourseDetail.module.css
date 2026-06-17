@@ -10,14 +10,14 @@
   max-width: var(--max-w);
   width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--pad-x);
   overflow-y: auto;
 }
 
 /* ── 헤더 ───────────────────────────────── */
 .header {
-  padding-top: 48px;
-  padding-bottom: 16px;
+  padding-top: 24px;
+  padding-bottom: 10px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -79,7 +79,7 @@
   position: relative;
   height: 155px;
   overflow: hidden;
-  margin: 0 -20px 14px;
+  margin: 0 calc(-1 * var(--pad-x)) 14px;
 }
 
 .progressPill {
@@ -148,6 +148,7 @@
   align-items: center;
   flex-shrink: 0;
   width: 28px;
+  padding-top: 10px;
 }
 
 /* 빨간 원 (출발·도착·공방) */
@@ -210,7 +211,7 @@
   transition: opacity 0.15s;
 }
 .placeCard.active .placeName {
-  color: var(--red);
+  color: #000000;
 }
 
 .placeInfo {
@@ -222,10 +223,10 @@
 }
 
 .placeName {
-  font-family: 'Pretendard', system-ui, sans-serif;
+  font-family: 'Noto Serif KR', serif;
   font-size: 14px;
-  font-weight: 700;
-  color: var(--ink);
+  font-weight: 400;
+  color: #000000;
 }
 
 .placeDesc {
