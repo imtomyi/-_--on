@@ -4,7 +4,8 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import styles from './MapLibreMap.module.css'
 
 const MAPTILER_KEY = 'QQNAxXPBkSHpRaeYE6gU'
-const STYLE_URL = `https://api.maptiler.com/maps/aquarelle/style.json?key=${MAPTILER_KEY}`
+const MAPTILER_STYLE_ID = '019eda5f-2cb2-7750-a547-54399cbe6db9'
+const STYLE_URL = `https://api.maptiler.com/maps/${MAPTILER_STYLE_ID}/style.json?key=${MAPTILER_KEY}`
 
 const ROUTE_COLOR = '#4A5580'
 
@@ -246,16 +247,18 @@ export default function MapLibreMap({ course, activeIdx, onMarkerClick, sheetHei
         onClick={panToUser}
         aria-label="현재 위치로"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <g clipPath="url(#clip_locate)">
-            <path d="M7.99967 14.6673C11.6816 14.6673 14.6663 11.6825 14.6663 8.00065C14.6663 4.31875 11.6816 1.33398 7.99967 1.33398C4.31778 1.33398 1.33301 4.31875 1.33301 8.00065C1.33301 11.6825 4.31778 14.6673 7.99967 14.6673Z" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M14.6667 8H12" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M3.99967 8H1.33301" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M8 4.00065V1.33398" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M8 14.6667V12" stroke="currentColor" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <g clipPath="url(#clip0_832_93)">
+            <path d="M7.99967 14.6673C11.6816 14.6673 14.6663 11.6825 14.6663 8.00065C14.6663 4.31875 11.6816 1.33398 7.99967 1.33398C4.31778 1.33398 1.33301 4.31875 1.33301 8.00065C1.33301 11.6825 4.31778 14.6673 7.99967 14.6673Z" stroke="#4A5580" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M14.6667 8H12" stroke="#4A5580" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M3.99967 8H1.33301" stroke="#4A5580" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M8 4.00065V1.33398" stroke="#4A5580" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M8 14.6667V12" stroke="#4A5580" strokeWidth="1.33333" strokeLinecap="round" strokeLinejoin="round"/>
           </g>
           <defs>
-            <clipPath id="clip_locate"><rect width="16" height="16" fill="white"/></clipPath>
+            <clipPath id="clip0_832_93">
+              <rect width="16" height="16" fill="white"/>
+            </clipPath>
           </defs>
         </svg>
       </button>
