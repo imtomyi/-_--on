@@ -18,7 +18,7 @@
   top: 0;
   width: 100%;
   height: 40vh;
-  background-image: url("src/assets/ingredients/image 232.png"); /* Requested white placeholder */
+  background-image: url("../assets/ingredients/image_232.png"); /* Requested white placeholder */
   background-size: cover;
   background-position: top center;
   z-index: 0;
