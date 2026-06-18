@@ -27,6 +27,7 @@ export default function App() {
         {screen === 'catalog'
           ? <MakgeolliPage
               onBack={() => setScreen('select')}
+              onHome={() => setScreen('landing')}
               initialView={catalogInitView}
             />
           : screen === 'select'

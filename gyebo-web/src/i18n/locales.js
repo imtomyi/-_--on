@@ -54,8 +54,8 @@ export const ui = {
     's2.label.pancake': '부침개',
 
     'level.intro': '입문',
-    'level.mid': '중급',
-    'level.deep': '심화',
+    'level.mid': '대중',
+    'level.deep': '전통',
 
     'cat.nav.map': '계보도',
     'cat.nav.taste': '취향',

@@ -1,8 +1,3 @@
-/**
- * MakgeolliPage — 밝은 회색 미니멀 · 카드 그리드
- * 한 화면에 10종 카드 전체 노출 · 카드 탭 → FLIP 상세 (MakgeolliDetail)
- */
-
 import { useState, useRef, useEffect } from 'react'
 import { makgeolliList, tasteQuestions } from '../data/makgeolli'
 import MakgeolliDetail from './MakgeolliDetail'
@@ -13,18 +8,19 @@ import Survey from './Survey'
 import gsap from 'gsap'
 import { useLang } from '../i18n/LanguageContext'
 import styles from './MakgeolliPage.module.css'
+import webIcon from '../../web_icon.png'
 
 const pre = { whiteSpace: 'pre-line' }
 
 /* ═══════════════════════════════════════════
    Main
    ═══════════════════════════════════════════ */
-export default function MakgeolliPage({ onBack, initialView = 'list' }) {
+export default function MakgeolliPage({ onBack, onHome, initialView = 'list' }) {
   const [selected, setSelected]     = useState(null)
   const [showTest, setShowTest]     = useState(false)
   const [recommended, setRecommended] = useState(null)
   const [showReco, setShowReco]     = useState(false)
-  const [recoSource, setRecoSource] = useState('test')  // 'test' | 'survey' — '다시 테스트' 재진입용
+  const [recoSource, setRecoSource] = useState('test')
   const [showSurvey, setShowSurvey] = useState(false)
   const [view, setView]             = useState(initialView)
 
@@ -69,30 +65,36 @@ export default function MakgeolliPage({ onBack, initialView = 'list' }) {
 
       {/* ══ 네비게이션 ════════════════════════ */}
       <nav className={styles.nav}>
-        <span className={styles.navLogo}>{t('nav.logo')}</span>
+        {onBack && (
+          <button className={styles.navBack} onClick={onBack}>
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+        )}
         <div className={styles.navRight}>
-          {onBack && <button className={styles.navBack} onClick={onBack}>{t('cat.nav.home')}</button>}
+          <button className={styles.navBtn} onClick={() => setView('map')}>계보도</button>
+          <button className={styles.navBtn} onClick={() => setShowTest(true)}>취향</button>
         </div>
       </nav>
 
       {/* ══ 인트로 헤더 ═══════════════════════ */}
       <header className={styles.intro}>
+        <img src={webIcon} alt="Icon" className={styles.introIcon} />
         <h1 className={styles.introTitle}>
-          <span className={styles.introKr}>{t('cat.intro.title')}</span>
-          <span className={styles.introEn}>The Makgeolli Lineage</span>
+          <span className={styles.introKr}>계보를 잇다</span>
+          <span className={styles.introEn}>The Makgeolli Archive</span>
         </h1>
-        <p className={styles.introSub} style={pre}>{t('cat.intro.sub')}</p>
-        <div className={styles.introActions}>
-          <button className={styles.introActionBtn} onClick={() => setView('map')}>{t('cat.nav.map')}</button>
-          <button className={styles.introActionBtn} onClick={() => setShowTest(true)}>{t('cat.nav.taste')}</button>
-        </div>
+        <p className={styles.introSub} style={pre}>
+          {'수원 행궁동에서 제안하는 우리 술의 깊은 흐름.\n엄선된 열 가지 전통 막걸리의 고유한 서사와 숨겨진 계보를 하나씩 열어보세요.'}
+        </p>
+        <hr className={styles.introDivider} />
       </header>
 
       {/* ══ 컬렉션 카드 그리드 ════════════════ */}
       <section className={styles.collection} id="catalog">
         <div className={styles.colHead}>
-          <span className={styles.colCount}>COLLECTION · {makgeolliList.length}{t('cat.col.unit')}</span>
-          <h2 className={styles.colTitle}>{t('cat.col.title')}</h2>
+          <span className={styles.colCount}>10가지 취향의 기록 &nbsp;COLECTION</span>
         </div>
 
         <div ref={gridRef} className={styles.grid}>
@@ -101,52 +103,41 @@ export default function MakgeolliPage({ onBack, initialView = 'list' }) {
               key={item.id}
               className={styles.card}
               data-visible="false"
-              style={{ '--card-color': item.color, animationDelay: `${idx * 0.05}s` }}
+              style={{ animationDelay: `${idx * 0.05}s` }}
               onClick={() => openDetail(item)}
-              aria-label={`${tm(item, 'name')} ${t('cat.card.view')}`}
             >
+              <div className={styles.cardInfoTop}>
+                <span className={`${styles.cardLevel} ${styles[`lv_${item.level}`]}`}>
+                  {t(`level.${item.level}`)}
+                </span>
+              </div>
               <div className={styles.cardThumb}>
-                <span className={styles.cardNum}>{String(idx + 1).padStart(2, '0')}</span>
-                {item.favorite && (
-                  <span className={styles.favBadge}>
-                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77 5.82 21l1.18-6.88-5-4.87 7.1-1.01L12 2z"/>
-                    </svg>
-                    사장님 최애
-                  </span>
-                )}
                 <img
                   className={styles.cardImg}
                   src={item.image}
                   alt={`${tm(item, 'name')} 재료 일러스트`}
                   loading="lazy"
+                  style={item.id === 'gongju' ? { transform: 'scale(0.8)' } : {}}
                 />
-                {item.metrics.abv != null && (
-                  <span className={styles.cardAbv}>{item.metrics.abv}°</span>
-                )}
               </div>
-              <div className={styles.cardInfo}>
+              <div className={styles.cardInfoBottom}>
                 <span className={styles.cardRegion}>{tm(item, 'region')}</span>
                 <span className={styles.cardName}>{tm(item, 'name')}</span>
-                <span className={`${styles.cardLevel} ${styles[`lv_${item.level}`]}`}>
-                  {t(`level.${item.level}`)}
-                </span>
               </div>
             </button>
           ))}
         </div>
       </section>
 
-      {/* ══ 푸터 ══════════════════════════════ */}
+      {/* ══ 푸터 (홈으로 버튼) ══════════════════════════════ */}
       <footer className={styles.footer}>
-        <span className={styles.footerName}>{t('cat.footer.name')}</span>
-        <p className={styles.footerAddr}>경기 수원시 팔달구 정조로 781-13 1층</p>
-        <a className={styles.footerTel} href="tel:050714450052">0507-1445-0052</a>
-        <div className={styles.footerActions}>
-          <button className={styles.footerBtn} onClick={() => setView('map')}>{t('cat.footer.map')}</button>
-          <button className={styles.footerBtnGhost} onClick={() => setShowTest(true)}>{t('cat.footer.taste')}</button>
-          <button className={styles.footerBtnGhost} onClick={() => setShowSurvey(true)}>맞춤 추천</button>
-        </div>
+        <button className={styles.homeBtn} onClick={onHome || onBack}>
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          홈으로
+        </button>
       </footer>
 
       {/* 취향 테스트 */}
