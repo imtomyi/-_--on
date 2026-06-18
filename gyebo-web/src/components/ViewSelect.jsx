@@ -1,6 +1,6 @@
 import styles from './ViewSelect.module.css'
 import webIcon from '../assets/logo-high.png'
-import thumbImg from '../../thumb.png'
+import thumbImg from '../assets/archive-vase.png'
 
 export default function ViewSelect({ onList, onMap, onBack }) {
   return (

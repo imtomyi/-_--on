@@ -145,7 +145,7 @@
 }
 
 .cardBgThumb {
-  width: 36%;
+  width: 38%;
   overflow: hidden;
 }
 
@@ -156,7 +156,7 @@
   object-fit: contain;
   object-position: right center; /* 가장 오른쪽 병 기준 */
   mix-blend-mode: multiply;
-  transform: translate(-3%, 0);
+  transform: translate(46%, 0) scaleX(-1);
   filter: brightness(1.3) contrast(0.9); /* 약간 더 밝게 */
 }
 
