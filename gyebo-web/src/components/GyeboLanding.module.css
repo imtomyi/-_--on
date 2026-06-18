@@ -208,7 +208,7 @@
 }
 .heroIngrImg {
   width: 100%;
-  max-width: 130px;
+  max-width: 108px;
   aspect-ratio: 1 / 1;
   height: auto;
   object-fit: contain;
@@ -216,10 +216,35 @@
   padding: 0;
 }
 
+.heroIngrApplePair {
+  position: relative;
+  width: 100%;
+  max-width: 108px;
+  aspect-ratio: 1 / 1;
+}
+
+.heroIngrApplePair .heroIngrImg {
+  position: absolute;
+  top: 50%;
+  width: 68%;
+  max-width: none;
+  aspect-ratio: auto;
+}
+
+.heroAppleLeft {
+  left: 0;
+  transform: translateY(-62%) scale(0.88) rotate(-8deg);
+}
+
+.heroAppleRight {
+  right: 0;
+  transform: translateY(-28%) scale(0.76) rotate(8deg);
+}
+
 .heroIngrComposite {
   position: relative;
   width: 100%;
-  max-width: 130px;
+  max-width: 108px;
   aspect-ratio: 1 / 1;
 }
 
@@ -246,7 +271,7 @@
 }
 
 .heroIngrBloomRight {
-  transform: translate(-8%, -22%) scale(0.78) rotate(-4deg);
+  transform: translate(-2%, -12%) scale(0.86) rotate(-4deg);
 }
 
 /* ══════════════════════════════════════════
@@ -476,17 +501,18 @@
 }
 
 .shopBtn {
-  width: 100%;
-  padding: 16px 20px;
+  width: auto;
+  align-self: center;
+  padding: 16px 72px;
   background: #111111;
   color: #FFFFFF;
-  font-family: var(--serif);
+  font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px; font-weight: 400;
   letter-spacing: 0.04em;
   cursor: pointer;
   transition: background 0.15s;
   min-height: 52px; touch-action: manipulation;
-  border-radius: 6px;
+  border-radius: 999px;
 }
 .shopBtn:hover { background: #2A2A2A; }
 

@@ -137,7 +137,6 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 45%;
   z-index: 1;
   display: flex;
   justify-content: flex-end;
@@ -145,13 +144,19 @@
   pointer-events: none;
 }
 
+.cardBgThumb {
+  width: 36%;
+  overflow: hidden;
+}
+
 .thumbImage {
-  height: 110%;
-  width: 100%;
-  object-fit: cover;
+  height: 92%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
   object-position: right center; /* 가장 오른쪽 병 기준 */
   mix-blend-mode: multiply;
-  transform: translate(45%, 5%); /* 오른쪽으로 옮겨서 왼쪽 절반만 보이게 함 */
+  transform: translate(-3%, 0);
   filter: brightness(1.3) contrast(0.9); /* 약간 더 밝게 */
 }
 

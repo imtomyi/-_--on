@@ -2,7 +2,6 @@ import { useState } from 'react'
 import GyeboLanding from './components/GyeboLanding'
 import MakgeolliPage from './components/MakgeolliPage'
 import ViewSelect from './components/ViewSelect'
-import LangToggle from './components/LangToggle'
 import { useLang } from './i18n/LanguageContext'
 
 export default function App() {
@@ -17,9 +16,6 @@ export default function App() {
 
   return (
     <>
-      {/* 언어 토글 — 페이드 대상 밖(항상 활성) */}
-      <LangToggle />
-
       {/* 콘텐츠 크로스페이드 (언어 변경 시) — 합성 레이어 고정으로 글래스 blur 재계산/끊김 방지 */}
       <div style={{
         opacity: fading ? 0 : 1,

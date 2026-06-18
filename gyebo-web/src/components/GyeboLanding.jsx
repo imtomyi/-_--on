@@ -73,7 +73,10 @@ export default function GyeboLanding({ onCatalog, onTest }) {
           </button>
 
           <div className={styles.heroIngr}>
-            <img src={appleImg} alt="" className={styles.heroIngrImg} decoding="async" />
+            <div className={styles.heroIngrApplePair} aria-hidden="true">
+              <img src={appleImg} alt="" className={`${styles.heroIngrImg} ${styles.heroAppleLeft}`} decoding="async" />
+              <img src={appleImg} alt="" className={`${styles.heroIngrImg} ${styles.heroAppleRight}`} decoding="async" />
+            </div>
             <div className={styles.heroIngrComposite} aria-hidden="true">
               <img src={bowlBaseImg} alt="" className={`${styles.heroIngrImg} ${styles.heroIngrBase}`} decoding="async" />
               <img src={bowlBloomImg} alt="" className={`${styles.heroIngrImg} ${styles.heroIngrBloom} ${styles.heroIngrBloomLeft}`} decoding="async" />

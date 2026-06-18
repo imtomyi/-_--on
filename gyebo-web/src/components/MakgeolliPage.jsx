@@ -8,7 +8,7 @@ import Survey from './Survey'
 import gsap from 'gsap'
 import { useLang } from '../i18n/LanguageContext'
 import styles from './MakgeolliPage.module.css'
-import webIcon from '../../web_icon.png'
+import webIcon from '../assets/logo-high.png'
 
 const pre = { whiteSpace: 'pre-line' }
 
