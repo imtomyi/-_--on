@@ -17,6 +17,9 @@ import yuzu_2 from '../assets/ingredients/yuzu_2.png'
 import omija_2 from '../assets/ingredients/omija_2.png'
 import cloud from '../assets/ingredients/cloud.png'
 
+import appleReal from '../assets/apple_real.png'
+import chestnutReal from '../assets/chestnut_real.png'
+
 export const makgeolliList = [
   {
     id: 'jipyeong',
@@ -42,14 +45,15 @@ export const makgeolliList = [
     ingredient: '사과',
     level: 'intro',
     levelLabel: '입문',
-    story: '사장님 부인이 청송 심씨일 만큼 청송과 인연이 깊은 막걸리. 사장님 부부가 직접 궤짝으로 비워보며 확인한 사실 — 오피셜은 아니지만 숙취가 거의 없습니다.',
-    tastingNote: '입에 머금는 순간 사과향이 은은하게 감돌아 과즙처럼 술술 마시게 됩니다. 달콤하면서도 뒷맛이 깔끔해 막걸리가 처음인 분께도 잘 어울립니다.',
+    story: '입에 머금으면 은은한 사과향이 감도는 청송사과막걸리 많이 달지 않고 숙취도 적어 술술 넘어가는 베스트셀러\n\n대대로 청송 심씨 여인들이 고운 데는 비밀이 있다. 막걸리계보 안주인께 비결을 여쭤보니 "글쎄요, 피부과는 한 번도 간 적이 없는데요."',
+    tastingNote: '',
     metrics: { sweetness: 4, acidity: 1, body: 2, abv: null },
     tags: ['달콤함', '과일향', '입문'],
     color: '#F2C084',
     image: apple,
     detailImage: apple,
-    favorite: true,   // 사장님 최애 막걸리
+    realImage: appleReal,
+    favorite: true,
   },
   {
     id: 'gongju',
@@ -105,15 +109,16 @@ export const makgeolliList = [
     region: '충북 단양',
     brewery: '대강양조장',
     ingredient: '검은콩',
-    level: 'intro',
-    levelLabel: '입문',
-    story: '3년 연속 청와대 만찬주로 선정된 자부심, 100년이 넘은 양조장의 전통. 진입 장벽이 낮고 매니아층도 확실한 이중적 매력의 막걸리입니다.',
-    tastingNote: '검은콩 두유처럼 고소하고 부드러워 막걸리 입문자도 편하게 즐길 수 있습니다. 숙성이 깊어질수록 맛의 변화가 생겨 마시는 재미가 있습니다.',
+    level: 'mid',
+    levelLabel: '대중',
+    story: '100년 넘은 대강양조장이 빚는 소백산검은콩막걸리 검은콩 두유 맛에 달달하고 산미가 적어 매니아층이 확실\n\n먼 과거, 소백산 산기슭에 머리털이 풍성한 노인이 있었는데, 비결을 묻자 그저 웃으며 검은콩 막걸리 한 사발을 들어 보였다고 한다.',
+    tastingNote: '',
     metrics: { sweetness: 2, acidity: 3, body: 4, abv: null },
-    tags: ['고소함', '묵직함', '중급'],
+    tags: ['고소함', '묵직함', '대중'],
     color: '#4A3560',
     image: blackbean,
     detailImage: blackbean,
+    realImage: chestnutReal,
   },
   {
     id: 'cloud',

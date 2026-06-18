@@ -1,6 +1,6 @@
-/* ═══════════════════════════════════════════
-   취향 테스트 — 화이트 미니멀 + 항아리 드롭
-   ═══════════════════════════════════════════ */
+/* ─────────────────────────────────────────
+   Taste Test Redesign
+   ───────────────────────────────────────── */
 
 .overlay {
   position: fixed;
@@ -8,73 +8,48 @@
   max-width: var(--max-w);
   margin: 0 auto;
   z-index: 400;
-  background: #F1F4FB;   /* 리스트(#EAEFF8)와 비슷하지만 살짝 다른 연한 파랑 */
+  background: #FFFFFF;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  font-family: var(--sans);
+  font-family: 'Pretendard', sans-serif;
 }
 
-/* ── 상단 ──────────────────────────────── */
+/* ── Header ──────────────────────────────── */
 .top {
   flex-shrink: 0;
-  padding: 18px var(--px) 0;
+  padding: 40px var(--px) 0;
 }
-.topRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
+.topLabel {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 16px;
 }
-.status {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  color: var(--blue-dk);
-}
-.close {
-  width: 32px; height: 32px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px;
-  color: #9a958c;
-  background: transparent;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.18s, color 0.18s;
-}
-.close:hover { background: rgba(0,0,0,0.05); color: #555; }
-
 .track {
-  height: 4px;
-  background: #EDEAE2;
-  border-radius: 99px;
-  overflow: hidden;
+  height: 2px;
+  background: #F4F4F4;
+  width: 100%;
 }
 .fill {
   height: 100%;
-  border-radius: 99px;
-  background: linear-gradient(90deg, var(--blue), var(--blue-dk));
-  transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  background: #DDDDDD; /* Gray fill based on mockup */
+  transition: width 0.5s ease;
 }
 .count {
   display: block;
-  margin-top: 8px;
+  margin-top: 12px;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: #8a857c;
+  color: #999;
 }
-.countTotal { color: #c2bdb2; }
 
-/* ── 중앙 본문 ─────────────────────────── */
-/* 하단 ~200px는 항아리 영역으로 비워둠(겹침 방지) + 콘텐츠 상단 정렬로 높이 통일 */
+/* ── Body ─────────────────────────── */
 .body {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 10px var(--px) 200px;
+  padding: 100px var(--px) 200px;
   position: relative;
   z-index: 3;
 }
@@ -82,155 +57,128 @@
   width: 100%;
   will-change: transform, opacity;
 }
-.qEyebrow {
-  display: block;
-  font-family: var(--serif);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--blue-dk);
-  letter-spacing: 0.04em;
-  margin-bottom: 14px;
-}
 .question {
-  font-family: var(--serif);
-  font-size: 30px;
-  font-weight: 800;
-  line-height: 1.32;
-  letter-spacing: -0.01em;
-  color: #1a1a1a;
-  margin-bottom: 30px;
-  min-height: 2.64em;   /* 2줄 예약 — 질문 길이와 무관하게 답변 시작 위치 통일 */
-  will-change: transform, opacity;
+  font-size: 26px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 48px;
+  text-align: center;
 }
 
-/* ── 리스트형 답변 (둥근 사각 버튼) ───────── */
+/* ── Options (List) ───────── */
 .options {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+  align-items: center;
 }
 .option {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
-  text-align: left;
-  padding: 18px 20px;
+  max-width: 320px;
+  padding: 14px 20px;
   background: #FFFFFF;
-  border: 1.5px solid #E6E2D8;
-  border-radius: 16px;
+  border: 1px solid #EEEEEE;
+  border-radius: 12px;
   cursor: pointer;
-  color: #3a352e;
-  transition: border-color 0.2s var(--ease), color 0.2s var(--ease),
-              background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  color: #333;
+  transition: all 0.2s;
   will-change: transform, opacity;
 }
 .optionDot {
-  width: 12px; height: 12px;
-  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  border: 1.5px solid #CFC9BC;
-  transition: border-color 0.2s var(--ease), background 0.2s var(--ease),
-              box-shadow 0.2s var(--ease);
+  border: 1px solid #DDDDDD;
+  flex-shrink: 0;
+  transition: all 0.2s;
 }
 .optionLabel {
   font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 400;
 }
-.option:hover { border-color: #cdc7ba; }
+.option:hover {
+  border-color: #CCCCCC;
+}
 .optionOn {
-  border-color: var(--blue-dk);
-  color: var(--blue-dk);
-  background: var(--blue-lt);
-  box-shadow: 0 6px 18px rgba(64,94,171,0.20);
+  border-color: #999999;
 }
 .optionOn .optionDot {
-  border-color: var(--blue-dk);
-  background: var(--blue-dk);
-  box-shadow: 0 0 0 4px rgba(64,94,171,0.25);
+  border-width: 5px;
+  border-color: #999999;
 }
 
-/* ── 버블형 답변 (원형, 둥둥) ──────────────── */
+/* ── Bubbles (Random floating) ──────────────── */
 .bubbles {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 4px 0;
+  gap: 16px;
+  position: relative;
+  height: 320px;
 }
 .bubble {
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   border-radius: 50%;
   background: #FFFFFF;
-  border: 1.5px solid #E6E2D8;
-  color: #4a443c;
+  border: 1px solid #EEEEEE;
+  color: #333;
   font-size: 14px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 400;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
-  transition: border-color 0.2s var(--ease), color 0.2s var(--ease),
-              background 0.2s var(--ease), transform 0.25s var(--ease),
-              box-shadow 0.25s var(--ease);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
   will-change: transform, opacity;
-  animation: bob 4s ease-in-out infinite;
+  animation: floatBounce 3s ease-in-out infinite alternate;
 }
-/* 크기 변주 */
-.b0 { width: 112px; height: 112px; font-size: 15px; }
-.b1 { width: 94px;  height: 94px;  animation-delay: -0.8s; }
-.b2 { width: 122px; height: 122px; font-size: 15px; animation-delay: -1.6s; }
-.b3 { width: 98px;  height: 98px;  animation-delay: -2.4s; }
-.b4 { width: 106px; height: 106px; animation-delay: -3.2s; }
-@keyframes bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-7px); }
-}
-.bubble:hover { border-color: #cdc7ba; }
-.bubbleOn {
-  border-color: transparent;
-  background: linear-gradient(150deg, var(--blue), var(--blue-dk));
-  color: #ffffff;
-  box-shadow: 0 12px 26px rgba(64,94,171,0.34);
-  animation-play-state: paused;
-  transform: scale(1.06);
+/* Randomly placed and sized bubbles based on their index to mimic the screenshot */
+.b0 { width: 100px; height: 100px; top: 10%; left: 10%; animation-duration: 2.8s; }
+.b1 { width: 110px; height: 110px; top: 5%; right: 10%; animation-duration: 3.2s; animation-delay: -1s; }
+.b2 { width: 90px; height: 90px; top: 40%; left: 35%; animation-duration: 2.5s; animation-delay: -0.5s; }
+.b3 { width: 100px; height: 100px; top: 55%; left: 15%; animation-duration: 3.5s; animation-delay: -1.5s; }
+.b4 { width: 110px; height: 110px; top: 50%; right: 15%; animation-duration: 3s; animation-delay: -2s; }
+.b5 { width: 95px; height: 95px; top: 25%; left: 45%; animation-duration: 2.9s; animation-delay: -0.8s; }
+
+@keyframes floatBounce {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-20px); }
 }
 
-/* ── 하단 항아리 ───────────────────────── */
+.bubble:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.bubbleOn {
+  background: #FAFAFA;
+  border-color: #DDDDDD;
+  animation-play-state: paused;
+}
+
+/* ── Prefer Bottle (Vase) ───────────────────────── */
 .jarWrap {
   position: absolute;
   left: 50%;
-  bottom: -20px;
+  bottom: -150px;
   transform: translateX(-50%);
   width: 240px;
-  height: 230px;
   z-index: 1;
   pointer-events: none;
 }
-.jarGlow {
-  position: absolute;
-  left: 50%; top: 30%;
-  width: 240px; height: 240px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(200,168,24,0.50) 0%, rgba(194,118,62,0.30) 40%, transparent 70%);
-  filter: blur(6px);
-  will-change: transform, opacity;
+.preferImg {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
-.jar {
-  position: relative;
-  width: 100%; height: 100%;
-  opacity: 0.72;
-  will-change: transform;
-}
-.jarSvg { width: 100%; height: 100%; display: block; }
 .jarMouthPoint {
   position: absolute;
-  top: 40px; left: 50%;
+  top: 10px; left: 50%;
   width: 1px; height: 1px;
   transform: translateX(-50%);
 }

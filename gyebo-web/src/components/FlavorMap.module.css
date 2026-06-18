@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════
-   FlavorMap — 맛의 지형도 (Taste Matrix × Cinematic Map)
+   FlavorMap — 맛의 지형도 Redesign
    ═══════════════════════════════════════════ */
 
 .page {
@@ -10,9 +10,8 @@
   height: 100vh;
   height: 100svh;
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 50% 18%, #ffffff 0%, #f3f1ea 60%, #ebe7dd 100%);
-  font-family: var(--sans);
+  background: #FCFCFC; /* Clean white background */
+  font-family: 'Pretendard', sans-serif;
 }
 
 /* ── 한반도 맵 레이어 ───────────────────── */
@@ -23,19 +22,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: blur(1.5px);
+  filter: blur(0px); /* No initial blur for clean look */
   will-change: transform, filter;
 }
 .mapImg {
   height: 86%;
   width: auto;
   object-fit: contain;
-  opacity: 0.24;
-  filter: sepia(0.3) hue-rotate(-8deg) contrast(0.9);
+  opacity: 0.12; /* Lighter gray map */
+  filter: grayscale(100%); /* pure gray */
   user-select: none;
   -webkit-user-drag: none;
-  /* 이미지 캔버스는 중앙이지만 육지(한반도)는 왼쪽으로 치우쳐 있어
-     우측으로 보정해 '지도 객체'를 화면 정중앙에 맞춤 */
   transform: translateX(11%);
 }
 
@@ -46,40 +43,24 @@
   z-index: 30;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px var(--px);
+  justify-content: space-between;
+  padding: 24px var(--px);
 }
 .backBtn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #3a352e;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0,0,0,0.08);
-  padding: 8px 13px;
-  border-radius: 99px;
+  justify-content: center;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  transition: background 0.2s var(--ease);
+  padding: 8px;
+  margin-left: -8px;
 }
-.backBtn:hover { background: rgba(255,255,255,0.95); }
 .title {
-  margin-left: auto;
-  font-family: var(--serif);
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: #1a1a1a;
-}
-.titleSub {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  color: var(--blue-dk);
-  align-self: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+  text-align: center;
 }
 
 /* ── 맛 4분면 매트릭스 ──────────────────── */
@@ -93,33 +74,33 @@
   position: absolute;
   left: 50%; top: 0; bottom: 0; width: 1px;
   transform: translateX(-0.5px);
-  background: repeating-linear-gradient(to bottom, rgba(0,0,0,0.16) 0 5px, transparent 5px 11px);
+  background: repeating-linear-gradient(to bottom, #DDDDDD 0 6px, transparent 6px 12px);
 }
 .axisH {
   position: absolute;
   top: 50%; left: 0; right: 0; height: 1px;
   transform: translateY(-0.5px);
-  background: repeating-linear-gradient(to right, rgba(0,0,0,0.16) 0 5px, transparent 5px 11px);
+  background: repeating-linear-gradient(to right, #DDDDDD 0 6px, transparent 6px 12px);
 }
 
 .axisLabel {
   position: absolute;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: rgba(0,0,0,0.4);
-  font-family: var(--serif);
+  font-size: 12px;
+  font-weight: 500;
+  color: #777;
+  background: #FCFCFC;
+  padding: 4px;
 }
-.axTop    { top: -4px; left: 50%; transform: translateX(8px); }
-.axBottom { bottom: -4px; left: 50%; transform: translateX(8px); }
-.axLeft   { left: 0; top: 50%; transform: translateY(-16px); }
-.axRight  { right: 0; top: 50%; transform: translateY(-16px); text-align: right; }
+.axTop    { top: -20px; left: 50%; transform: translateX(-50%); }
+.axBottom { bottom: -20px; left: 50%; transform: translateX(-50%); }
+.axLeft   { left: -20px; top: 50%; transform: translateY(-50%); }
+.axRight  { right: -20px; top: 50%; transform: translateY(-50%); }
 
-/* ── 노드 (글래스 버블) ─────────────────── */
+/* ── 노드 (화이트 버블) ─────────────────── */
 .node {
   position: absolute;
-  width: var(--size);
-  height: var(--size);
+  width: 44px !important; /* Fixed size to match screenshot */
+  height: 44px !important;
   transform: translate(-50%, -50%);
   padding: 0;
   border: none;
@@ -131,12 +112,8 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  /* 경계를 부드럽게: 테두리 없이 가장자리를 살짝 페더링 */
-  background: radial-gradient(circle at 34% 30%,
-    color-mix(in srgb, var(--nc, #DADADA) 72%, #ffffff),
-    color-mix(in srgb, var(--nc, #DADADA) 52%, #ffffff) 66%,
-    color-mix(in srgb, var(--nc, #DADADA) 28%, transparent) 100%);
-  box-shadow: 0 2px 11px color-mix(in srgb, var(--nc, #000) 24%, transparent);
+  background: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
 }
 .nodeNum {
   position: absolute;
@@ -144,129 +121,138 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--serif);
-  font-size: 14px;
-  font-weight: 700;
-  color: rgba(58, 30, 12, 0.72);
+  font-size: 15px;
+  font-weight: 500;
+  color: #111;
   pointer-events: none;
 }
 
 /* ── 중앙 스테이지 (파동 + 병) ──────────── */
 .stage {
   position: absolute;
-  left: 50%; top: 42%;
+  left: 50%; top: 28%; /* Moved further up to avoid panel overlap */
   z-index: 15;
   transform: translate(-50%, -50%);
 }
 .ripple {
   position: absolute;
   left: 50%; top: 60%;
-  width: 120px; height: 120px;
-  margin: -60px 0 0 -60px;
+  width: 140px; height: 140px;
+  margin: -70px 0 0 -70px;
   border-radius: 50%;
-  border: 2px solid #F5831E;
-  background: radial-gradient(circle, rgba(245,131,30,0.32), transparent 70%);
+  background: radial-gradient(circle, rgba(255,255,255,0.8), transparent 70%);
   will-change: transform, opacity;
 }
-/* 지역 뷰 대표 일러스트 — 경계가 안 보이도록 완만하게 배경으로 페이드 */
 .bottle {
   position: relative;
-  width: 192px; height: 192px;
+  width: 220px; height: 220px;
   border-radius: 50%;
   background: radial-gradient(circle,
-    rgba(253,251,246,0.82) 0%,
-    rgba(253,251,246,0.68) 32%,
-    rgba(253,251,246,0.38) 50%,
-    rgba(253,251,246,0.16) 64%,
-    rgba(253,251,246,0.05) 78%,
-    rgba(253,251,246,0) 90%);
+    rgba(255,255,255,1) 0%,
+    rgba(255,255,255,0.8) 40%,
+    rgba(255,255,255,0.2) 70%,
+    transparent 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  will-change: transform, opacity;
+  will-change: transform, opacity, background;
+  transition: background 0.4s ease;
+}
+.hideBottleBg {
+  background: transparent;
 }
 .bottleImg {
-  width: 52%; height: 52%;
+  position: absolute;
+  width: 55%; height: 55%;
   object-fit: contain;
-  mix-blend-mode: multiply;   /* 흰 배경 → 플레이트에 녹임 */
-  /* 사각 경계 제거: 가장자리를 원형으로 페이드 */
-  -webkit-mask-image: radial-gradient(circle, #000 46%, rgba(0,0,0,0.35) 64%, transparent 80%);
-  mask-image: radial-gradient(circle, #000 46%, rgba(0,0,0,0.35) 64%, transparent 80%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 1;
+  transform: scale(1);
 }
-.bottleSvg { width: 100%; height: auto; display: block; }
+.hiddenIcon {
+  opacity: 0;
+  transform: scale(0.5);
+  pointer-events: none;
+}
+.realImg {
+  position: absolute;
+  width: 140%; height: 140%; /* ~2.5x of 55% */
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  cursor: pointer;
+  z-index: 10;
+}
+.showRealImg {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
 
-/* ── 지역 상세 글래스 패널 ──────────────── */
+/* ── 지역 상세 패널 (Card) ──────────────── */
 .panel {
   position: absolute;
   left: var(--px); right: var(--px);
-  bottom: 20px;
+  bottom: 24px;
   z-index: 25;
-  padding: 20px 20px 22px;
-  background: rgba(255,255,255,0.52);
-  backdrop-filter: blur(20px) saturate(1.3);
-  -webkit-backdrop-filter: blur(20px) saturate(1.3);
-  border: 1px solid rgba(255,255,255,0.7);
-  border-radius: 22px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  padding: 32px 24px;
+  background: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
   will-change: transform, opacity;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.panelHead { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.panelHead { margin-bottom: 12px; }
 .panelLevel {
-  font-size: 9.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 3px 9px;
-  border-radius: 99px;
-  border: 1px solid currentColor;
-}
-.lv_intro { color: var(--jade-dk); }
-.lv_mid   { color: var(--yellow-dk); }
-.lv_deep  { color: var(--red); }
-.panelRegion {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  color: #6a655c;
+  padding: 4px 16px;
+  border-radius: 99px;
+  border: 1px solid;
 }
+.lv_intro { color: #F29B27; border-color: #F29B27; }
+.lv_mid   { color: #4A90E2; border-color: #4A90E2; }
+.lv_deep  { color: #D0021B; border-color: #D0021B; }
+
 .panelName {
-  font-family: var(--serif);
-  font-size: 25px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #1a1a1a;
-  margin-bottom: 12px;
-}
-.panelSpecRow { display: flex; gap: 7px; margin-bottom: 14px; }
-.panelChip {
-  font-size: 11px;
+  font-size: 22px;
   font-weight: 600;
-  color: #4a443c;
-  background: rgba(255,255,255,0.6);
-  border: 1px solid rgba(0,0,0,0.08);
-  padding: 5px 11px;
-  border-radius: 99px;
+  color: #111;
+  margin-bottom: 8px;
 }
-.panelStory {
-  font-size: 12.5px;
-  line-height: 1.7;
-  color: #45403a;
-  margin-bottom: 16px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.panelMeta {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 20px;
 }
-.panelBars { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
-.bar { display: flex; align-items: center; gap: 9px; }
-.barLabel { font-size: 10px; font-weight: 600; color: #6a655c; width: 34px; flex-shrink: 0; }
-.barTrack { flex: 1; height: 3px; background: rgba(0,0,0,0.1); border-radius: 99px; overflow: hidden; }
-.barFill { height: 100%; background: linear-gradient(90deg, var(--jade), var(--jade-dk)); border-radius: 99px; }
-.panelTags { display: flex; flex-wrap: wrap; gap: 6px; }
+.divider { margin: 0 6px; color: #DDD; }
+
+.panelTags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 24px; }
 .panelTag {
-  font-size: 10.5px;
-  color: #6a655c;
-  background: rgba(255,255,255,0.5);
-  border: 1px solid rgba(0,0,0,0.07);
-  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #777;
+  background: #F8F8F8;
+  padding: 6px 14px;
   border-radius: 99px;
 }
+
+.panelStory {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 24px;
+  text-align: left;
+  width: 100%;
+  white-space: pre-line;
+}
+.panelBars { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.bar { display: flex; align-items: center; gap: 16px; }
+.barLabel { font-size: 12px; font-weight: 500; color: #777; width: 32px; flex-shrink: 0; }
+.barTrack { flex: 1; height: 2px; background: #EEEEEE; overflow: hidden; }
+.barFill { height: 100%; background: #444444; }
