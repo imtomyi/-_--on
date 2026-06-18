@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { courses } from '../data/courses'
 import MapLibreMap from './MapLibreMap'
 import BottomNav from './BottomNav'
@@ -19,10 +19,34 @@ export default function MapScreen({ onSelectCourse, onTab }) {
   const [activeFilter, setActiveFilter] = useState('전체')
   const [selectedPlace, setSelectedPlace] = useState(null)
   const [isClosing, setIsClosing] = useState(false)
+  const [dragOffset, setDragOffset] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const dragStartY = useRef(null)
 
-  const closeSheet = () => setIsClosing(true)
-  const handleAnimationEnd = () => {
-    if (isClosing) { setSelectedPlace(null); setIsClosing(false) }
+  const closeSheet = () => {
+    setIsClosing(true)
+    setTimeout(() => { setSelectedPlace(null); setIsClosing(false) }, 240)
+  }
+
+  const onHandlePointerDown = (e) => {
+    dragStartY.current = e.clientY
+    setIsDragging(true)
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }
+  const onHandlePointerMove = (e) => {
+    if (dragStartY.current === null) return
+    const delta = e.clientY - dragStartY.current
+    if (delta > 0) setDragOffset(delta)
+  }
+  const onHandlePointerUp = () => {
+    dragStartY.current = null
+    setIsDragging(false)
+    if (dragOffset > 90) {
+      setDragOffset(window.innerHeight)
+      setTimeout(() => { setSelectedPlace(null); setDragOffset(0) }, 320)
+    } else {
+      setDragOffset(0)
+    }
   }
 
   const allPlaces = courses.flatMap(c =>
@@ -60,7 +84,7 @@ export default function MapScreen({ onSelectCourse, onTab }) {
         <MapLibreMap
           course={stableMapCourse}
           activeIdx={0}
-          onMarkerClick={(idx) => { setIsClosing(false); setSelectedPlace(mapCourse.places[idx]) }}
+          onMarkerClick={(idx) => setSelectedPlace(mapCourse.places[idx])}
           sheetHeight={0}
           pinStyle="drop"
           initZoom={16}
@@ -71,9 +95,17 @@ export default function MapScreen({ onSelectCourse, onTab }) {
       {selectedPlace && (
         <div
           className={`${styles.sheet} ${isClosing ? styles.sheetClosing : ''}`}
-          onAnimationEnd={handleAnimationEnd}
+          style={{
+            transform: `translateY(${dragOffset}px)`,
+            transition: isDragging ? 'none' : 'transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          }}
         >
-          <div className={styles.sheetHandle} />
+          <div
+            className={styles.sheetHandle}
+            onPointerDown={onHandlePointerDown}
+            onPointerMove={onHandlePointerMove}
+            onPointerUp={onHandlePointerUp}
+          />
 
           {/* 장소 헤더 */}
           <div className={styles.sheetHeader}>
