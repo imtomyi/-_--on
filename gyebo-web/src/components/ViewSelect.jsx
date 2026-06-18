@@ -17,7 +17,7 @@ export default function ViewSelect({ onList, onMap, onBack }) {
 
       {/* ── 헤더 ─────────────────────────────────── */}
       <header className={styles.header}>
-        <img src={webIcon} alt="Icon" className={styles.headerIcon} />
+        <img src={webIcon} alt="Icon" className={styles.headerIcon} decoding="async" />
         <h1 className={styles.title}>당신만의 방식으로<br/>우리 술을 기록하다</h1>
       </header>
 
@@ -35,7 +35,7 @@ export default function ViewSelect({ onList, onMap, onBack }) {
           </div>
           
           <div className={styles.cardBgThumb}>
-            <img src={thumbImg} alt="" className={styles.thumbImage} />
+            <img src={thumbImg} alt="" className={styles.thumbImage} decoding="async" />
           </div>
         </button>
 
@@ -50,7 +50,7 @@ export default function ViewSelect({ onList, onMap, onBack }) {
           </div>
           
           <div className={styles.cardBgMap}>
-            <img src="/146531234-한반도의-검은-지도의-벡터-일러스트-레이-션.jpg" alt="" className={styles.mapImage} />
+            <img src="/korea-map.png" alt="" className={styles.mapImage} decoding="async" />
           </div>
         </button>
 

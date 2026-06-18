@@ -180,7 +180,7 @@ export default function TasteTest({ questions, list, onResult, onClose }) {
       </main>
 
       <div ref={jarRef} className={styles.jarWrap} aria-hidden="true">
-        <img src={preferImg} alt="" className={styles.preferImg} />
+        <img src={preferImg} alt="" className={styles.preferImg} decoding="async" />
         <div ref={mouthRef} className={styles.jarMouthPoint} />
       </div>
     </div>

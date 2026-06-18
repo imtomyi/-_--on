@@ -216,6 +216,39 @@
   padding: 0;
 }
 
+.heroIngrComposite {
+  position: relative;
+  width: 100%;
+  max-width: 130px;
+  aspect-ratio: 1 / 1;
+}
+
+.heroIngrComposite .heroIngrImg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: auto;
+  max-width: none;
+  aspect-ratio: auto;
+}
+
+.heroIngrBase {
+  width: 82% !important;
+  transform: translate(-50%, -16%);
+}
+
+.heroIngrBloom {
+  width: 54% !important;
+}
+
+.heroIngrBloomLeft {
+  transform: translate(-98%, -101%) scale(0.58) rotate(-8deg);
+}
+
+.heroIngrBloomRight {
+  transform: translate(-8%, -22%) scale(0.78) rotate(-4deg);
+}
+
 /* ══════════════════════════════════════════
    Section 2 — 선택받은 막걸리 (다크)
 ══════════════════════════════════════════ */

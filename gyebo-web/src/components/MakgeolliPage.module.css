@@ -81,18 +81,18 @@
   height: auto;
   object-fit: contain;
   mix-blend-mode: multiply;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .introTitle {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .introKr {
   font-family: 'MaruBuriOTF', Georgia, serif;
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 800;
   color: #111111;
   letter-spacing: -0.02em;
@@ -106,10 +106,10 @@
 }
 
 .introSub {
-  margin-top: 16px;
+  margin-top: 10px;
   font-size: 11px;
-  line-height: 1.6;
-  color: #555555;
+  line-height: 1.5;
+  color: #000000;
   word-break: keep-all;
 }
 
@@ -151,7 +151,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 24px 12px;
+  padding: 18px 12px 24px;
   background: #FFFFFF;
   border: 1px solid rgba(0,0,0,0.04);
   border-radius: 20px;
@@ -179,7 +179,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .cardLevel {
@@ -206,10 +206,43 @@
 }
 
 .cardImg {
-  width: 90%;
-  height: 90%;
+  width: 84%;
+  height: 84%;
   object-fit: contain;
   background: transparent;
+}
+
+.cardComposite {
+  position: relative;
+  width: 84%;
+  height: 84%;
+}
+
+.cardComposite .cardImg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+}
+
+.cardCompositeBase {
+  width: 82% !important;
+  transform: translate(-50%, -18%);
+}
+
+.cardCompositeBloom {
+  width: 54% !important;
+}
+
+.cardCompositeBloomLeft {
+  transform: translate(-97%, -99%) scale(0.58) rotate(-8deg);
+}
+
+.cardCompositeBloomRight {
+  transform: translate(-9%, -22%) scale(0.78) rotate(-4deg);
 }
 
 .cardInfoBottom {
@@ -248,7 +281,7 @@
   gap: 8px;
   background: #1A1A1A;
   color: #FFFFFF;
-  padding: 16px 36px;
+  padding: 16px 60px;
   border-radius: 99px;
   font-size: 15px;
   font-weight: 600;

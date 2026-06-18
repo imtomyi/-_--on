@@ -7,8 +7,7 @@
   inset: 0;
   z-index: 300;
   background: #FAFAFA;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 
 .backBtn {
@@ -34,10 +33,10 @@
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding-top: 60px;
+  padding-top: 42px;
   display: flex;
   flex-direction: column;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   opacity: 0; /* handled by GSAP */
 }
 
@@ -48,13 +47,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 300px;
-  margin-bottom: 24px;
+  height: 220px;
+  margin-bottom: 10px;
 }
 
 .heroImg {
-  width: 220px;
-  height: 220px;
+  width: 180px;
+  height: 180px;
   object-fit: contain;
   position: relative;
   z-index: 2;
@@ -69,10 +68,52 @@
   margin-top: 4px;
 }
 
+.heroComposite {
+  position: relative;
+  width: 230px;
+  height: 185px;
+  margin-top: 16px;
+}
+
+.heroCompositeImg {
+  position: absolute;
+  object-fit: contain;
+}
+
+.heroCompositeBase {
+  width: 180px;
+  left: 50%;
+  top: 72px;
+  transform: translateX(-50%);
+}
+
+.heroCompositeBloom {
+  width: 112px;
+}
+
+.heroCompositeBloomLeft {
+  left: 8px;
+  top: 6px;
+  transform: scale(0.64) rotate(-8deg);
+}
+
+.heroCompositeBloomRight {
+  right: -8px;
+  top: 64px;
+  transform: scale(0.9) rotate(-4deg);
+}
+
+.heroComposite .imageShadow {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+}
+
 .yuzuScene {
   position: relative;
-  width: min(100%, 360px);
-  height: 250px;
+  width: min(100%, 320px);
+  height: 205px;
 }
 
 .yuzuImg {
@@ -82,16 +123,16 @@
 }
 
 .yuzuLeft {
-  width: 150px;
-  left: 20px;
-  top: 54px;
-  transform: rotate(-12deg);
+  width: 126px;
+  left: 24px;
+  top: 46px;
+  transform: scaleX(-1) rotate(-12deg);
 }
 
 .yuzuRight {
-  width: 178px;
-  right: 4px;
-  top: 104px;
+  width: 150px;
+  right: 12px;
+  top: 88px;
   transform: rotate(-3deg);
 }
 
@@ -99,40 +140,41 @@
   position: absolute;
   display: block;
   border-radius: 50%;
-  background: rgba(255, 230, 75, 0.42);
+  background: #FFF49F;
 }
 
 .yuzuDotLarge {
-  width: 42px;
-  height: 42px;
-  left: 158px;
-  top: 38px;
+  width: 36px;
+  height: 36px;
+  left: 140px;
+  top: 30px;
 }
 
 .yuzuDotSmall {
-  width: 25px;
-  height: 25px;
-  left: 222px;
-  top: 5px;
+  width: 22px;
+  height: 22px;
+  left: 198px;
+  top: 4px;
 }
 
 .yuzuDotTiny {
   width: 12px;
   height: 12px;
-  right: 73px;
-  top: 66px;
+  right: 68px;
+  top: 56px;
   background: rgba(255, 255, 255, 0.48);
 }
 
 .yuzuShadow {
   position: absolute;
-  left: 34px;
-  bottom: 12px;
-  width: 140px;
-  height: 22px;
+  left: 50%;
+  bottom: 4px;
+  width: 220px;
+  height: 20px;
   border-radius: 50%;
   background: radial-gradient(ellipse at center, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 72%);
   filter: blur(1px);
+  transform: translateX(-46%);
 }
 
 
@@ -142,8 +184,8 @@
   font-family: 'MaruBuriOTF', Georgia, serif;
   background: #FFFFFF;
   border: 1px solid #EAEAEA;
-  border-radius: 28px;
-  padding: 36px 28px;
+  border-radius: 22px;
+  padding: 22px 24px;
   margin: 0 16px;
   display: flex;
   flex-direction: column;
@@ -155,8 +197,8 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 12px;
-  margin-bottom: 28px;
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
 .levelBadge {
@@ -173,7 +215,7 @@
 .lv_deep  { color: #A10000; }
 
 .title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
   color: #111;
   letter-spacing: -0.03em;
@@ -182,8 +224,8 @@
 .metaRow {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 13px;
+  gap: 10px;
+  font-size: 12px;
   color: #A0A0A0;
 }
 .metaDivider {
@@ -194,15 +236,15 @@
   display: flex;
   justify-content: space-between;
   padding: 0 16px;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   font-size: 11px;
   color: #A0A0A0;
   letter-spacing: 0.05em;
 }
 
 .story {
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 13px;
+  line-height: 1.65;
   color: #333;
   word-break: keep-all;
   white-space: pre-line;
@@ -210,8 +252,8 @@
 }
 
 .tastingNote {
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 13px;
+  line-height: 1.65;
   color: #333;
   word-break: keep-all;
   margin-bottom: 40px;
@@ -221,18 +263,18 @@
 .profile {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 40px;
+  gap: 10px;
+  margin-bottom: 22px;
 }
 
 .flavorRow {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .flavorLabel {
-  font-size: 13px;
+  font-size: 12px;
   color: #888;
   width: 28px;
   flex-shrink: 0;
@@ -257,15 +299,15 @@
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
+  gap: 8px;
+  justify-content: flex-start;
 }
 
 .tag {
-  padding: 8px 18px;
+  padding: 5px 14px;
   border: 1px solid #DDDDDD;
   border-radius: 99px;
-  font-size: 12px;
+  font-size: 11px;
   color: #666;
   background: #FFF;
 }

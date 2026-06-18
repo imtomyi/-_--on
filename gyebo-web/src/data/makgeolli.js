@@ -10,7 +10,8 @@ import omija from '../assets/ingredients/omija-berries.png'
 import wheat from '../assets/ingredients/wheat-stalk.png'
 import rice from '../assets/ingredients/rice-grains.png'
 import riceGlutinous from '../assets/ingredients/rice-grains.png'
-import bowlFlower from '../assets/ingredients/bowl-flower.png'
+import bowlBase from '../assets/ingredients/bowl-base.png'
+import bowlBloom from '../assets/ingredients/bowl-bloom.png'
 import cloud from '../assets/ingredients/cloud-stroke.png'
 
 import appleReal from '../assets/apple_real.png'
@@ -52,20 +53,20 @@ export const makgeolliList = [
     favorite: true,
   },
   {
-    id: 'gongju',
-    name: '공주알밤왕밤주',
-    region: '충남 공주',
-    brewery: '사곡양조원',
-    ingredient: '알밤',
-    level: 'intro',
-    levelLabel: '입문',
-    story: '밤막걸리는 이걸로 종결. 충남 공주, 밤의 고장에서 온 막걸리입니다. 공주 특산물 알밤으로 빚어 가을 공주 밤 한 조각을 한 모금에 담았습니다.',
-    tastingNote: '밤 특유의 구수하고 은은한 단맛이 혀를 감쌉니다. 알코올의 쓴맛이 거의 없어 막걸리 입문자도 거부감 없이 즐길 수 있습니다.',
-    metrics: { sweetness: 4, acidity: 1, body: 3, abv: null },
-    tags: ['달콤함', '고소함', '입문'],
-    color: '#C4A05A',
-    image: chestnut,
-    detailImage: chestnut,
+    id: 'haechang',
+    name: '해창막걸리 9도',
+    region: '전남 해남',
+    brewery: '해창주조장',
+    ingredient: '쌀',
+    level: 'deep',
+    levelLabel: '전통',
+    story: '대한민국 프리미엄 막걸리의 정수. 해창막걸리를 모르면 간첩. 마니아층이 확실한 술로, 한 번 맛보면 다른 막걸리가 심심하게 느껴질 수 있습니다.',
+    tastingNote: '압도적인 바디감과 긴 여운. 술의 입자가 고와 입 전체를 부드럽게 감싸며, 시원한 단맛과 새콤한 산미의 균형이 탁월합니다.',
+    metrics: { sweetness: 2, acidity: 4, body: 5, abv: 9 },
+    tags: ['고도수', '정통', '심화'],
+    color: '#3A5C40',
+    image: rice,
+    detailImage: rice,
   },
   {
     id: 'goheung',
@@ -78,7 +79,7 @@ export const makgeolliList = [
     story: '유자의 싱그러움을 그대로 담은 고흥풍양유자막걸리\n한 모금에 고흥 유자밭이 코 끝에 펼쳐진다.\n\n바닷바람 맞고 자란 유자를 담았다 하여, 마개를 여는 순간 향이 십 리를 간다 했다. 옛 어른들은 이 술 한 사발이면 코끝에 먼저 봄이 온다 하였으니..',
     tastingNote: '',
     metrics: { sweetness: 3, acidity: 3, body: 2, abv: 6 },
-    tags: ['청량함', '향긋함', '중급'],
+    tags: ['달콤함', '과일향'],
     color: '#E8D06A',
     image: yuzu,
     detailImage: yuzu,
@@ -145,8 +146,25 @@ export const makgeolliList = [
     metrics: { sweetness: 1, acidity: 4, body: 4, abv: 8 },
     tags: ['희귀', '역사', '심화'],
     color: '#8C7A52',
-    image: bowlFlower,
-    detailImage: bowlFlower,
+    image: bowlBase,
+    detailImage: bowlBase,
+    imageParts: { base: bowlBase, bloom: bowlBloom },
+  },
+  {
+    id: 'gongju',
+    name: '공주알밤왕밤주',
+    region: '충남 공주',
+    brewery: '사곡양조원',
+    ingredient: '알밤',
+    level: 'intro',
+    levelLabel: '입문',
+    story: '밤막걸리는 이걸로 종결. 충남 공주, 밤의 고장에서 온 막걸리입니다. 공주 특산물 알밤으로 빚어 가을 공주 밤 한 조각을 한 모금에 담았습니다.',
+    tastingNote: '밤 특유의 구수하고 은은한 단맛이 혀를 감쌉니다. 알코올의 쓴맛이 거의 없어 막걸리 입문자도 거부감 없이 즐길 수 있습니다.',
+    metrics: { sweetness: 4, acidity: 1, body: 3, abv: null },
+    tags: ['달콤함', '고소함', '입문'],
+    color: '#C4A05A',
+    image: chestnut,
+    detailImage: chestnut,
   },
   {
     id: 'haenam-chap',
@@ -163,22 +181,6 @@ export const makgeolliList = [
     color: '#C47840',
     image: riceGlutinous,
     detailImage: riceGlutinous,
-  },
-  {
-    id: 'haechang',
-    name: '해창막걸리 9도',
-    region: '전남 해남',
-    brewery: '해창주조장',
-    ingredient: '쌀',
-    level: 'deep',
-    levelLabel: '전통',
-    story: '대한민국 프리미엄 막걸리의 정수. 해창막걸리를 모르면 간첩. 마니아층이 확실한 술로, 한 번 맛보면 다른 막걸리가 심심하게 느껴질 수 있습니다.',
-    tastingNote: '압도적인 바디감과 긴 여운. 술의 입자가 고와 입 전체를 부드럽게 감싸며, 시원한 단맛과 새콤한 산미의 균형이 탁월합니다.',
-    metrics: { sweetness: 2, acidity: 4, body: 5, abv: 9 },
-    tags: ['고도수', '정통', '심화'],
-    color: '#3A5C40',
-    image: rice,
-    detailImage: rice,
   },
 ]
 

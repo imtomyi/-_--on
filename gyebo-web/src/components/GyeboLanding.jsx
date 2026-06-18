@@ -7,7 +7,8 @@ import { useLang } from '../i18n/LanguageContext'
 
 import heroImg from '../assets/hero.png'
 import appleImg from '../assets/ingredients/apple.png'
-import bowlImg from '../assets/ingredients/bowl-flower.png'
+import bowlBaseImg from '../assets/ingredients/bowl-base.png'
+import bowlBloomImg from '../assets/ingredients/bowl-bloom.png'
 import riceImg from '../assets/ingredients/rice-grains.png'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -47,7 +48,7 @@ export default function GyeboLanding({ onCatalog, onTest }) {
 
       {/* ── Sticky Hero Image ── */}
       <div className={styles.heroImgWrap}>
-        <img src={heroImg} alt="팔달문" className={styles.heroImg} />
+        <img src={heroImg} alt="팔달문" className={styles.heroImg} decoding="async" />
       </div>
 
       <div className={styles.contentWrapper}>
@@ -72,9 +73,13 @@ export default function GyeboLanding({ onCatalog, onTest }) {
           </button>
 
           <div className={styles.heroIngr}>
-            <img src={appleImg} alt="" className={styles.heroIngrImg} />
-            <img src={bowlImg}  alt="" className={styles.heroIngrImg} />
-            <img src={riceImg}  alt="" className={styles.heroIngrImg} />
+            <img src={appleImg} alt="" className={styles.heroIngrImg} decoding="async" />
+            <div className={styles.heroIngrComposite} aria-hidden="true">
+              <img src={bowlBaseImg} alt="" className={`${styles.heroIngrImg} ${styles.heroIngrBase}`} decoding="async" />
+              <img src={bowlBloomImg} alt="" className={`${styles.heroIngrImg} ${styles.heroIngrBloom} ${styles.heroIngrBloomLeft}`} decoding="async" />
+              <img src={bowlBloomImg} alt="" className={`${styles.heroIngrImg} ${styles.heroIngrBloom} ${styles.heroIngrBloomRight}`} decoding="async" />
+            </div>
+            <img src={riceImg}  alt="" className={styles.heroIngrImg} decoding="async" />
           </div>
         </div>
       </section>

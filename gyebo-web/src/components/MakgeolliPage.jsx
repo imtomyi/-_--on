@@ -58,7 +58,9 @@ export default function MakgeolliPage({ onBack, onHome, initialView = 'list', in
     setSelected(null)
   }
 
-  if (view === 'map') return <FlavorMap onBack={() => setView('list')} />
+  if (view === 'map') {
+    return <FlavorMap onBack={initialView === 'map' ? onBack : () => setView('list')} />
+  }
 
   return (
     <div className={styles.page}>
@@ -80,7 +82,7 @@ export default function MakgeolliPage({ onBack, onHome, initialView = 'list', in
 
       {/* ══ 인트로 헤더 ═══════════════════════ */}
       <header className={styles.intro}>
-        <img src={webIcon} alt="Icon" className={styles.introIcon} />
+        <img src={webIcon} alt="Icon" className={styles.introIcon} decoding="async" />
         <h1 className={styles.introTitle}>
           <span className={styles.introKr}>계보를 잇다</span>
           <span className={styles.introEn}>The Makgeolli Archive</span>
@@ -94,7 +96,7 @@ export default function MakgeolliPage({ onBack, onHome, initialView = 'list', in
       {/* ══ 컬렉션 카드 그리드 ════════════════ */}
       <section className={styles.collection} id="catalog">
         <div className={styles.colHead}>
-          <span className={styles.colCount}>10가지 취향의 기록 &nbsp;COLECTION</span>
+          <span className={styles.colCount}>10가지 취향의 기록 &nbsp;COLLECTION</span>
         </div>
 
         <div ref={gridRef} className={styles.grid}>
@@ -112,13 +114,22 @@ export default function MakgeolliPage({ onBack, onHome, initialView = 'list', in
                 </span>
               </div>
               <div className={styles.cardThumb}>
-                <img
-                  className={styles.cardImg}
-                  src={item.image}
-                  alt={`${tm(item, 'name')} 재료 일러스트`}
-                  loading="lazy"
-                  style={item.id === 'gongju' ? { transform: 'scale(0.8)' } : {}}
-                />
+                {item.imageParts ? (
+                  <div className={styles.cardComposite} aria-label={`${tm(item, 'name')} 재료 일러스트`}>
+                    <img className={`${styles.cardImg} ${styles.cardCompositeBase}`} src={item.imageParts.base} alt="" loading="lazy" decoding="async" />
+                    <img className={`${styles.cardImg} ${styles.cardCompositeBloom} ${styles.cardCompositeBloomLeft}`} src={item.imageParts.bloom} alt="" loading="lazy" decoding="async" />
+                    <img className={`${styles.cardImg} ${styles.cardCompositeBloom} ${styles.cardCompositeBloomRight}`} src={item.imageParts.bloom} alt="" loading="lazy" decoding="async" />
+                  </div>
+                ) : (
+                  <img
+                    className={styles.cardImg}
+                    src={item.image}
+                    alt={`${tm(item, 'name')} 재료 일러스트`}
+                    loading="lazy"
+                    decoding="async"
+                    style={item.id === 'gongju' ? { transform: 'scale(0.8)' } : {}}
+                  />
+                )}
               </div>
               <div className={styles.cardInfoBottom}>
                 <span className={styles.cardRegion}>{tm(item, 'region')}</span>

@@ -44,7 +44,7 @@ export default function RecoResult({ item, onView, onRetry, onClose }) {
         {/* 재료 일러스트 + 텍스트 메인 */}
         <div className={styles.main}>
           <div className={styles.imgWrap} style={{ '--item-color': item.color }}>
-            <img src={item.image} alt={item.ingredient} className={styles.ingredientImg} />
+            <img src={item.image} alt={item.ingredient} className={styles.ingredientImg} decoding="async" />
             <div className={styles.glow} style={{ background: item.color }} />
           </div>
 

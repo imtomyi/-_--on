@@ -8,12 +8,22 @@ export default function MakgeolliDetail({ item, onClose }) {
   const containerRef = useRef(null)
 
   useEffect(() => {
+    const prevBodyOverflow = document.body.style.overflow
+    const prevHtmlOverflow = document.documentElement.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+
     // Fade in and slide up animation
     gsap.fromTo(
       containerRef.current,
       { opacity: 0, y: 30 },
       { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }
     )
+
+    return () => {
+      document.body.style.overflow = prevBodyOverflow
+      document.documentElement.style.overflow = prevHtmlOverflow
+    }
   }, [])
 
   function handleClose() {
@@ -40,16 +50,23 @@ export default function MakgeolliDetail({ item, onClose }) {
         <div className={styles.imageSection}>
           {item.id === 'goheung' ? (
             <div className={styles.yuzuScene} aria-hidden="true">
-              <img src={item.image} alt="" className={`${styles.yuzuImg} ${styles.yuzuLeft}`} />
-              <img src={item.image} alt="" className={`${styles.yuzuImg} ${styles.yuzuRight}`} />
+              <img src={item.image} alt="" className={`${styles.yuzuImg} ${styles.yuzuLeft}`} decoding="async" />
+              <img src={item.image} alt="" className={`${styles.yuzuImg} ${styles.yuzuRight}`} decoding="async" />
               <span className={`${styles.yuzuDot} ${styles.yuzuDotLarge}`} />
               <span className={`${styles.yuzuDot} ${styles.yuzuDotSmall}`} />
               <span className={`${styles.yuzuDot} ${styles.yuzuDotTiny}`} />
               <span className={styles.yuzuShadow} />
             </div>
+          ) : item.imageParts ? (
+            <div className={styles.heroComposite} aria-hidden="true">
+              <img src={item.imageParts.base} alt="" className={`${styles.heroCompositeImg} ${styles.heroCompositeBase}`} decoding="async" />
+              <img src={item.imageParts.bloom} alt="" className={`${styles.heroCompositeImg} ${styles.heroCompositeBloom} ${styles.heroCompositeBloomLeft}`} decoding="async" />
+              <img src={item.imageParts.bloom} alt="" className={`${styles.heroCompositeImg} ${styles.heroCompositeBloom} ${styles.heroCompositeBloomRight}`} decoding="async" />
+              <div className={styles.imageShadow} />
+            </div>
           ) : (
             <>
-              <img src={item.detailImage || item.image} alt="" className={styles.heroImg} />
+              <img src={item.detailImage || item.image} alt="" className={styles.heroImg} decoding="async" />
               <div className={styles.imageShadow} />
             </>
           )}

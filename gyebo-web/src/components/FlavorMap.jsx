@@ -171,7 +171,7 @@ export default function FlavorMap({ onBack }) {
     <div ref={pageRef} className={styles.page} data-region={inRegion ? 'true' : 'false'}>
 
       <div ref={mapRef} className={styles.map} aria-hidden="true">
-        <img src="/korea-map.png" alt="" className={styles.mapImg} />
+        <img src="/korea-map.png" alt="" className={styles.mapImg} decoding="async" />
       </div>
 
       <header className={styles.header}>
@@ -226,6 +226,7 @@ export default function FlavorMap({ onBack }) {
                 className={`${styles.bottleImg} ${showReal ? styles.hiddenIcon : ''}`} 
                 src={active.image} 
                 alt="" 
+                decoding="async"
                 onClick={() => { if(active.realImage) setShowReal(true) }}
                 style={{ cursor: active.realImage && !showReal ? 'pointer' : 'default' }}
               />
@@ -234,6 +235,7 @@ export default function FlavorMap({ onBack }) {
                   className={`${styles.realImg} ${showReal ? styles.showRealImg : ''}`} 
                   src={active.realImage} 
                   alt="" 
+                  decoding="async"
                   onClick={() => setShowReal(false)}
                 />
               )}
