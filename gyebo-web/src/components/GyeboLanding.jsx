@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const pre = { whiteSpace: 'pre-line' }
 
-export default function GyeboLanding({ onCatalog }) {
+export default function GyeboLanding({ onCatalog, onTest }) {
   const pageRef = useRef(null)
   const secRefs = useRef([])
   const { t } = useLang()
@@ -85,7 +85,7 @@ export default function GyeboLanding({ onCatalog }) {
               <p className={styles.s1Desc} style={pre}>{t('s1.desc3')}</p>
             </div>
 
-            <button className={styles.tasteBtn} onClick={onCatalog}>
+            <button className={styles.tasteBtn} onClick={onTest}>
               {t('s1.btn')} <span className={styles.btnArrow}>→</span>
             </button>
 

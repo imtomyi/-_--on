@@ -8,10 +8,12 @@ import { useLang } from './i18n/LanguageContext'
 export default function App() {
   const [screen, setScreen] = useState('landing') // 'landing' | 'select' | 'catalog'
   const [catalogInitView, setCatalogInitView] = useState('list') // 'list' | 'map'
+  const [startTest, setStartTest] = useState(false)
   const { fading, fadeMs } = useLang()
 
-  function goList() { setCatalogInitView('list'); setScreen('catalog') }
-  function goMap()  { setCatalogInitView('map');  setScreen('catalog') }
+  function goList() { setCatalogInitView('list'); setScreen('catalog'); setStartTest(false); }
+  function goMap()  { setCatalogInitView('map');  setScreen('catalog'); setStartTest(false); }
+  function goTest() { setCatalogInitView('list'); setScreen('catalog'); setStartTest(true); }
 
   return (
     <>
@@ -29,6 +31,7 @@ export default function App() {
               onBack={() => setScreen('select')}
               onHome={() => setScreen('landing')}
               initialView={catalogInitView}
+              initialTest={startTest}
             />
           : screen === 'select'
           ? <ViewSelect
@@ -36,7 +39,7 @@ export default function App() {
               onMap={goMap}
               onBack={() => setScreen('landing')}
             />
-          : <GyeboLanding onCatalog={() => setScreen('select')} />
+          : <GyeboLanding onCatalog={() => setScreen('select')} onTest={goTest} />
         }
       </div>
     </>

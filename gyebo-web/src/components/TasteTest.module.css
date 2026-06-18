@@ -103,11 +103,12 @@
   border-color: #CCCCCC;
 }
 .optionOn {
-  border-color: #999999;
+  background: #CBD7F2;
+  border-color: #B9CAF1;
 }
 .optionOn .optionDot {
   border-width: 5px;
-  border-color: #999999;
+  border-color: #98AFE3;
 }
 
 /* ── Bubbles (Random floating) ──────────────── */
@@ -156,8 +157,8 @@
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 .bubbleOn {
-  background: #FAFAFA;
-  border-color: #DDDDDD;
+  background: #CBD7F2;
+  border-color: #B9CAF1;
   animation-play-state: paused;
 }
 

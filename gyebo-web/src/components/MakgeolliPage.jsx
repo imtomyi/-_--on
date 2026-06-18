@@ -15,9 +15,9 @@ const pre = { whiteSpace: 'pre-line' }
 /* ═══════════════════════════════════════════
    Main
    ═══════════════════════════════════════════ */
-export default function MakgeolliPage({ onBack, onHome, initialView = 'list' }) {
+export default function MakgeolliPage({ onBack, onHome, initialView = 'list', initialTest = false }) {
   const [selected, setSelected]     = useState(null)
-  const [showTest, setShowTest]     = useState(false)
+  const [showTest, setShowTest]     = useState(initialTest)
   const [recommended, setRecommended] = useState(null)
   const [showReco, setShowReco]     = useState(false)
   const [recoSource, setRecoSource] = useState('test')

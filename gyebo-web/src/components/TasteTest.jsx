@@ -18,9 +18,21 @@ export default function TasteTest({ questions, list, onResult, onClose }) {
   const questionRef = useRef(null)
   const optionRefs  = useRef({})
   const mouthRef    = useRef(null)
+  const jarRef      = useRef(null)
 
   const q     = questions[step]
   const total = questions.length
+
+  /* ── 항아리 첫 등장 애니메이션 ── */
+  useLayoutEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduce || !jarRef.current) return
+    
+    gsap.fromTo(jarRef.current, 
+      { opacity: 0, y: 20 }, 
+      { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', delay: 0.1 }
+    )
+  }, [])
 
   /* ── 질문 세트 등장 (슬라이드 인 업) ── */
   useLayoutEffect(() => {
@@ -162,7 +174,7 @@ export default function TasteTest({ questions, list, onResult, onClose }) {
         </div>
       </main>
 
-      <div className={styles.jarWrap} aria-hidden="true">
+      <div ref={jarRef} className={styles.jarWrap} aria-hidden="true">
         <img src={preferImg} alt="" className={styles.preferImg} />
         <div ref={mouthRef} className={styles.jarMouthPoint} />
       </div>
