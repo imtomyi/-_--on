@@ -15,11 +15,14 @@ gsap.registerPlugin(ScrollTrigger)
 const pre = { whiteSpace: 'pre-line' }   // '\n' 줄바꿈 렌더
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export default function GyeboLanding({ onCatalog, onTest }) {
   const pageRef = useRef(null)
   const secRefs = useRef([])
   const { t } = useLang()
 =======
+=======
+>>>>>>> 6769b91b23caae00fcd82c1b2a369bddc6357ce4
 /* id → 막걸리 (일러스트 매핑) */
 const byId = Object.fromEntries(makgeolliList.map(m => [m.id, m]))
 
@@ -145,6 +148,9 @@ export default function GyeboLanding({ onCatalog }) {
   const pancakeRef    = useRef(null)
 
   const { t, tm } = useLang()
+<<<<<<< HEAD
+>>>>>>> 6769b91b23caae00fcd82c1b2a369bddc6357ce4
+=======
 >>>>>>> 6769b91b23caae00fcd82c1b2a369bddc6357ce4
 
   useLenis()
@@ -349,10 +355,13 @@ export default function GyeboLanding({ onCatalog }) {
             </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             <button className={styles.tasteBtn} onClick={onTest}>
               {t('s1.btn')} <span className={styles.btnArrow}>→</span>
             </button>
 =======
+=======
+>>>>>>> 6769b91b23caae00fcd82c1b2a369bddc6357ce4
             <div className={styles.s3Card} data-align="right">
               <div className={styles.s3Thumb}>
                 <img className={styles.s3Img} src={byId.mungyeong.image} alt="" />
@@ -363,6 +372,9 @@ export default function GyeboLanding({ onCatalog }) {
                 <p className={styles.s3CardStory}>{t('s3.c2.story')}</p>
               </div>
             </div>
+<<<<<<< HEAD
+>>>>>>> 6769b91b23caae00fcd82c1b2a369bddc6357ce4
+=======
 >>>>>>> 6769b91b23caae00fcd82c1b2a369bddc6357ce4
 
             <div className={styles.s3Card} data-align="left">
