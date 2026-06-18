@@ -2,15 +2,20 @@
 // 취향 테스트 연동: tags 필드로 매칭
 // 재료 일러스트(image) — 카탈로그 카드 썸네일
 // 맛 지표(metrics): sweetness 단맛 / acidity 산미 / body 바디 / abv 도수(미상=null)
-import apple from '../assets/ingredients/apple.png'
+import apple from '../assets/ingredients/Group 2.png'
 import blackbean from '../assets/ingredients/blackbean.png'
-import chestnut from '../assets/ingredients/chestnut.png'
-import yuzu from '../assets/ingredients/yuzu.png'
-import omija from '../assets/ingredients/omija.png'
+import chestnut from '../assets/ingredients/chestnut_2.png'
+import yuzu from '../assets/ingredients/yuzu_2.png'
+import omija from '../assets/ingredients/omija_2.png'
 import wheat from '../assets/ingredients/wheat.png'
 import rice from '../assets/ingredients/rice.png'
-import riceGlutinous from '../assets/ingredients/rice-glutinous.png'
-import bowlFlower from '../assets/ingredients/bowl-flower.png'
+import riceGlutinous from '../assets/ingredients/rice.png'
+import bowlFlower from '../assets/ingredients/Group 3.png'
+
+import chestnut_2 from '../assets/ingredients/chestnut_2.png'
+import yuzu_2 from '../assets/ingredients/yuzu_2.png'
+import omija_2 from '../assets/ingredients/omija_2.png'
+import cloud from '../assets/ingredients/cloud.png'
 
 export const makgeolliList = [
   {
@@ -19,14 +24,15 @@ export const makgeolliList = [
     region: '경기 양평',
     brewery: '지평주조',
     ingredient: '쌀',
-    level: 'intro',
-    levelLabel: '입문',
+    level: 'mid',
+    levelLabel: '대중',
     story: '전국 스테디셀러. 이름을 모르면 간첩이라는 막걸리계의 기준점입니다. 100년 가까운 세월 동안 맑은 우물물과 전통 기법을 고집하며 한국 근현대사와 함께해 온 산증인 같은 술.',
     tastingNote: '달달하고 부드러운 맛, 깔끔한 목 넘김. 옛 막걸리 특유의 텁텁함 없이 누구나 편하게 즐길 수 있어 생막걸리의 기준이 됩니다.',
     metrics: { sweetness: 3, acidity: 2, body: 2, abv: null },
     tags: ['가벼움', '신선함', '입문'],
     color: '#C8D8A8',
-    image: rice,
+    image: wheat,
+    detailImage: rice,
   },
   {
     id: 'cheongsong',
@@ -42,6 +48,7 @@ export const makgeolliList = [
     tags: ['달콤함', '과일향', '입문'],
     color: '#F2C084',
     image: apple,
+    detailImage: apple,
     favorite: true,   // 사장님 최애 막걸리
   },
   {
@@ -57,7 +64,8 @@ export const makgeolliList = [
     metrics: { sweetness: 4, acidity: 1, body: 3, abv: null },
     tags: ['달콤함', '고소함', '입문'],
     color: '#C4A05A',
-    image: chestnut,
+    image: chestnut_2,
+    detailImage: chestnut,
   },
   {
     id: 'goheung',
@@ -65,14 +73,15 @@ export const makgeolliList = [
     region: '전남 고흥',
     brewery: '풍양양조장',
     ingredient: '유자',
-    level: 'mid',
-    levelLabel: '중급',
+    level: 'intro',
+    levelLabel: '입문',
     story: '유자막걸리를 전부 다 마셔본 사장님의 원픽. 고흥 간척지에서 자란 쌀과 전남 고흥 유자로 빚어, 한 병에 유자가 무려 2개나 들어갑니다.',
     tastingNote: '첫향은 유자의 싱그러움, 뒷맛은 깔끔함. 기름진 안주 뒤에 마시면 개운하게 입을 정리해줍니다. 당도 3·산도 3의 균형 잡힌 맛.',
     metrics: { sweetness: 3, acidity: 3, body: 2, abv: null },
     tags: ['청량함', '향긋함', '중급'],
     color: '#E8D06A',
-    image: yuzu,
+    image: yuzu_2,
+    detailImage: yuzu,
   },
   {
     id: 'mungyeong',
@@ -80,14 +89,15 @@ export const makgeolliList = [
     region: '경북 문경',
     brewery: '문경주조',
     ingredient: '오미자',
-    level: 'mid',
-    levelLabel: '중급',
+    level: 'intro',
+    levelLabel: '입문',
     story: '국내 최초 과일 생막걸리. 아름다운 오미자 빛깔에 빠져드는 묘한 매력의 막걸리입니다. 계절 한정 라인업이라 있을 때 마셔야 합니다.',
     tastingNote: '막걸리 특유의 텁텁함이 없이 산뜻하여 기름진 음식의 느끼함을 잘 잡아줍니다. 단맛 3·산미 3·바디 1·탄산 3의 가벼운 청량감.',
     metrics: { sweetness: 3, acidity: 3, body: 1, abv: null },
     tags: ['복잡한맛', '깊이', '중급'],
     color: '#C4607A',
-    image: omija,
+    image: omija_2,
+    detailImage: omija,
   },
   {
     id: 'sobaek',
@@ -95,14 +105,15 @@ export const makgeolliList = [
     region: '충북 단양',
     brewery: '대강양조장',
     ingredient: '검은콩',
-    level: 'mid',
-    levelLabel: '중급',
+    level: 'intro',
+    levelLabel: '입문',
     story: '3년 연속 청와대 만찬주로 선정된 자부심, 100년이 넘은 양조장의 전통. 진입 장벽이 낮고 매니아층도 확실한 이중적 매력의 막걸리입니다.',
     tastingNote: '검은콩 두유처럼 고소하고 부드러워 막걸리 입문자도 편하게 즐길 수 있습니다. 숙성이 깊어질수록 맛의 변화가 생겨 마시는 재미가 있습니다.',
     metrics: { sweetness: 2, acidity: 3, body: 4, abv: null },
     tags: ['고소함', '묵직함', '중급'],
     color: '#4A3560',
     image: blackbean,
+    detailImage: blackbean,
   },
   {
     id: 'cloud',
@@ -110,14 +121,15 @@ export const makgeolliList = [
     region: '경북 문경',
     brewery: '문경주조',
     ingredient: '쌀',
-    level: 'intro',
-    levelLabel: '입문',
+    level: 'mid',
+    levelLabel: '대중',
     story: '기본 막걸리의 정수를 느껴보고 싶다면 바로 이 술. 화려한 재료 없이 햇쌀 본연의 맛에 집중한 쌀막걸리로, 막걸리 입문자에게 가장 먼저 권하는 한 잔입니다.',
     tastingNote: '가볍고 청량하며 쌀의 은은한 단맛이 뒷받침됩니다. 어떤 안주와도 무난히 어울려 여러 잔 마시기에도 부담이 없습니다.',
     metrics: { sweetness: 2, acidity: 3, body: 3, abv: null },
     tags: ['감성', '시적', '중급'],
     color: '#8AAEC4',
-    image: bowlFlower,
+    image: cloud,
+    detailImage: bowlFlower,
   },
   {
     id: 'anjeun',
@@ -126,13 +138,14 @@ export const makgeolliList = [
     brewery: '한산소곡주',
     ingredient: '쌀',
     level: 'deep',
-    levelLabel: '심화',
+    levelLabel: '전통',
     story: "며느리가 몰래 마시다 그대로 앉은뱅이가 되었다는 술 — 한산소곡주의 별명입니다. 막걸리를 빚을 때 위에 맑게 뜬 것만 떠낸 약주로, 탁한 막걸리와는 전혀 다른 결을 가집니다.",
     tastingNote: '투명하고 맑으며 깊은 단맛이 서서히 올라옵니다. 탁주와 달리 곱고 부드러운 질감이라 처음 마시는 사람도 쉽게 빠져들 수 있어 더 위험합니다.',
     metrics: { sweetness: 1, acidity: 4, body: 4, abv: 8 },
     tags: ['희귀', '역사', '심화'],
     color: '#8C7A52',
-    image: wheat,
+    image: bowlFlower,
+    detailImage: wheat,
   },
   {
     id: 'haenam-chap',
@@ -141,13 +154,14 @@ export const makgeolliList = [
     brewery: '삼산주조장',
     ingredient: '찹쌀',
     level: 'deep',
-    levelLabel: '심화',
+    levelLabel: '전통',
     story: '해창막걸리와는 또 다른 매력을 느끼고 싶다면 이 막걸리. 전남 해남 찹쌀로 빚어 도수가 9도임에도 목 넘김이 꿀떡꿀떡, 엄청나게 부드럽습니다.',
     tastingNote: '찹쌀 특유의 걸쭉하고 달콤한 질감이 일품입니다. 높은 도수가 무색할 만큼 술술 넘어가 자신도 모르게 한 병을 비우게 됩니다.',
     metrics: { sweetness: 3, acidity: 3, body: 5, abv: 9 },
     tags: ['고도수', '묵직함', '심화'],
     color: '#C47840',
     image: riceGlutinous,
+    detailImage: riceGlutinous,
   },
   {
     id: 'haechang',
@@ -156,13 +170,14 @@ export const makgeolliList = [
     brewery: '해창주조장',
     ingredient: '쌀',
     level: 'deep',
-    levelLabel: '심화',
+    levelLabel: '전통',
     story: '대한민국 프리미엄 막걸리의 정수. 해창막걸리를 모르면 간첩. 마니아층이 확실한 술로, 한 번 맛보면 다른 막걸리가 심심하게 느껴질 수 있습니다.',
     tastingNote: '압도적인 바디감과 긴 여운. 술의 입자가 고와 입 전체를 부드럽게 감싸며, 시원한 단맛과 새콤한 산미의 균형이 탁월합니다.',
     metrics: { sweetness: 2, acidity: 4, body: 5, abv: 9 },
     tags: ['고도수', '정통', '심화'],
     color: '#3A5C40',
     image: rice,
+    detailImage: rice,
   },
 ]
 
