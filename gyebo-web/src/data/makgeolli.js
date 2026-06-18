@@ -2,7 +2,7 @@
 // 취향 테스트 연동: tags 필드로 매칭
 // 재료 일러스트(image) — 카탈로그 카드 썸네일
 // 맛 지표(metrics): sweetness 단맛 / acidity 산미 / body 바디 / abv 도수(미상=null)
-import apple from '../assets/ingredients/Group 2.png'
+import apple from '../assets/ingredients/apple.png'
 import blackbean from '../assets/ingredients/blackbean.png'
 import chestnut from '../assets/ingredients/chestnut_2.png'
 import yuzu from '../assets/ingredients/yuzu_2.png'
@@ -10,7 +10,7 @@ import omija from '../assets/ingredients/omija_2.png'
 import wheat from '../assets/ingredients/wheat.png'
 import rice from '../assets/ingredients/rice.png'
 import riceGlutinous from '../assets/ingredients/rice.png'
-import bowlFlower from '../assets/ingredients/Group 3.png'
+import bowlFlower from '../assets/ingredients/bowl-flower.png'
 
 import chestnut_2 from '../assets/ingredients/chestnut_2.png'
 import yuzu_2 from '../assets/ingredients/yuzu_2.png'
@@ -35,7 +35,7 @@ export const makgeolliList = [
     tags: ['가벼움', '신선함', '입문'],
     color: '#C8D8A8',
     image: wheat,
-    detailImage: rice,
+    detailImage: wheat,
   },
   {
     id: 'cheongsong',
@@ -69,7 +69,7 @@ export const makgeolliList = [
     tags: ['달콤함', '고소함', '입문'],
     color: '#C4A05A',
     image: chestnut_2,
-    detailImage: chestnut,
+    detailImage: chestnut_2,
   },
   {
     id: 'goheung',
@@ -85,7 +85,7 @@ export const makgeolliList = [
     tags: ['청량함', '향긋함', '중급'],
     color: '#E8D06A',
     image: yuzu_2,
-    detailImage: yuzu,
+    detailImage: yuzu_2,
   },
   {
     id: 'mungyeong',
@@ -101,7 +101,7 @@ export const makgeolliList = [
     tags: ['복잡한맛', '깊이', '중급'],
     color: '#C4607A',
     image: omija_2,
-    detailImage: omija,
+    detailImage: omija_2,
   },
   {
     id: 'sobaek',
@@ -134,7 +134,7 @@ export const makgeolliList = [
     tags: ['감성', '시적', '중급'],
     color: '#8AAEC4',
     image: cloud,
-    detailImage: bowlFlower,
+    detailImage: cloud,
   },
   {
     id: 'anjeun',
@@ -150,7 +150,7 @@ export const makgeolliList = [
     tags: ['희귀', '역사', '심화'],
     color: '#8C7A52',
     image: bowlFlower,
-    detailImage: wheat,
+    detailImage: bowlFlower,
   },
   {
     id: 'haenam-chap',

@@ -57,48 +57,53 @@ export default function TasteTest({ questions, list, onResult, onClose }) {
     const value = valueOverride ?? selected
     if (busy.current || value == null) return
     busy.current = true
-    const isLast = step === total - 1
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const nextAnswers = { ...answers, [q.id]: value }
 
-    if (reduce) {
-      finishOrNext()
-      return
-    }
+    setTimeout(() => {
+      const isLast = step === total - 1
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const nextAnswers = { ...answers, [q.id]: value }
 
-    const mouth  = mouthRef.current.getBoundingClientRect()
-    const target = { x: mouth.left + mouth.width / 2, y: mouth.top + mouth.height / 2 }
-
-    /* 버블 애니메이션 일시정지 */
-    gsap.set(Object.values(optionRefs.current).filter(Boolean), { animation: 'none' })
-
-    const tl = gsap.timeline({ onComplete: finishOrNext })
-
-    /* 선택 안 된 답변 사라짐 */
-    Object.entries(optionRefs.current).forEach(([val, el]) => {
-      if (!el || val === value) return
-      tl.to(el, {
-        opacity: 0, y: 14, scale: 0.92,
-        duration: 0.32, ease: 'power2.in',
-      }, 0)
-    })
-
-    /* 선택된 답변 호리병으로 빨려들어감 */
-    const selEl = optionRefs.current[value]
-    if (selEl) curveIntoJar(tl, selEl, target, 0.05, 0.74)
-
-    if (questionRef.current) curveIntoJar(tl, questionRef.current, target, 0.16, 0.66)
-
-    function finishOrNext() {
-      if (isLast) {
-        finish(nextAnswers)
-      } else {
-        setAnswers(nextAnswers)
-        setSelected(null)
-        setStep(s => s + 1)
-        busy.current = false
+      if (reduce) {
+        finishOrNext()
+        return
       }
-    }
+
+      const mouth  = mouthRef.current.getBoundingClientRect()
+      const target = { x: mouth.left + mouth.width / 2, y: mouth.top + mouth.height / 2 }
+
+      /* 버블 애니메이션 일시정지 */
+      gsap.set(Object.values(optionRefs.current).filter(Boolean), { animation: 'none' })
+
+      const tl = gsap.timeline({ onComplete: finishOrNext })
+
+      /* 선택 안 된 답변 사라짐 */
+      Object.entries(optionRefs.current).forEach(([val, el]) => {
+        if (!el || val === value) return
+        tl.to(el, {
+          opacity: 0, y: 14, scale: 0.92,
+          duration: 0.32, ease: 'power2.in',
+        }, 0)
+      })
+
+      /* 선택된 답변 호리병으로 빨려들어감 */
+      const selEl = optionRefs.current[value]
+      if (selEl) curveIntoJar(tl, selEl, target, 0.05, 0.74)
+
+      if (questionRef.current) curveIntoJar(tl, questionRef.current, target, 0.16, 0.66)
+
+      function finishOrNext() {
+        setTimeout(() => {
+          if (isLast) {
+            finish(nextAnswers)
+          } else {
+            setAnswers(nextAnswers)
+            setSelected(null)
+            setStep(s => s + 1)
+            busy.current = false
+          }
+        }, 500)
+      }
+    }, 300)
   }
 
   function curveIntoJar(tl, el, target, at, dur) {
