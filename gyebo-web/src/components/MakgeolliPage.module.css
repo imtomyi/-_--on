@@ -56,15 +56,15 @@
   font-weight: 600;
   color: #333333;
   background: #FFFFFF;
-  border: 1px solid #CCCCCC;
+  border: 0.5px solid #000;
   padding: 6px 16px;
-  border-radius: 99px;
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.2s;
 }
 .navBtn:hover {
   background: #F0F0F0;
-  border-color: #999999;
+  border-color: #000;
 }
 
 /* ── 인트로 헤더 ────────────────────────── */
@@ -91,6 +91,7 @@
 }
 
 .introKr {
+  font-family: 'MaruBuriOTF', Georgia, serif;
   font-size: 32px;
   font-weight: 800;
   color: #111111;
@@ -98,7 +99,7 @@
 }
 
 .introEn {
-  font-family: 'Noto Serif KR', Georgia, serif;
+  font-family: var(--serif);
   font-size: 18px;
   font-weight: 700;
   color: #999999;
@@ -182,16 +183,18 @@
 }
 
 .cardLevel {
+  font-family: 'MaruBuriOTF', Georgia, serif;
   font-size: 11px;
-  font-weight: 700;
-  padding: 4px 16px;
-  border-radius: 99px;
+  font-weight: 400;
+  padding: 0 16px;
+  border: 1px solid currentColor;
+  border-radius: 10px;
   background: #FFFFFF;
 }
 
-.lv_intro { color: #F6A34F; border: 1px solid #F6A34F; }
-.lv_mid   { color: #6BB04A; border: 1px solid #6BB04A; }
-.lv_deep  { color: #D14B4B; border: 1px solid #D14B4B; }
+.lv_intro { color: #F0A225; }
+.lv_mid   { color: #43A100; }
+.lv_deep  { color: #A10000; }
 
 .cardThumb {
   width: 100%;
@@ -222,6 +225,7 @@
 }
 
 .cardName {
+  font-family: 'MaruBuri', Georgia, serif;
   font-size: 14px;
   font-weight: 700;
   color: #111111;

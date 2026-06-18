@@ -38,8 +38,21 @@ export default function MakgeolliDetail({ item, onClose }) {
         
         {/* Top Image Section */}
         <div className={styles.imageSection}>
-          <img src={item.detailImage || item.image} alt="" className={styles.heroImg} />
-          <div className={styles.imageShadow} />
+          {item.id === 'goheung' ? (
+            <div className={styles.yuzuScene} aria-hidden="true">
+              <img src={item.image} alt="" className={`${styles.yuzuImg} ${styles.yuzuLeft}`} />
+              <img src={item.image} alt="" className={`${styles.yuzuImg} ${styles.yuzuRight}`} />
+              <span className={`${styles.yuzuDot} ${styles.yuzuDotLarge}`} />
+              <span className={`${styles.yuzuDot} ${styles.yuzuDotSmall}`} />
+              <span className={`${styles.yuzuDot} ${styles.yuzuDotTiny}`} />
+              <span className={styles.yuzuShadow} />
+            </div>
+          ) : (
+            <>
+              <img src={item.detailImage || item.image} alt="" className={styles.heroImg} />
+              <div className={styles.imageShadow} />
+            </>
+          )}
         </div>
 
         {/* Bottom Card Section */}

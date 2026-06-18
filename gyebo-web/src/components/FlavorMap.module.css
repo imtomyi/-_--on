@@ -29,7 +29,7 @@
   height: 86%;
   width: auto;
   object-fit: contain;
-  opacity: 0.12; /* Lighter gray map */
+  opacity: 0.24; /* Lighter gray map */
   filter: grayscale(100%); /* pure gray */
   user-select: none;
   -webkit-user-drag: none;
@@ -57,6 +57,7 @@
   margin-left: -8px;
 }
 .title {
+  font-family: 'MaruBuriOTF', Georgia, serif;
   font-size: 18px;
   font-weight: 600;
   color: #111;
@@ -74,13 +75,13 @@
   position: absolute;
   left: 50%; top: 0; bottom: 0; width: 1px;
   transform: translateX(-0.5px);
-  background: repeating-linear-gradient(to bottom, #DDDDDD 0 6px, transparent 6px 12px);
+  background: repeating-linear-gradient(to bottom, #D4D4D4 0 6px, transparent 6px 12px);
 }
 .axisH {
   position: absolute;
   top: 50%; left: 0; right: 0; height: 1px;
   transform: translateY(-0.5px);
-  background: repeating-linear-gradient(to right, #DDDDDD 0 6px, transparent 6px 12px);
+  background: repeating-linear-gradient(to right, #D4D4D4 0 6px, transparent 6px 12px);
 }
 
 .axisLabel {

@@ -8,7 +8,7 @@ import { useLang } from '../i18n/LanguageContext'
 import heroImg from '../assets/hero.png'
 import appleImg from '../assets/ingredients/apple.png'
 import bowlImg from '../assets/ingredients/bowl-flower.png'
-import riceImg from '../assets/ingredients/쌀 1.png'
+import riceImg from '../assets/ingredients/rice-grains.png'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -115,7 +115,6 @@ export default function GyeboLanding({ onCatalog, onTest }) {
                 <p className={styles.curItemDesc}>역사와 전설, 그리고 한 잔의 술 뒤에 숨겨진 이야기.</p>
               </div>
             </div>
-            <div className={styles.curDivider} />
           </div>
 
           <button className={styles.shopBtn} onClick={onCatalog}>

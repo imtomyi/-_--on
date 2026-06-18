@@ -3,19 +3,15 @@
 // 재료 일러스트(image) — 카탈로그 카드 썸네일
 // 맛 지표(metrics): sweetness 단맛 / acidity 산미 / body 바디 / abv 도수(미상=null)
 import apple from '../assets/ingredients/apple.png'
-import blackbean from '../assets/ingredients/blackbean.png'
+import blackbean from '../assets/ingredients/blackbean-beans.png'
 import chestnut from '../assets/ingredients/chestnut_2.png'
-import yuzu from '../assets/ingredients/yuzu_2.png'
-import omija from '../assets/ingredients/omija_2.png'
-import wheat from '../assets/ingredients/wheat.png'
-import rice from '../assets/ingredients/rice.png'
-import riceGlutinous from '../assets/ingredients/rice.png'
+import yuzu from '../assets/ingredients/yuzu-fruit.png'
+import omija from '../assets/ingredients/omija-berries.png'
+import wheat from '../assets/ingredients/wheat-stalk.png'
+import rice from '../assets/ingredients/rice-grains.png'
+import riceGlutinous from '../assets/ingredients/rice-grains.png'
 import bowlFlower from '../assets/ingredients/bowl-flower.png'
-
-import chestnut_2 from '../assets/ingredients/chestnut_2.png'
-import yuzu_2 from '../assets/ingredients/yuzu_2.png'
-import omija_2 from '../assets/ingredients/omija_2.png'
-import cloud from '../assets/ingredients/cloud.png'
+import cloud from '../assets/ingredients/cloud-stroke.png'
 
 import appleReal from '../assets/apple_real.png'
 import chestnutReal from '../assets/chestnut_real.png'
@@ -68,24 +64,24 @@ export const makgeolliList = [
     metrics: { sweetness: 4, acidity: 1, body: 3, abv: null },
     tags: ['달콤함', '고소함', '입문'],
     color: '#C4A05A',
-    image: chestnut_2,
-    detailImage: chestnut_2,
+    image: chestnut,
+    detailImage: chestnut,
   },
   {
     id: 'goheung',
     name: '고흥풍양유자막걸리',
     region: '전남 고흥',
-    brewery: '풍양양조장',
-    ingredient: '유자',
+    brewery: '풍양주조장',
+    ingredient: '고흥유자밭',
     level: 'intro',
     levelLabel: '입문',
-    story: '유자막걸리를 전부 다 마셔본 사장님의 원픽. 고흥 간척지에서 자란 쌀과 전남 고흥 유자로 빚어, 한 병에 유자가 무려 2개나 들어갑니다.',
-    tastingNote: '첫향은 유자의 싱그러움, 뒷맛은 깔끔함. 기름진 안주 뒤에 마시면 개운하게 입을 정리해줍니다. 당도 3·산도 3의 균형 잡힌 맛.',
-    metrics: { sweetness: 3, acidity: 3, body: 2, abv: null },
+    story: '유자의 싱그러움을 그대로 담은 고흥풍양유자막걸리\n한 모금에 고흥 유자밭이 코 끝에 펼쳐진다.\n\n바닷바람 맞고 자란 유자를 담았다 하여, 마개를 여는 순간 향이 십 리를 간다 했다. 옛 어른들은 이 술 한 사발이면 코끝에 먼저 봄이 온다 하였으니..',
+    tastingNote: '',
+    metrics: { sweetness: 3, acidity: 3, body: 2, abv: 6 },
     tags: ['청량함', '향긋함', '중급'],
     color: '#E8D06A',
-    image: yuzu_2,
-    detailImage: yuzu_2,
+    image: yuzu,
+    detailImage: yuzu,
   },
   {
     id: 'mungyeong',
@@ -100,8 +96,8 @@ export const makgeolliList = [
     metrics: { sweetness: 3, acidity: 3, body: 1, abv: null },
     tags: ['복잡한맛', '깊이', '중급'],
     color: '#C4607A',
-    image: omija_2,
-    detailImage: omija_2,
+    image: omija,
+    detailImage: omija,
   },
   {
     id: 'sobaek',

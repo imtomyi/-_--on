@@ -160,7 +160,7 @@ export default function FlavorMap({ onBack }) {
       scale: 1, x: 0, y: 0,
       duration: 1.0, ease: 'expo.inOut',
     }, 0.18)
-    tl.to(mapRef.current.querySelector(`.${styles.mapImg}`), { opacity: 0.12, duration: 0.6 }, 0.3)
+    tl.to(mapRef.current.querySelector(`.${styles.mapImg}`), { opacity: 0.24, duration: 0.6 }, 0.3)
     tl.to(matrixRef.current, { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out' }, 0.7)
   }
 
